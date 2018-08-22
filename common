@@ -1,0 +1,16 @@
+#lang racket
+
+(require request
+         net/url
+         json)
+
+(provide do-request)
+
+;COMMENT THIS!!
+(define (do-request type url)
+  (read-json
+   (open-input-string
+    (http-response-body
+     (get http-requester
+          (string->url url))))))
+
