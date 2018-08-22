@@ -3,9 +3,10 @@
 (require "../lang/common.rkt")
 
 (set-key! "YOUR SECRET KEY HERE")
+(set-env! DEV) ;Change to PROD at your own risk
 
-(define start-date
-  (->time "2018-10-11 2:35pm"))
+(define start-date  
+  (->time "2018-10-11 2:35pm")) 
 
 ;At Del Mar we're running 12-meeting courses at $330
 
@@ -21,7 +22,7 @@
                       
                       start-date
                       (+weeks start-date 1)
-                      (+weeks start-date 2)
+                      (+weeks start-date 2) 
                       (+weeks start-date 3)   
                       (+weeks start-date 4)
 
