@@ -25,11 +25,13 @@
 
 (define env DEV)
 
-
-(define key (string-trim
-             (file->string (~a
+(define key-path (~a
                            (path->string (find-system-path 'home-dir))
-                           "/.ts-api-key"))))
+                           "/.ts-api-key"))
+(define key (if (file-exists? key-path)
+                (string-trim
+                 (file->string key-path))
+                ""))
 
 ;Deprecated.  Don't want people typing keys out and accidentally committing them
 #;(define (set-key! k)
