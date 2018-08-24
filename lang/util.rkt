@@ -7,7 +7,7 @@
          gregor/period
          "./constants.rkt")
 
-(provide set-key!
+(provide ;set-key!
          set-env!
          DEV
          PROD
@@ -17,18 +17,20 @@
          save-all
          id
          set-type
-         type)
+         type
+         string->time)
 
 (define DEV "http://34.197.96.0")
 (define PROD "https://secure.thoughtstem.com")
 
-(define env PROD)
+(define env DEV)
 
 
-(define key "NOPE")
+(define key (file->string "secret-creds"))
 
-(define (set-key! k)
-  (set! key k))
+;Deprecated.  Don't want people typing keys out and accidentally committing them
+#;(define (set-key! k)
+    (set! key k))
 
 (define (set-env! k)
   (set! env k))
@@ -108,7 +110,7 @@
 
 
 (define/contract (id h)
-  (-> hash? (or/c number? boolean?))
+  (-> hash? (or/c number? boolean? string?))
   (hash-ref h 'id #f))
 
 (define/contract (type h)
@@ -124,7 +126,7 @@
 (define (save-all ls)
   (map save ls))
 
-(define (->time s)
+(define (string->time s)
   (parse-moment s "yyyy-MM-dd h:mma"))
 
 

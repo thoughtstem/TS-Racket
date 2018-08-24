@@ -8,16 +8,14 @@
          gregor/period
          "./constants.rkt"
          "./util.rkt"
-         "./courses.rkt")
+         "./courses.rkt"
+         "./students.rkt")
 
-(provide set-key!
-         set-env!
-         DEV
-         PROD
-
-         (all-from-out gregor)
+(provide (all-from-out gregor)
+         (all-from-out "./util.rkt")
          (all-from-out "./constants.rkt")
-         (all-from-out "./courses.rkt"))
+         (all-from-out "./courses.rkt")
+         (all-from-out "./students.rkt"))
 
 
 
