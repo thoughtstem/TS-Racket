@@ -51,7 +51,7 @@
 (define (lookup-student-pw)
   (cond [(file-exists? hidden-pw-file-path)
          (get-password-from-hidden-file)]
-        [(directory-exists? hidden-pw-file-path)
+        [(directory-exists? "/home/thoughtstem/remote/sessions/sessions/")
          (get-password-from-student-json)]
         [else (raise "~/.ts-student-pw file not found")]))
 
