@@ -127,7 +127,8 @@
          (store-snippet-f (~a (second nick)) ;OMG refactor this list bs..
                           (~a (third nick))
                           (~a 'key)
-                          code-string)))))
+                          code-string)
+         snippet))))
 
 
 

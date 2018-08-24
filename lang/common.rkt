@@ -11,7 +11,7 @@
          "./courses.rkt"
          "./students.rkt")
 
-(provide (all-from-out gregor)
+(provide ;(all-from-out gregor)
          (all-from-out "./util.rkt")
          (all-from-out "./constants.rkt")
          (all-from-out "./courses.rkt")

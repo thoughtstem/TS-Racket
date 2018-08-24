@@ -14,7 +14,7 @@
 
 
 (store-snippet stephen my-avatar
-               (circle #:test 40 "solid" "green"))
+               (circle 40 "solid" "green"))
 
 
 
