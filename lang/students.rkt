@@ -4,8 +4,59 @@
 
 (provide (all-defined-out))
 
-(require "./util.rkt" )
-  
+(require "./util.rkt"
+         json)
+
+
+(define (get-password-from-student-json)
+  (define SESSIONS-DIR
+    (string->path
+     #;"/Users/thoughtstem/sessions/sessions"
+     "/home/thoughtstem/remote/sessions/sessions/"))
+
+
+
+  ; === GET PATH OF THE MOST RECENT SESSIONS FOLDER ===
+  (define (get-student-path)
+    (define paths (map (lambda (p) (build-path SESSIONS-DIR p)) (directory-list SESSIONS-DIR)))
+    (define dir-paths (filter-not file-exists? paths))
+    (define mod-times (map file-or-directory-modify-seconds dir-paths))
+    (list-ref dir-paths (index-of mod-times (apply max mod-times))))
+
+  (define STUDENT-DATA
+    (string->path
+     (string-append (path->string (get-student-path)) "/data.json")))
+
+  ; === READ DATA.JSON ===
+  (define in (open-input-file STUDENT-DATA))
+  (define json-hash
+    (read-json in))
+  (close-input-port in)
+
+  (hash-ref json-hash 'password))
+
+
+
+(define hidden-pw-file-path
+  (~a
+   (path->string (find-system-path 'home-dir))
+   "/.ts-student-pw"))
+
+(define (get-password-from-hidden-file)
+  (string-trim
+   (file->string
+    (path->string
+     (string->path hidden-pw-file-path)))))
+
+(define (lookup-student-pw)
+  (cond [(file-exists? hidden-pw-file-path)
+         (get-password-from-hidden-file)]
+        [(directory-exists? hidden-pw-file-path)
+         (get-password-from-student-json)]
+        [else (raise "~/.ts-student-pw file not found")]))
+
+
+
 (define (student id)
   (show "student" id))
 
@@ -48,13 +99,13 @@
    (new-code-snippet key snippet-string student-pw snippet-nickname)))
 
 
-(define-syntax-rule (enable-snippets nick pw)
+(define-syntax-rule (enable-snippets nick)
   (begin
     (set-env! PROD)
     (define-namespace-anchor a)
     (define nick (list
                   (namespace-anchor->namespace a)
-                  'pw
+                  (lookup-student-pw)
                   'nick))))
 
 

@@ -1,5 +1,7 @@
 #lang info
 
+#;(define collection 'multi)
+
 (define version "0.0.1")
 
-(define deps '("json" "request" "net/url" "json" "gregor"))
+(define deps '("request" "gregor"))

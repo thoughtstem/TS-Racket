@@ -6,15 +6,15 @@
 (require 2htdp/image)
 
 
-(enable-snippets stephen mHc) ;Make password optional...
+(enable-snippets stephen) 
 
-(overlay
+#;(overlay
  (circle 10 "solid" "red")
  (get-snippet stephen my-avatar2))
 
 
-#;(store-snippet stephen my-avatar2
-                 (circle 40 "solid" "blue"))
+(store-snippet stephen my-avatar
+               (circle 40 "solid" "green"))
 
 
 
