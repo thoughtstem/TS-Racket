@@ -4,7 +4,6 @@
          2htdp/image
          simple-qr)
 
-(set-key! "zRqrP3sCu3FERScNgL5b")
 (set-env! PROD) ;Change to PROD at your own risk
 
 (define s (student 3124))

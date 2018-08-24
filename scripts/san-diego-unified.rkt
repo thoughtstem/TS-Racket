@@ -2,7 +2,6 @@
 
 (require "../lang/common.rkt")
 
-(set-key! "zRqrP3sCu3FERScNgL5b")
 (set-env! PROD) ;Change to PROD at your own risk
 
 
