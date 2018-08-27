@@ -184,7 +184,7 @@
                     time-details
                     register-url)
 
-  (define bg (bitmap/file "bg.png"))
+  (define bg (bitmap "resources/bg.png"))
 
   (define bg-with-title
     (place-image
@@ -230,7 +230,7 @@
 
   (define with-time-and-price
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | " price "$")
+     (text (~a duration " weeks (" start " - " end ") | $" price)
            80 "white")
      (/ (image-width bg) 2)
      1650
@@ -260,8 +260,9 @@
                   (text (~a (first location-details)
                             " at "
                             (second location-details)
-                            " | "
-                            (third location-details)) 60 "white")
+                            ; " | "
+                            ;(third location-details)
+                            ) 60 "white")
                   spacer
                   (text (~a (first time-details)
                             " | "
@@ -278,7 +279,7 @@
      2950
      with-table-headers))
 
-  (scale .25 with-table-lines))
+  with-table-lines)
 
 
 (define (make-flier-double-panel course-title
@@ -303,7 +304,7 @@
                     time-details1
                     register-url1)
 
-  (define bg (bitmap/file "bg-double-panel.png"))
+  (define bg (bitmap "resources/bg-double-panel.png"))
 
   (define (string->bullet s)
     (text (~a "•  " s) 60 "white"))
@@ -363,7 +364,7 @@
 
   (define with-time-and-price
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | " price "$")
+     (text (~a duration " weeks (" start " - " end ") | $" price )
            55 "white")
      (- (/ (image-width bg) 4) 170)
      (+ (/ (image-height bg) 2) 1000)
@@ -419,8 +420,13 @@
      2950
      with-table-headers))
 
+<<<<<<< HEAD
   (scale .25 with-table-lines))
 ;;;;;;;;;;;
+=======
+  with-table-lines)
+
+>>>>>>> cb7c442dc7df91889ee036c0b9f4d10d2ddab189
 
 
 
@@ -506,13 +512,20 @@
     (location
      (room c)))))
 
+(define (k-2nd? c)
+  (string=?
+   (grade-level c)
+   "K-2nd"))
+
 (define (selling-points c)
-  k-2-selling-points)
+  (if (k-2nd? c)
+      k-2nd-selling-points
+      3rd-5th-selling-points))
 
 
 (define (course->flier c
                        (selling-points (selling-points c))
-                       (registration-link (refinery-link c)))
+                       (registration-link "https://secure.thoughtstem.com"))
   (make-flier (name c)
               (grade-level c)
 
@@ -535,13 +548,12 @@
               (list (->day-of-week
                      (start-time (first (meetings c))))
 
-                    ;TODO: Adjust for TZ
+                    
                     (->nice-time
                      (start-time (first (meetings c))))
                     (->nice-time
                      (end-time (first (meetings c)))))
 
               ;TODO: Figure out how to generate this...
-              registration-link
-              ))
+              registration-link))
 
