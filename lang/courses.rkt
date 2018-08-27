@@ -276,7 +276,7 @@
      2950
      with-table-headers))
 
-  (scale .25 with-table-lines))
+  with-table-lines)
 
 
 
