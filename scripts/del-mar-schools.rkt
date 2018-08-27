@@ -1,6 +1,7 @@
 #lang racket
 
-(require "../lang/common.rkt")
+(require "../lang/common.rkt"
+         gregor)
 
 
 (set-env! DEV) ;Change to PROD at your own risk
