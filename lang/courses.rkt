@@ -170,7 +170,28 @@
          (topics c)))
 
 
+(define (bold-text s size color)
+  (text/font s size color  "Helvetica" 'swiss 'normal 'bold #f))
 
+
+(define (chunks n l)
+  (if (< (length l) n)
+      (list l)
+      (cons (take l n) (chunks n (drop l n)))))
+
+(define (newline-every n s)
+  (define words (chunks n (string-split s " ")))
+
+  (regexp-replace* 
+   #rx" \n "
+
+   (string-join
+    (flatten (add-between words (list "\n")))
+    " ")
+   "\n"))
+
+(define spacer
+  (circle 20 "solid" "transparent"))
 
 
 (define (make-flier course-title
@@ -188,7 +209,7 @@
 
   (define bg-with-title
     (place-image
-     (text (~a "Coding Club: " grade-level) 80 "white")
+     (bold-text (~a "Coding Club: " grade-level) 80 "white")
      (/ (image-width bg) 2)
      900
      bg))
@@ -199,31 +220,35 @@
      (text "•  " 60 "white")
      (text s 60 "white")))
 
-  (define spacer
-    (circle 20 "solid" "transparent"))
 
   (define bullets
     (above/align "left"
                  (string->bullet
-                  (first selling-points))
+                  (newline-every 9
+                                 (first selling-points)))
                  spacer
                  (string->bullet
-                  (second selling-points))
+                  (newline-every 9
+                                 (second selling-points)))
                  spacer
                  (string->bullet
-                  (third selling-points))))
+                  (newline-every 9
+                                 (third selling-points)))))
 
   (define with-bullets
     (place-image
      bullets
-     (+ 200 (/ (image-width bullets) 2))
+     (+ 150 (/ (image-width bullets) 2))
      1350
      bg-with-title))
 
 
   (define with-course-title
     (place-image
-     (text course-title 80 "white")
+     #;(text course-title 80 "white")
+     (bold-text	course-title	 	 	 	 
+                80	 	 	 	 
+                "white")	
      (/ (image-width bg) 2)
      1050
      with-bullets))
@@ -254,7 +279,11 @@
      with-time-and-price)
     )
 
-  (define with-table-lines
+  (do-flier-footer with-table-headers location-details time-details register-url))
+
+
+(define (do-flier-footer flier-img location-details time-details register-url)
+  (define flier-img-with-footer
     (place-image
      (above/align "left"
                   (text (~a (first location-details)
@@ -277,32 +306,31 @@
                   (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))
      1500
      2950
-     with-table-headers))
+     flier-img))
 
-  with-table-lines)
+  flier-img-with-footer)
 
 
 (define (make-flier-double-panel course-title
-                    grade-level
-                    selling-points
-                    duration
-                    start
-                    end
-                    price
-                    location-details
-                    time-details
-                    register-url
+                                 grade-level
+                                 selling-points
+                                 duration
+                                 start
+                                 end
+                                 price
+                                 time-details
 
-                    course-title1
-                    grade-level1
-                    selling-points1
-                    duration1
-                    start1
-                    end1
-                    price1
-                    location-details1
-                    time-details1
-                    register-url1)
+                                 course-title1
+                                 grade-level1
+                                 selling-points1
+                                 duration1
+                                 start1
+                                 end1
+                                 price1
+                                 time-details1
+                                 
+                                 location-details
+                                 register-url)
 
   (define bg (bitmap "resources/bg-double-panel.png"))
 
@@ -353,7 +381,7 @@
      (text course-title 65 "white")
      (/ (image-width bg) 4)
      (+ (/ (image-height bg) 2) 270)
-     with-bullets))
+     with-bullets1))
 
   (define with-course-title1
     (place-image
@@ -368,15 +396,15 @@
            55 "white")
      (- (/ (image-width bg) 4) 170)
      (+ (/ (image-height bg) 2) 1000)
-     with-course-title))
+     with-course-title1))
 
    (define with-time-and-price1
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | " price "$")
+     (text (~a duration " weeks (" start " - " end ") | $" price )
            55 "red")
      (+ (/ (image-width bg) 4) 500)
      (+ (/ (image-height bg) 2) 1000)
-     with-course-title1))
+     with-time-and-price))
 
 
   (define with-table-headers
@@ -393,41 +421,10 @@
                   (text "CONTACT US:" 60 "white"))
      350
      2950
-     with-time-and-price)
+     with-time-and-price1)
     )
 
-  (define with-table-lines
-    (place-image
-     (above/align "left"
-                  (text (~a (first location-details)
-                            " at "
-                            (second location-details)
-                            " | "
-                            (third location-details)) 60 "white")
-                  spacer
-                  (text (~a (first time-details)
-                            " | "
-                            (second time-details)
-                            " - "
-                            (third time-details)) 60 "white")
-                  spacer
-                  (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
-                  spacer
-                  (text register-url 60 "white")
-                  spacer
-                  (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))
-     1500
-     2950
-     with-table-headers))
-
-<<<<<<< HEAD
-  (scale .25 with-table-lines))
-;;;;;;;;;;;
-=======
-  with-table-lines)
-
->>>>>>> cb7c442dc7df91889ee036c0b9f4d10d2ddab189
-
+  (do-flier-footer with-table-headers location-details time-details register-url))
 
 
 (define/contract (start-time m)
@@ -556,4 +553,58 @@
 
               ;TODO: Figure out how to generate this...
               registration-link))
+
+(define (courses->flier c1
+                       c2
+                       (selling-points1 (selling-points c1))
+                       (selling-points2 (selling-points c2))
+                       (registration-link "https://secure.thoughtstem.com"))
+  
+  (make-flier-double-panel
+
+   ;Course 1 Details
+   (name c1)
+   (grade-level c1)
+   selling-points1
+   (length (meetings c1))
+   (->nice-date
+    (start-time (first (meetings c1))))
+   (->nice-date
+    (end-time (last (meetings c1))))
+   (price c1)
+   (list (->day-of-week
+          (start-time (first (meetings c1))))
+
+                    
+         (->nice-time
+          (start-time (first (meetings c1))))
+         (->nice-time
+          (end-time (first (meetings c1)))))
+
+   ;Course 2 Details
+   (name c2)
+   (grade-level c2)
+   selling-points2
+   (length (meetings c2))
+   (->nice-date
+    (start-time (first (meetings c2))))
+   (->nice-date
+    (end-time (last (meetings c2))))
+   (price c2)
+   (list (->day-of-week
+          (start-time (first (meetings c2))))
+
+                    
+         (->nice-time
+          (start-time (first (meetings c2))))
+         (->nice-time
+          (end-time (first (meetings c2)))))
+
+   ;Location Details
+   (list
+    (room-number (room c1))
+    (name (location (room c1)))
+    (address (location (room c1))))
+                           
+   registration-link))
 
