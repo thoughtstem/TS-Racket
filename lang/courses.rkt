@@ -184,7 +184,7 @@
                     time-details
                     register-url)
 
-  (define bg (bitmap/file "resources/bg.png"))
+  (define bg (bitmap "resources/bg.png"))
 
   (define bg-with-title
     (place-image
