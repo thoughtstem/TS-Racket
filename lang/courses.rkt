@@ -230,7 +230,7 @@
 
   (define with-time-and-price
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | " price "$")
+     (text (~a duration " weeks (" start " - " end ") | $" price)
            80 "white")
      (/ (image-width bg) 2)
      1650
@@ -260,8 +260,9 @@
                   (text (~a (first location-details)
                             " at "
                             (second location-details)
-                            " | "
-                            (third location-details)) 60 "white")
+                            ; " | "
+                            ;(third location-details)
+                            ) 60 "white")
                   spacer
                   (text (~a (first time-details)
                             " | "
@@ -336,7 +337,7 @@
 
   (define with-time-and-price
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | " price "$")
+     (text (~a duration " weeks (" start " - " end ") | $" price )
            55 "white")
      (- (/ (image-width bg) 4) 170)
      (+ (/ (image-height bg) 2) 1000)
@@ -484,7 +485,7 @@
 
 (define (course->flier c
                        (selling-points (selling-points c))
-                       (registration-link (refinery-link c)))
+                       (registration-link "https://secure.thoughtstem.com"))
   (make-flier (name c)
               (grade-level c)
 
@@ -507,13 +508,12 @@
               (list (->day-of-week
                      (start-time (first (meetings c))))
 
-                    ;TODO: Adjust for TZ
+                    
                     (->nice-time
                      (start-time (first (meetings c))))
                     (->nice-time
                      (end-time (first (meetings c)))))
 
               ;TODO: Figure out how to generate this...
-              registration-link
-              ))
+              registration-link))
 
