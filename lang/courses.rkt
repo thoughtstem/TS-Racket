@@ -195,7 +195,9 @@
 
 
   (define (string->bullet s)
-    (text (~a "•  " s) 60 "white"))
+    (beside/align "top"
+     (text "•  " 60 "white")
+     (text s 60 "white")))
 
   (define spacer
     (circle 20 "solid" "transparent"))
@@ -214,8 +216,8 @@
   (define with-bullets
     (place-image
      bullets
-     (+ (/ (image-width bg) 2) 200)
-     1300
+     (+ 200 (/ (image-width bullets) 2))
+     1350
      bg-with-title))
 
 
@@ -284,16 +286,19 @@
 (define/contract (start-time m)
   (-> meeting? moment?)
 
-  (iso8601->moment
-   (hash-ref m 'start_time))
+  (-hours
+   (iso8601->moment
+    (hash-ref m 'start_time))
+   7)
   )
 
 (define/contract (end-time m)
   (-> meeting? moment?)
 
-  (iso8601->moment
-   (hash-ref m 'end_time))
-  )
+  (-hours
+   (iso8601->moment
+    (hash-ref m 'end_time))
+   7))
 
 (define (->nice-date t)
   (-> moment? string?)
