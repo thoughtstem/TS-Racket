@@ -332,3 +332,49 @@
 
 (define (address r)
   (hash-ref r 'address))
+
+
+(define (refinery-link c)
+  (~a "https://www.thoughtstem.com/" (slug-name c)))
+
+(define (slug-name c)
+  "todo"
+  )
+
+
+(define (course->flier c
+                       selling-points
+                       registration-link)
+  (make-flier (name c)
+              (grade-level c)
+
+              ;TODO: Come back to this
+              selling-points
+
+              (length (meetings c))
+              (->nice-date
+               (start-time (first (meetings c))))
+              (->nice-date
+               (end-time (last (meetings c))))
+            
+              (price c)
+            
+              (list
+               (room-number (room c))
+               (name (location (room c)))
+               (address (location (room c))))
+
+              (list (->day-of-week
+                     (start-time (first (meetings c))))
+
+                    ;TODO: Adjust for TZ
+                    (->nice-time
+                     (start-time (first (meetings c))))
+                    (->nice-time
+                     (end-time (first (meetings c)))))
+
+              ;TODO: Figure out how to generate this...
+              registration-link
+              ))
+
+
