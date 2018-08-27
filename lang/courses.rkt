@@ -1,6 +1,7 @@
 #lang racket
 
 (require "./util.rkt"
+         "./constants.rkt"
          gregor
          gregor/period
          2htdp/image)
@@ -289,8 +290,7 @@
   (-hours
    (iso8601->moment
     (hash-ref m 'start_time))
-   7)
-  )
+   7))
 
 (define/contract (end-time m)
   (-> meeting? moment?)
@@ -308,7 +308,7 @@
 (define (->nice-time t)
   (-> moment? string?)
 
-  (~t t "h:m"))
+  (~t t "h:ma"))
 
 (define (->day-of-week t)
   (-> moment? string?)
@@ -333,23 +333,45 @@
 
 (define (location r)
   (-> room? location?)
+  
   (hash-ref r 'location))
 
 (define (address r)
   (hash-ref r 'address))
 
+(define (filter-out-words s l)
+  (if (empty? l)
+      s
+      (filter-out-words (string-replace s (first l) "" #:all? #t)
+                        (rest l))))
+
+(define (string->slug s)
+  (define (filter-out-school-words s)
+    (filter-out-words s '("elementary" "academy" "school")))
+  
+  (string-replace #:all? #t
+                  (string-trim
+                   (filter-out-school-words
+                    (string-downcase s)) #rx"\\s+")
+  " "
+  "-"))
 
 (define (refinery-link c)
   (~a "https://www.thoughtstem.com/" (slug-name c)))
 
 (define (slug-name c)
-  "todo"
-  )
+  (string->slug
+   (name
+    (location
+     (room c)))))
+
+(define (selling-points c)
+  k-2-selling-points)
 
 
 (define (course->flier c
-                       selling-points
-                       registration-link)
+                       (selling-points (selling-points c))
+                       (registration-link (refinery-link c)))
   (make-flier (name c)
               (grade-level c)
 

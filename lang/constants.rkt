@@ -63,6 +63,10 @@
 
 
 
-
+(define k-2-selling-points
+  (list
+   "Students will create a portfolio of comicbook art using MIT's\nScratch programming interface"
+   "Students will gain proficiency with computers, mice, and keyboards"
+   "Students will learn how to express their creativity through digital\nart that can be shared with family"))
 
 
