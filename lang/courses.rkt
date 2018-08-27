@@ -57,7 +57,6 @@
                 "New name"))
 
 
-
 (define/contract (new-course #:name n
                              #:description desc
                              #:location loc
@@ -184,7 +183,7 @@
                     time-details
                     register-url)
 
-  (define bg (bitmap "resources/bg.png"))
+  (define bg (bitmap/file "bg.png"))
 
   (define bg-with-title
     (place-image
@@ -276,7 +275,113 @@
      2950
      with-table-headers))
 
-  with-table-lines)
+  (scale .25 with-table-lines))
+
+
+(define (make-flier-double-panel course-title
+                    grade-level
+                    selling-points
+                    duration
+                    start
+                    end
+                    price
+                    location-details
+                    time-details
+                    register-url)
+
+  (define bg (bitmap/file "bg-double-panel.png"))
+
+  ;(define bg-with-title
+  ;  (place-image
+  ;   (text (~a "Coding Club: " grade-level) 80 "white")
+  ;   (/ (image-width bg) 4)
+  ;   (/ (image-height bg) 2)
+  ;   bg))
+
+
+  (define (string->bullet s)
+    (text (~a "•  " s) 60 "white"))
+
+  (define spacer
+    (circle 20 "solid" "transparent"))
+
+  (define bullets
+    (above/align "left"
+                 (string->bullet
+                  (first selling-points))
+                 spacer
+                 (string->bullet
+                  (second selling-points))
+                 spacer
+                 (string->bullet
+                  (third selling-points))))
+
+  (define with-bullets
+    (place-image
+     bullets
+     (+ (/ (image-width bg) 2) 150)
+     (+ (/ (image-height bg) 2) 500)
+     bg))
+
+
+  (define with-course-title
+    (place-image
+     (text course-title 80 "white")
+     (+ (/ (image-width bg) 4) 115)
+     (+ (/ (image-height bg) 2) 290)
+     with-bullets))
+
+  (define with-time-and-price
+    (place-image
+     (text (~a duration " weeks (" start " - " end ") | " price "$")
+           55 "white")
+     (- (/ (image-width bg) 4) 170)
+     (+ (/ (image-height bg) 2) 1000)
+     with-course-title))
+
+
+  (define with-table-headers
+    (place-image
+     (above/align "left"
+                  (text "LOCATION:" 60 "white")
+                  spacer
+                  (text "DAY & TIME:" 60 "white")
+                  spacer
+                  (text "GRADES:" 60 "white")
+                  spacer
+                  (text "REGISTER:" 60 "white")
+                  spacer
+                  (text "CONTACT US:" 60 "white"))
+     350
+     2950
+     with-time-and-price)
+    )
+
+  (define with-table-lines
+    (place-image
+     (above/align "left"
+                  (text (~a (first location-details)
+                            " at "
+                            (second location-details)
+                            " | "
+                            (third location-details)) 60 "white")
+                  spacer
+                  (text (~a (first time-details)
+                            " | "
+                            (second time-details)
+                            " - "
+                            (third time-details)) 60 "white")
+                  spacer
+                  (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
+                  spacer
+                  (text register-url 60 "white")
+                  spacer
+                  (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))
+     1500
+     2950
+     with-table-headers))
+
+  (scale .25 with-table-lines))
 
 
 
@@ -333,48 +438,5 @@
 (define (address r)
   (hash-ref r 'address))
 
-
-(define (refinery-link c)
-  (~a "https://www.thoughtstem.com/" (slug-name c)))
-
-(define (slug-name c)
-  "todo"
-  )
-
-
-(define (course->flier c
-                       selling-points
-                       registration-link)
-  (make-flier (name c)
-              (grade-level c)
-
-              ;TODO: Come back to this
-              selling-points
-
-              (length (meetings c))
-              (->nice-date
-               (start-time (first (meetings c))))
-              (->nice-date
-               (end-time (last (meetings c))))
-            
-              (price c)
-            
-              (list
-               (room-number (room c))
-               (name (location (room c)))
-               (address (location (room c))))
-
-              (list (->day-of-week
-                     (start-time (first (meetings c))))
-
-                    ;TODO: Adjust for TZ
-                    (->nice-time
-                     (start-time (first (meetings c))))
-                    (->nice-time
-                     (end-time (first (meetings c)))))
-
-              ;TODO: Figure out how to generate this...
-              registration-link
-              ))
-
-
+(define (test!!)
+  (displayln "Just a test"))

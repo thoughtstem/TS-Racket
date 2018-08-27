@@ -1,0 +1,10 @@
+#lang racket
+(require ts-racket)
+
+(set-env! PROD)
+
+(name (course 1171))
+
+;(test!!)
+
+(make-flier "a" "a" "a" "a" "a" "a" "a" "a" "a" "a") 
