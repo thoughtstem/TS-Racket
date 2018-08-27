@@ -184,7 +184,7 @@
                     time-details
                     register-url)
 
-  (define bg (bitmap/file "bg.png"))
+  (define bg (bitmap "resources/bg.png"))
 
   (define bg-with-title
     (place-image
@@ -278,7 +278,7 @@
      2950
      with-table-headers))
 
-  (scale .25 with-table-lines))
+  with-table-lines)
 
 
 (define (make-flier-double-panel course-title
@@ -292,7 +292,7 @@
                     time-details
                     register-url)
 
-  (define bg (bitmap/file "bg-double-panel.png"))
+  (define bg (bitmap "resources/bg-double-panel.png"))
 
   ;(define bg-with-title
   ;  (place-image
@@ -384,7 +384,7 @@
      2950
      with-table-headers))
 
-  (scale .25 with-table-lines))
+  with-table-lines)
 
 
 
@@ -471,8 +471,15 @@
     (location
      (room c)))))
 
+(define (k-2nd? c)
+  (string=?
+   (grade-level c)
+   "K-2nd"))
+
 (define (selling-points c)
-  k-2-selling-points)
+  (if (k-2nd? c)
+      k-2nd-selling-points
+      3rd-5th-selling-points))
 
 
 (define (course->flier c
