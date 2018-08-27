@@ -1,6 +1,7 @@
 #lang racket
 
 (require "./util.rkt"
+         "./constants.rkt"
          gregor
          gregor/period
          2htdp/image)
@@ -194,7 +195,9 @@
 
 
   (define (string->bullet s)
-    (text (~a "•  " s) 60 "white"))
+    (beside/align "top"
+     (text "•  " 60 "white")
+     (text s 60 "white")))
 
   (define spacer
     (circle 20 "solid" "transparent"))
@@ -213,8 +216,8 @@
   (define with-bullets
     (place-image
      bullets
-     (+ (/ (image-width bg) 2) 200)
-     1300
+     (+ 200 (/ (image-width bullets) 2))
+     1350
      bg-with-title))
 
 
@@ -389,16 +392,18 @@
 (define/contract (start-time m)
   (-> meeting? moment?)
 
-  (iso8601->moment
-   (hash-ref m 'start_time))
-  )
+  (-hours
+   (iso8601->moment
+    (hash-ref m 'start_time))
+   7))
 
 (define/contract (end-time m)
   (-> meeting? moment?)
 
-  (iso8601->moment
-   (hash-ref m 'end_time))
-  )
+  (-hours
+   (iso8601->moment
+    (hash-ref m 'end_time))
+   7))
 
 (define (->nice-date t)
   (-> moment? string?)
@@ -408,7 +413,7 @@
 (define (->nice-time t)
   (-> moment? string?)
 
-  (~t t "h:m"))
+  (~t t "h:ma"))
 
 (define (->day-of-week t)
   (-> moment? string?)
@@ -433,10 +438,75 @@
 
 (define (location r)
   (-> room? location?)
+  
   (hash-ref r 'location))
 
 (define (address r)
   (hash-ref r 'address))
 
-(define (test!!)
-  (displayln "Just a test"))
+
+(define (filter-out-words s l)
+  (if (empty? l)
+      s
+      (filter-out-words (string-replace s (first l) "" #:all? #t)
+                        (rest l))))
+
+(define (string->slug s)
+  (define (filter-out-school-words s)
+    (filter-out-words s '("elementary" "academy" "school")))
+  
+  (string-replace #:all? #t
+                  (string-trim
+                   (filter-out-school-words
+                    (string-downcase s)) #rx"\\s+")
+  " "
+  "-"))
+
+(define (refinery-link c)
+  (~a "https://www.thoughtstem.com/" (slug-name c)))
+
+(define (slug-name c)
+  (string->slug
+   (name
+    (location
+     (room c)))))
+
+(define (selling-points c)
+  k-2-selling-points)
+
+
+(define (course->flier c
+                       (selling-points (selling-points c))
+                       (registration-link (refinery-link c)))
+  (make-flier (name c)
+              (grade-level c)
+
+              ;TODO: Come back to this
+              selling-points
+
+              (length (meetings c))
+              (->nice-date
+               (start-time (first (meetings c))))
+              (->nice-date
+               (end-time (last (meetings c))))
+            
+              (price c)
+            
+              (list
+               (room-number (room c))
+               (name (location (room c)))
+               (address (location (room c))))
+
+              (list (->day-of-week
+                     (start-time (first (meetings c))))
+
+                    ;TODO: Adjust for TZ
+                    (->nice-time
+                     (start-time (first (meetings c))))
+                    (->nice-time
+                     (end-time (first (meetings c)))))
+
+              ;TODO: Figure out how to generate this...
+              registration-link
+              ))
+
