@@ -290,17 +290,20 @@
                     price
                     location-details
                     time-details
-                    register-url)
+                    register-url
+
+                    course-title1
+                    grade-level1
+                    selling-points1
+                    duration1
+                    start1
+                    end1
+                    price1
+                    location-details1
+                    time-details1
+                    register-url1)
 
   (define bg (bitmap/file "bg-double-panel.png"))
-
-  ;(define bg-with-title
-  ;  (place-image
-  ;   (text (~a "Coding Club: " grade-level) 80 "white")
-  ;   (/ (image-width bg) 4)
-  ;   (/ (image-height bg) 2)
-  ;   bg))
-
 
   (define (string->bullet s)
     (text (~a "•  " s) 60 "white"))
@@ -319,20 +322,44 @@
                  (string->bullet
                   (third selling-points))))
 
+  (define bullets1
+    (above/align "left"
+                 (string->bullet
+                  (first selling-points1))
+                 spacer
+                 (string->bullet
+                  (second selling-points1))
+                 spacer
+                 (string->bullet
+                  (third selling-points1))))
+
   (define with-bullets
     (place-image
      bullets
-     (+ (/ (image-width bg) 2) 150)
-     (+ (/ (image-height bg) 2) 500)
+     (/ (image-width bg) 4)
+     (+ (/ (image-height bg) 2) 610)
      bg))
 
+  (define with-bullets1
+    (place-image
+     bullets1
+     (/ (image-width bg) 2)
+     (/ (image-height bg) 2) 
+     with-bullets))
 
   (define with-course-title
     (place-image
-     (text course-title 80 "white")
-     (+ (/ (image-width bg) 4) 115)
-     (+ (/ (image-height bg) 2) 290)
+     (text course-title 65 "white")
+     (/ (image-width bg) 4)
+     (+ (/ (image-height bg) 2) 270)
      with-bullets))
+
+  (define with-course-title1
+    (place-image
+     (text course-title1 65 "red")
+     (/ (image-width bg) 4)
+     (/ (image-height bg) 2)
+     with-bullets1))
 
   (define with-time-and-price
     (place-image
@@ -341,6 +368,14 @@
      (- (/ (image-width bg) 4) 170)
      (+ (/ (image-height bg) 2) 1000)
      with-course-title))
+
+   (define with-time-and-price1
+    (place-image
+     (text (~a duration " weeks (" start " - " end ") | " price "$")
+           55 "red")
+     (+ (/ (image-width bg) 4) 500)
+     (+ (/ (image-height bg) 2) 1000)
+     with-course-title1))
 
 
   (define with-table-headers
@@ -385,7 +420,7 @@
      with-table-headers))
 
   (scale .25 with-table-lines))
-
+;;;;;;;;;;;
 
 
 
