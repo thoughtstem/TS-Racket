@@ -343,24 +343,30 @@
   (define bullets
     (above/align "left"
                  (string->bullet
-                  (first selling-points))
+                  (newline-every 3
+                                 (first selling-points)))
                  spacer
                  (string->bullet
-                  (second selling-points))
+                  (newline-every 3
+                                 (second selling-points)))
                  spacer
                  (string->bullet
-                  (third selling-points))))
+                  (newline-every 3
+                                 (third selling-points)))))
 
   (define bullets1
     (above/align "left"
                  (string->bullet
-                  (first selling-points1))
+                  (newline-every 3
+                                 (first selling-points1)))
                  spacer
                  (string->bullet
-                  (second selling-points1))
+                  (newline-every 3
+                                 (second selling-points1)))
                  spacer
                  (string->bullet
-                  (third selling-points1))))
+                  (newline-every 3
+                                 (third selling-points1)))))
 
   (define with-bullets
     (place-image

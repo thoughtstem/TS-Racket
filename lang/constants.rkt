@@ -72,8 +72,8 @@
 
 (define k-2nd-selling-points
   (list
-   "Students will create a portfolio of comicbook art using MIT's\nScratch programming interface"
+   "Students will create a portfolio of comicbook art using MIT's Scratch programming interface"
    "Students will gain proficiency with computers, mice, and keyboards"
-   "Students will learn how to express their creativity through digital\nart that can be shared with family"))
+   "Students will learn how to express their creativity through digital art that can be shared with family"))
 
 
