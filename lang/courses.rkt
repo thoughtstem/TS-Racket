@@ -175,7 +175,7 @@
 
 
 (define (chunks n l)
-  (if (< (length l) n)
+  (if (<= (length l) n)
       (list l)
       (cons (take l n) (chunks n (drop l n)))))
 
@@ -343,58 +343,58 @@
   (define bullets
     (above/align "left"
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (first selling-points)))
                  spacer
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (second selling-points)))
                  spacer
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (third selling-points)))))
 
   (define bullets1
     (above/align "left"
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (first selling-points1)))
                  spacer
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (second selling-points1)))
                  spacer
                  (string->bullet
-                  (newline-every 3
+                  (newline-every 4
                                  (third selling-points1)))))
 
   (define with-bullets
     (place-image
-     bullets
-     (/ (image-width bg) 4)
-     (+ (/ (image-height bg) 2) 610)
+     (scale 0.8 bullets)
+     (+ 100 (/ (image-width (scale 0.8 bullets)) 2))
+     (+ (/ (image-height (scale 0.8 bullets)) 2) 1900)
      bg))
 
   (define with-bullets1
     (place-image
-     bullets1
-     (/ (image-width bg) 2)
-     (/ (image-height bg) 2) 
+     (scale 0.8 bullets1)
+     (+ 1730 (/ (image-width (scale 0.8 bullets1)) 2))
+     (+ (/ (image-height (scale 0.8 bullets1)) 2) 1900)
      with-bullets))
 
   (define with-course-title
     (place-image
      (text course-title 65 "white")
-     (/ (image-width bg) 4)
+     100
      (+ (/ (image-height bg) 2) 270)
      with-bullets1))
 
   (define with-course-title1
     (place-image
-     (text course-title1 65 "red")
-     (/ (image-width bg) 4)
+     (text course-title1 65 "white")
+     1800
      (/ (image-height bg) 2)
-     with-bullets1))
+     with-course-title))
 
   (define with-time-and-price
     (place-image

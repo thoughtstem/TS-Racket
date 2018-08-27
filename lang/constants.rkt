@@ -65,9 +65,9 @@
 
 (define 3rd-5th-selling-points
   (list
-   "Students will explore important technical concepts like electrical engineering, conductivity, and inputs/outputs."
-   "Students will program micro-controllers and engineer them as part of a larger project"
-   "Typed programming language: great for students who have used Scratch previously!"
+   "Students will explore important technical concepts like electrical engineering, conductivity, and I/O."
+   "Students will complete projects using micro-controllers"
+   "Typed programming: great for students who have used Scratch previously!"
    "Transparency: parents will receive weekly classroom reports sharing their students' work in class"))
 
 (define k-2nd-selling-points
