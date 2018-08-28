@@ -311,53 +311,52 @@
      with-course-title))
 
 
-  (define with-table-headers
-    (place-image
-     (above/align "left"
-                  (text "LOCATION:" 60 "white")
-                  spacer
-                  (text "DAY & TIME:" 60 "white")
-                  spacer
-                  (text "GRADES:" 60 "white")
-                  spacer
-                  (text "REGISTER:" 60 "white")
-                  spacer
-                  (text "CONTACT US:" 60 "white"))
-     350
-     2950
-     with-time-and-price)
-    )
+  (define footer
+    (do-flier-footer location-details time-details register-url))
 
-  (do-flier-footer with-table-headers location-details time-details register-url))
-
-
-(define (do-flier-footer flier-img location-details time-details register-url)
   (define flier-img-with-footer
     (place-image
-     (above/align "left"
-                  (text (~a (first location-details)
-                            " at "
-                            (second location-details)
-                            ; " | "
-                            ;(third location-details)
-                            ) 60 "white")
-                  spacer
-                  (text (~a (first time-details)
-                            " | "
-                            (second time-details)
-                            " - "
-                            (third time-details)) 60 "white")
-                  spacer
-                  (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
-                  spacer
-                  (text register-url 60 "white")
-                  spacer
-                  (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))
-     1500
-     2950
-     flier-img))
+     footer
+     (half-width-plus 150 footer)
+     (half-height-plus 2720 footer)
+     with-time-and-price))
 
   flier-img-with-footer)
+
+
+(define (do-flier-footer location-details time-details register-url)
+  (define headers
+    (above/align "left"
+                 (text "LOCATION:" 60 "white")
+                 spacer
+                 (text "DAY & TIME:" 60 "white")
+                 spacer
+                 (text "GRADES:" 60 "white")
+                 spacer
+                 (text "REGISTER:" 60 "white")
+                 spacer
+                 (text "CONTACT US:" 60 "white")))
+  (beside headers
+          
+          (above/align "left"
+                       (text (~a (first location-details)
+                                 " at "
+                                 (second location-details)
+                                 ; " | "
+                                 ;(third location-details)
+                                 ) 60 "white")
+                       spacer
+                       (text (~a (first time-details)
+                                 " | "
+                                 (second time-details)
+                                 " - "
+                                 (third time-details)) 60 "white")
+                       spacer
+                       (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
+                       spacer
+                       (text register-url 60 "white")
+                       spacer
+                       (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))))
 
 
 (define (superfluous-course-title-words)
@@ -488,24 +487,19 @@
      with-time-and-price))
 
 
-  (define with-table-headers
-    (place-image
-     (above/align "left"
-                  (text "LOCATION:" 60 "white")
-                  spacer
-                  (text "DAY & TIME:" 60 "white")
-                  spacer
-                  (text "GRADES:" 60 "white")
-                  spacer
-                  (text "REGISTER:" 60 "white")
-                  spacer
-                  (text "CONTACT US:" 60 "white"))
-     350
-     2950
-     with-time-and-price1)
-    )
+  
 
-  (do-flier-footer with-table-headers location-details time-details register-url))
+  (define footer
+    (do-flier-footer location-details time-details register-url))
+
+  (define flier-img-with-footer
+    (place-image
+     footer
+     (half-width-plus 150 footer)
+     (half-height-plus 2740 footer)
+     with-time-and-price1))
+
+  flier-img-with-footer)
 
 
 (define/contract (start-time m)
