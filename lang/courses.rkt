@@ -363,13 +363,17 @@
 (define (superfluous-course-title-words)
   (define words
     '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio" "Coding Club:"
-          "Grade" "3rd-5th" "3-5th"))
+            "Grade" "3rd-5th" "3-5th"))
 
   (define :words
     (map (λ(s) (~a ": " s)) words))
 
-  (append words
-          :words))
+  (sort
+   (append :words
+           words)
+   (λ(a b)
+     (> (string-length a)
+        (string-length b)))))
 
 
 (define (make-flier-double-panel course-title
