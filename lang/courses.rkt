@@ -445,7 +445,7 @@
 
   (define title-img (scale 0.8 (bold-text (filter-out-words
                                            course-title
-                                           superfluous-course-title-words)
+                                           (superfluous-course-title-words))
                                           65 "white")))
   (define with-course-title
     (place-image
@@ -456,7 +456,7 @@
 
   (define title-img1 (scale 0.8 (bold-text (filter-out-words
                                             course-title1
-                                            superfluous-course-title-words)
+                                            (superfluous-course-title-words))
                                            65 "white")))
   (define with-course-title1
     (place-image
