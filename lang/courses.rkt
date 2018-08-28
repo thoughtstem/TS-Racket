@@ -180,10 +180,45 @@
   (text/font s size color  "Helvetica" 'swiss 'normal 'bold #f))
 
 
+(define (drop-until l pred?)
+  (define prefix (take-until l pred?))
+  (define-values (_ ret)
+    (drop-common-prefix prefix l ))
+  ret)
+
+(define (take-until l pred?)
+  (define (helper ret l pred?)
+    (if (or (pred? ret) (empty? l))
+        ret
+        (helper (append ret (list (first l)))
+                (rest l)
+                pred?)))
+
+  (helper '() l pred?))
+
+(module+ test
+  (define (length=2? l)
+    (= 2 (length l)))
+
+  (check-equal? (take-until '(a b c d e f)
+                            length=2?)
+                '(a b))
+
+  (check-equal? (drop-until '(a b c d e f)
+                            length=2?)
+                '(c d e f)))
+  
+(define (char-count>=? n l)
+    (define s (apply string-append l))
+    (>= (string-length s) n))
+
 (define (chunks n l)
-  (if (<= (length l) n)
-      (list l)
-      (cons (take l n) (chunks n (drop l n)))))
+  (if (empty? l)
+      '()
+      (cons (take-until l
+                        (curry char-count>=? n))
+            (chunks n (drop-until l
+                                  (curry char-count>=? n))))))
 
 
 
@@ -198,7 +233,10 @@
     " ")
    "\n"))
 
-
+(module+ test
+  (check-equal?
+   (newline-every 5 "hello world this is stephen")
+   "hello\nworld\nthis is\nstephen"))
 
 (define spacer
   (circle 20 "solid" "transparent"))
@@ -232,24 +270,25 @@
 
 
   (define bullets
-    (above/align "left"
-                 (string->bullet
-                  (newline-every 9
-                                 (first selling-points)))
-                 spacer
-                 (string->bullet
-                  (newline-every 9
-                                 (second selling-points)))
-                 spacer
-                 (string->bullet
-                  (newline-every 9
-                                 (third selling-points)))))
+    (scale 1.1
+           (above/align "left"
+                        (string->bullet
+                         (newline-every 50
+                                        (first selling-points)))
+                        spacer
+                        (string->bullet
+                         (newline-every 50
+                                        (second selling-points)))
+                        spacer
+                        (string->bullet
+                         (newline-every 50
+                                        (third selling-points))))))
 
   (define with-bullets
     (place-image
      bullets
-     (+ 150 (/ (image-width bullets) 2))
-     1350
+     (half-width-plus 150 bullets)
+     (half-height-plus 1150 bullets)
      bg-with-title))
 
 
@@ -321,6 +360,18 @@
   flier-img-with-footer)
 
 
+(define (superfluous-course-title-words)
+  (define words
+    '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio" "Coding Club:"
+          "Grade" "3rd-5th" "3-5th"))
+
+  (define :words
+    (map (λ(s) (~a ": " s)) words))
+
+  (append words
+          :words))
+
+
 (define (make-flier-double-panel course-title
                                  grade-level
                                  selling-points
@@ -353,29 +404,29 @@
   (define bullets
     (above/align "left"
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (first selling-points)))
                  spacer
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (second selling-points)))
                  spacer
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (third selling-points)))))
 
   (define bullets1
     (above/align "left"
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (first selling-points1)))
                  spacer
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (second selling-points1)))
                  spacer
                  (string->bullet
-                  (newline-every 4
+                  (newline-every 20
                                  (third selling-points1)))))
 
   (define with-bullets
@@ -394,7 +445,7 @@
 
   (define title-img (scale 0.8 (bold-text (filter-out-words
                                            course-title
-                                           '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio"))
+                                           superfluous-course-title-words)
                                           65 "white")))
   (define with-course-title
     (place-image
@@ -405,7 +456,7 @@
 
   (define title-img1 (scale 0.8 (bold-text (filter-out-words
                                             course-title1
-                                            '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio"))
+                                            superfluous-course-title-words)
                                            65 "white")))
   (define with-course-title1
     (place-image
