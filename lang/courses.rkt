@@ -47,6 +47,12 @@
                 "course"))
 
 
+(define (half-width-plus n i)
+  (+ n (/ (image-width i) 2)))
+
+(define (half-height-plus n i)
+  (+ n (/ (image-height i) 2)))
+
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.
 (define/contract (set-name h new-name)
@@ -179,6 +185,8 @@
       (list l)
       (cons (take l n) (chunks n (drop l n)))))
 
+
+
 (define (newline-every n s)
   (define words (chunks n (string-split s " ")))
 
@@ -190,9 +198,11 @@
     " ")
    "\n"))
 
+
+
 (define spacer
   (circle 20 "solid" "transparent"))
-
+ 
 
 (define (make-flier course-title
                     grade-level
@@ -372,44 +382,54 @@
     (place-image
      (scale 0.8 bullets)
      (+ 100 (/ (image-width (scale 0.8 bullets)) 2))
-     (+ (/ (image-height (scale 0.8 bullets)) 2) 1900)
+     (+ (/ (image-height (scale 0.8 bullets)) 2) 1970)
      bg))
 
   (define with-bullets1
     (place-image
      (scale 0.8 bullets1)
      (+ 1730 (/ (image-width (scale 0.8 bullets1)) 2))
-     (+ (/ (image-height (scale 0.8 bullets1)) 2) 1900)
+     (+ (/ (image-height (scale 0.8 bullets1)) 2) 1970)
      with-bullets))
 
+  (define title-img (scale 0.8 (bold-text (filter-out-words
+                                           course-title
+                                           '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio"))
+                                          65 "white")))
   (define with-course-title
     (place-image
-     (text course-title 65 "white")
-     100
-     (+ (/ (image-height bg) 2) 270)
+     title-img
+     (half-width-plus 100 title-img)
+     1920
      with-bullets1))
 
+  (define title-img1 (scale 0.8 (bold-text (filter-out-words
+                                            course-title1
+                                            '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio"))
+                                           65 "white")))
   (define with-course-title1
     (place-image
-     (text course-title1 65 "white")
-     1800
-     (/ (image-height bg) 2)
+     title-img1
+     (half-width-plus 1730 title-img1)
+     1920
      with-course-title))
 
+  (define time-and-price (text (~a duration " weeks (" start " - " end ") | $" price )
+                               55 "white"))
   (define with-time-and-price
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | $" price )
-           55 "white")
-     (- (/ (image-width bg) 4) 170)
-     (+ (/ (image-height bg) 2) 1000)
+     time-and-price
+     (half-width-plus 100 time-and-price)
+     2660
      with-course-title1))
 
+  (define time-and-price1 (text (~a duration " weeks (" start1 " - " end1 ") | $" price1 )
+                                55 "white"))
    (define with-time-and-price1
     (place-image
-     (text (~a duration " weeks (" start " - " end ") | $" price )
-           55 "red")
-     (+ (/ (image-width bg) 4) 500)
-     (+ (/ (image-height bg) 2) 1000)
+     time-and-price1
+     (half-width-plus 1730 time-and-price)
+     2660
      with-time-and-price))
 
 
@@ -521,9 +541,13 @@
    "K-2nd"))
 
 (define (selling-points c)
+
+  
   (if (k-2nd? c)
       k-2nd-selling-points
-      3rd-5th-selling-points))
+      3rd-5th-selling-points)
+
+  )
 
 
 (define (course->flier c
@@ -561,10 +585,10 @@
               registration-link))
 
 (define (courses->flier c1
-                       c2
-                       (selling-points1 (selling-points c1))
-                       (selling-points2 (selling-points c2))
-                       (registration-link "https://secure.thoughtstem.com"))
+                        c2
+                        (selling-points1 (selling-points c1))
+                        (selling-points2 (selling-points c2))
+                        (registration-link "https://secure.thoughtstem.com"))
   
   (make-flier-double-panel
 
@@ -580,8 +604,6 @@
    (price c1)
    (list (->day-of-week
           (start-time (first (meetings c1))))
-
-                    
          (->nice-time
           (start-time (first (meetings c1))))
          (->nice-time

@@ -63,17 +63,30 @@
 
 
 
-(define 3rd-5th-selling-points
+(define 3rd-5th-del-mar-selling-points
   (list
    "Students will explore important technical concepts like electrical engineering, conductivity, and I/O."
    "Students will complete projects using micro-controllers"
    "Typed programming: great for students who have used Scratch previously!"
    "Transparency: parents will receive weekly classroom reports sharing their students' work in class"))
 
+(define 3rd-5th-selling-points
+  (list
+   "Students will code their own game using characters from Minecraft, Harry Potter, Fortnite, Pokemon, etc."
+   "Students will learn how to design features like quests, NPCs, and open world exploration"
+   "By the end, students will be able to share games with friends!"))
+
 (define k-2nd-selling-points
   (list
-   "Students will create a portfolio of comicbook art using MIT's Scratch programming interface"
+   "Students will create a portfolio of digital art"
    "Students will gain proficiency with computers, mice, and keyboards"
-   "Students will learn how to express their creativity through digital art that can be shared with family"))
+   "Students will learn creativity through digital art that can be shared with family"))
+
+
+(define k-2nd-del-mar-selling-points
+  (list
+   "Students will learn how to build their own video games using MIT's Scratch language"
+   "Students will program small robots using another powerful visual programming language"
+   "Students will gain proficiency with computers, mice, and keyboards"))
 
 
