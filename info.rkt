@@ -4,4 +4,4 @@
 
 (define version "0.0.1")
 
-(define deps '("request" "gregor"))
+(define deps '("request" "gregor" "racket-bricks"))

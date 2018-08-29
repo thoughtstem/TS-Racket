@@ -495,7 +495,7 @@
   (define flier-img-with-footer
     (place-image
      footer
-     (half-width-plus 150 footer)
+     (half-width-plus 110 footer)
      (half-height-plus 2740 footer)
      with-time-and-price1))
 

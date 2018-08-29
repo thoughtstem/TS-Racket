@@ -5,7 +5,9 @@
 (provide (all-defined-out))
 
 (require "./util.rkt"
-         json)
+         json
+         pict/code
+         racket-bricks/renderer)
 
 
 (define (get-password-from-student-json)
@@ -108,6 +110,16 @@
                   (lookup-student-pw)
                   'nick))))
 
+(define-syntax (display-snippet stx)
+  (syntax-case stx ()
+    ((_ nick key)
+     #`(let ([code-string
+              (value (code-snippet (~a (third nick))
+                                   (~a 'key)))])
+         
+         ((render-text)
+          (read (open-input-string code-string))))
+         )))
 
 (define-syntax (get-snippet stx)
   (syntax-case stx ()
