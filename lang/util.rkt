@@ -18,7 +18,19 @@
          id
          set-type
          type
-         string->time)
+         string->time
+         course?
+         topic?
+         meeting?
+         room?
+         location?
+         chunks
+         take-until
+         drop-until
+         name)
+
+(module+ test
+  (require rackunit))
 
 (define DEV "http://34.197.96.0")
 (define PROD "https://secure.thoughtstem.com")
@@ -51,7 +63,11 @@
 (define (pluralize s)
   (~a s "s"))
 
-
+(define course?  hash?)
+(define topic?   hash?)
+(define meeting? hash?)
+(define room?    hash?)
+(define location? hash?)
 
 (define (show type id)
   (define h
@@ -136,3 +152,47 @@
 
 
 
+(define (chunks n l)
+  (if (empty? l)
+      '()
+      (cons (take-until l
+                        (curry char-count>=? n))
+            (chunks n (drop-until l
+                                  (curry char-count>=? n))))))
+(define (char-count>=? n l)
+    (define s (apply string-append l))
+    (>= (string-length s) n))
+
+
+(define (drop-until l pred?)
+  (define prefix (take-until l pred?))
+  (define-values (_ ret)
+    (drop-common-prefix prefix l ))
+  ret)
+
+(define (take-until l pred?)
+  (define (helper ret l pred?)
+    (if (or (pred? ret) (empty? l))
+        ret
+        (helper (append ret (list (first l)))
+                (rest l)
+                pred?)))
+
+  (helper '() l pred?))
+
+(module+ test
+  (define (length=2? l)
+    (= 2 (length l)))
+
+  (check-equal? (take-until '(a b c d e f)
+                            length=2?)
+                '(a b))
+
+  (check-equal? (drop-until '(a b c d e f)
+                            length=2?)
+                '(c d e f)))
+
+
+(define/contract (name h)
+  (-> hash? (or/c string? boolean?))
+  (hash-ref h 'name #f))
