@@ -12,7 +12,10 @@
 (define del-mar-hills 7183)
 (define kumeyaay 7600)
 (define liberal-arts 10595)
-
+(define jerabek 7593)
+(define JCS 10597)
+(define deer-canyon 7379)
+(define language-academy 10508)
 
 (define python-racket-description
   @~a{
