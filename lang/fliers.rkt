@@ -311,6 +311,24 @@
      (+ (/ (image-height (scale 0.8 bullets1)) 2) 1970)
      with-bullets))
 
+  (define header-img (bold-text (~a "CODING CLUB: " grade-level) 65 "white"))
+
+  (define with-header
+    (place-image
+     header-img
+     (half-width-plus 100 header-img)
+     (half-height-plus 1760 header-img)
+     with-bullets1))
+
+  (define header-img1 (bold-text (~a "CODING CLUB: " grade-level1) 65 "white"))
+  
+  (define with-header1
+    (place-image
+     header-img1
+     (half-width-plus 1730 header-img1)
+     (half-height-plus 1760 header-img1)
+     with-header))
+
   (define title-img (scale 0.8 (bold-text (filter-out-words
                                            course-title
                                            (superfluous-course-title-words))
@@ -320,7 +338,7 @@
      title-img
      (half-width-plus 100 title-img)
      1920
-     with-bullets1))
+     with-header1))
 
   (define title-img1 (scale 0.8 (bold-text (filter-out-words
                                             course-title1
