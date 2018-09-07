@@ -2,6 +2,11 @@
 
 @(require scribble/eval)
 
+@(define helper-eval (make-base-eval))
+@interaction-eval[#:eval helper-eval
+                  (require "../main.rkt"
+                           2htdp/image)]
+
 @title{TS-Racket}
 
 @section{General}
@@ -11,6 +16,14 @@
 
 Stores the resource on the database (either dev or production,
 depending on the @racket[set-env!]
+
+Example:
+
+@racketblock[
+             (save (new-meeting #:course 1000
+                                #:start (string->time "2018-09-10 3:30pm")
+                                #:duration 60))
+ ]
 
 @defproc[(set-env! [k dev-or-prod?])
          void?]
@@ -28,20 +41,13 @@ How to use ts-racket to automate flyer generation from a course ID.
                         [registration-link string? "https://secure.thoughtstem.com"])
          image?]
 
-
 Builds a flyer out of one course. 
 
 NOTE: alternative spelling of flyer (flier) in this function also works.
 
-@(define helper-eval (make-base-eval))
-@interaction-eval[#:eval helper-eval
-                  (require "../main.rkt"
-                           2htdp/image)]
-
 @examples[
           #:eval helper-eval
           (scale .3 (course->flyer (course 1137)))]
-
 
 @defproc[(courses->flyer [course flyer-ready-course?]
                          [course2 flyer-ready-course?]
@@ -81,8 +87,16 @@ environment.
 
 Calls @racket[save] on all meetings in a course.
 
+@section{Constants for use in course creation}
 
+A list of constants defined to be used in course creation. Last updated 9/7/2018
 
+@larger{locations}
+
+@racketblock[
+  albert-einstein
+  ocean-air
+ ]
 
 @section{Alerts}
 
