@@ -20,6 +20,8 @@
   (-> number? course?)
   (show "course" id))
 
+(define (meeting id)
+  (show "meeting" id))
 
 (define/contract (meetings h)
   (-> course? (listof meeting?))
@@ -28,6 +30,20 @@
 (define/contract (set-meetings c m)
   (-> course? (listof meeting?) course?)
   (hash-set c 'meetings m))
+
+(define/contract (attendances m)
+  (-> meeting? (listof attendance?))
+  (map (curryr set-type "attendance")
+       (hash-ref m 'attendances)))
+
+(define/contract (computer-id a)
+  (-> attendance? number?)
+  (hash-ref a 'computer_id))
+
+(define/contract (computer-ids m)
+  (-> meeting? (listof number?))
+
+  (map computer-id (attendances m)))
 
 
 ;Sets the 'name value in the provided hash.  Does not save the
@@ -121,6 +137,8 @@
   saved-course)
 
 
+
+
 (define/contract (start-time m)
   (-> meeting? moment?)
 
@@ -136,6 +154,8 @@
    (iso8601->moment
     (hash-ref m 'end_time))
    7))
+
+
 
 (define (->nice-date t)
   (-> moment? string?)
