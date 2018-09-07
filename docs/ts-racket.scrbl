@@ -74,3 +74,56 @@ keys that are simple values pushed to the set environment
 set-env!
 PROD
 default is dev
+
+
+
+
+@section{Alerts}
+
+@defproc[(send-alerts [alerts alerts?])
+         void?]
+
+Sends alerts.  Alerts should be created with @racket[create-alerts].
+For example, this will send an alert to all computers at meeting 6686.
+
+@racketblock[
+ (send-alerts
+  (create-alerts
+   (computer-ids (meeting 6686))
+   voice-alert
+   "Test!"))
+]
+
+@defproc[(create-alerts [computer-ids (or/c (listof number?)
+                                            string?)]
+                        [alert-type alert-type?]
+                        [message string?])
+         alerts?]
+
+Creates alerts for some list of computer ids.  The computer
+ids can either be a comma separated string (for easy pasting):
+
+@racket["1,2,3"]
+
+Or it can be a list of numbers:
+
+@racket['(1 2 3)]
+
+
+@defproc[(alert-type? [x any/c])
+         boolean?]
+
+Can be any member of the following constants.
+
+@racketblock[
+ (define phone-alert   "phone")
+ (define help-alert    "help")
+ (define full-alert    "full")
+ (define block-alert   "block")
+ (define voice-alert   "voice")
+ (define message-alert "message")
+ (define link-alert    "link")
+ (define command-alert "common")
+ ]
+
+
