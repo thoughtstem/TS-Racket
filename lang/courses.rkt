@@ -16,14 +16,6 @@
           'name "Underwater Basket Weaving"
           'description "Learn how to weave baskets underwater!!")))
 
-
-(define course?  hash?)
-(define topic?   hash?)
-(define meeting? hash?)
-(define room?    hash?)
-(define location? hash?)
-
-
 (define (course id)
   (show "course" id))
 
@@ -32,26 +24,6 @@
   (-> hash? list?)
   (map (curryr set-type "meeting") (hash-ref h 'meetings #f)))
 
-
-
-;Takes a hash and returns the value for the 'name key.
-(define/contract (name h)
-  (-> hash? (or/c string? boolean?))
-  (hash-ref h 'name #f))
-
-(module+ test
-  (check-equal? (name test-course-1)
-                "Underwater Basket Weaving")
-
-  (check-equal? (type test-course-1)
-                "course"))
-
-
-(define (half-width-plus n i)
-  (+ n (/ (image-width i) 2)))
-
-(define (half-height-plus n i)
-  (+ n (/ (image-height i) 2)))
 
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.
@@ -142,7 +114,6 @@
   (destroy dummy-meeting)
 
   saved-course)
-
 
 
 
@@ -559,131 +530,40 @@
 (define (address r)
   (hash-ref r 'address))
 
-
-(define (filter-out-words s l)
-  (if (empty? l)
-      s
-      (filter-out-words (string-replace s (first l) "" #:all? #t)
-                        (rest l))))
-
-(define (string->slug s)
-  (define (filter-out-school-words s)
-    (filter-out-words s '("elementary" "academy" "school")))
+;following 3 functions grab and process grade of course
+(define/contract (looks-like-grade-level s)
+  (-> string? boolean?)
   
-  (string-replace #:all? #t
-                  (string-trim
-                   (filter-out-school-words
-                    (string-downcase s)) #rx"\\s+")
-  " "
-  "-"))
+  (string-contains? s "-"))
 
-(define (refinery-link c)
-  (~a "https://www.thoughtstem.com/" (slug-name c)))
+(define (grade-level c)
+  (-> course? string?)
+  
+  (findf looks-like-grade-level
+         (topics c)))
 
-(define (slug-name c)
-  (string->slug
-   (name
-    (location
-     (room c)))))
-
-(define (k-2nd? c)
+(define/contract (k-2nd? c)
+  (-> course? boolean?)
   (string=?
    (grade-level c)
    "K-2nd"))
 
-(define (selling-points c)
 
+;turns topic into string
+(define/contract (get-topic-name t)
+  (-> topic? string?)
   
-  (if (k-2nd? c)
-      k-2nd-selling-points
-      3rd-5th-selling-points)
+  (hash-ref
+   (hash-ref
+    t
+    'topic)
+   'name))
 
-  )
 
-
-(define (course->flier c
-                       (selling-points (selling-points c))
-                       (registration-link "https://secure.thoughtstem.com"))
-  (make-flier (name c)
-              (grade-level c)
-
-              ;TODO: Come back to this
-              selling-points
-
-              (length (meetings c))
-              (->nice-date
-               (start-time (first (meetings c))))
-              (->nice-date
-               (end-time (last (meetings c))))
-            
-              (price c)
-            
-              (list
-               (room-number (room c))
-               (name (location (room c)))
-               (address (location (room c))))
-
-              (list (->day-of-week
-                     (start-time (first (meetings c))))
-
-                    
-                    (->nice-time
-                     (start-time (first (meetings c))))
-                    (->nice-time
-                     (end-time (first (meetings c)))))
-
-              ;TODO: Figure out how to generate this...
-              registration-link))
-
-(define (courses->flier c1
-                        c2
-                        (selling-points1 (selling-points c1))
-                        (selling-points2 (selling-points c2))
-                        (registration-link "https://secure.thoughtstem.com"))
+;gets all topics assigned and turns into list of strings
+(define/contract (topics c)
+  (-> course? (listof string?))
   
-  (make-flier-double-panel
+  (define all-topics (hash-ref c 'topic_assignments))
 
-   ;Course 1 Details
-   (name c1)
-   (grade-level c1)
-   selling-points1
-   (length (meetings c1))
-   (->nice-date
-    (start-time (first (meetings c1))))
-   (->nice-date
-    (end-time (last (meetings c1))))
-   (price c1)
-   (list (->day-of-week
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (end-time (first (meetings c1)))))
-
-   ;Course 2 Details
-   (name c2)
-   (grade-level c2)
-   selling-points2
-   (length (meetings c2))
-   (->nice-date
-    (start-time (first (meetings c2))))
-   (->nice-date
-    (end-time (last (meetings c2))))
-   (price c2)
-   (list (->day-of-week
-          (start-time (first (meetings c2))))
-
-                    
-         (->nice-time
-          (start-time (first (meetings c2))))
-         (->nice-time
-          (end-time (first (meetings c2)))))
-
-   ;Location Details
-   (list
-    (room-number (room c1))
-    (name (location (room c1)))
-    (address (location (room c1))))
-                           
-   registration-link))
-
+  (map get-topic-name all-topics))
