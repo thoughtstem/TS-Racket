@@ -1,0 +1,13 @@
+#lang scribble/manual
+
+@title{Procedurally-Built Flyers}
+
+How to use ts-racket to automate flyer generation from a course ID.
+
+@section{course->flyer}
+
+NEEDS CONTRACT?
+
+Builds a flyer out of one course, utilizing the name, 
+
+NOTE: alternative spelling of flyer (flier) in this function also works.

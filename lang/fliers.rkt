@@ -381,13 +381,16 @@
 
   flier-img-with-footer)
 
+(define/contract (flyer-ready-course? c)
+  (-> course? boolean?)
+  (not (not (grade-level c))))
 
 ;one course flyer
 (define/contract (course->flier c
                        (selling-points (selling-points c))
                        (registration-link "https://secure.thoughtstem.com"))
-  ;correct contract for optional arguments?
-  (-> course? image?)
+ 
+  (->* (flyer-ready-course?) ((listof string?) string?) image?)
   (make-flier (name c)
               (grade-level c)
 
@@ -420,11 +423,13 @@
               registration-link))
 
 ;for 2 courses at one location
-(define (courses->flier c1 ;course one ID
-                        c2 ;course two ID
-                        (selling-points1 (selling-points c1)) 
-                        (selling-points2 (selling-points c2))
-                        (registration-link "https://secure.thoughtstem.com"))
+(define/contract (courses->flier c1 ;course one ID
+                                 c2 ;course two ID
+                                 (selling-points1 (selling-points c1)) 
+                                 (selling-points2 (selling-points c2))
+                                 (registration-link "https://secure.thoughtstem.com"))
+
+  (->* (flyer-ready-course? flyer-ready-course?) ((listof string?) (listof string?) string?) image?)
   
   (make-flier-double-panel
 
