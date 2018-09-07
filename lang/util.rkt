@@ -86,6 +86,9 @@
 (define (attendance? x)
   (hash-with-type? x "attendance"))
 
+(define resource?
+  (or/c course? meeting? topic? room? location? attendance?))
+
 (define (show type id)
   (define h
     (read-json
@@ -126,8 +129,9 @@
              #:headers
              '("Content-Type: application/json"))))))
 
+
 (define/contract (save h)
-  (-> hash? hash?)
+  (-> resource? resource?)
   (define t (type h))
   (displayln (list t
                    (string? t)))

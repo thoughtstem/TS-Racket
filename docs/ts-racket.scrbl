@@ -4,7 +4,20 @@
 
 @title{TS-Racket}
 
+@section{General}
 
+@defproc[(save [resource resource?])
+         resource?]
+
+Stores the resource on the database (either dev or production,
+depending on the @racket[set-env!]
+
+@defproc[(set-env! [k dev-or-prod?])
+         void?]
+
+Takes either DEV or PROD. Default is DEV.
+
+REMINDER!! Only set to PROD after sufficient testing in DEV.
 
 @section{Flyers}
 
@@ -63,14 +76,8 @@ Reminder!! This does not update information in the environment. You must call
 @racket[save] or @racket[save-meetings!] to make changes permanently to the
 environment.
 
+@defproc[(save-meetings! [course course?])
+         course?]
 
-save-meetings!
-call (link save) on all the courses' meetings
+Calls @racket[save] on all meetings in a course.
 
-save
-takes a hash
-keys that are simple values pushed to the set environment
-
-set-env!
-PROD
-default is dev
