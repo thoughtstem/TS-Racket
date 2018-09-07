@@ -24,6 +24,7 @@
          meeting?
          room?
          location?
+         attendance?
          chunks
          take-until
          drop-until
@@ -63,11 +64,28 @@
 (define (pluralize s)
   (~a s "s"))
 
-(define course?  hash?)
-(define topic?   hash?)
-(define meeting? hash?)
-(define room?    hash?)
-(define location? hash?)
+(define (hash-with-type? x t)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) t)))
+
+(define (course? x)
+  (hash-with-type? x "course"))
+
+(define (meeting? x)
+  (hash-with-type? x "meeting"))
+
+(define (topic? x)
+  (hash-with-type? x "topic"))
+
+(define (room? x)
+  (hash-with-type? x "room"))
+
+(define (location? x)
+  (hash-with-type? x "location"))
+
+(define (attendance? x)
+  (hash-with-type? x "attendance"))
+
 
 (define (show type id)
   (define h
