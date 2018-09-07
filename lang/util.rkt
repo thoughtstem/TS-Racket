@@ -63,11 +63,25 @@
 (define (pluralize s)
   (~a s "s"))
 
-(define course?  hash?)
-(define topic?   hash?)
-(define meeting? hash?)
-(define room?    hash?)
-(define location? hash?)
+(define (course? x)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) "course")))
+
+(define (topic? x)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) "topic")))
+
+(define (meeting? x)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) "meeting")))
+
+(define (room? x)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) "room")))
+
+(define (location? x)
+  (and (hash? x)
+       (eq? (hash-ref x 'the-type #f) "location")))
 
 (define (show type id)
   (define h

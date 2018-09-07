@@ -16,13 +16,18 @@
           'name "Underwater Basket Weaving"
           'description "Learn how to weave baskets underwater!!")))
 
-(define (course id)
+(define/contract (course id)
+  (-> number? course?)
   (show "course" id))
 
 
 (define/contract (meetings h)
-  (-> hash? list?)
+  (-> course? (listof meeting?))
   (map (curryr set-type "meeting") (hash-ref h 'meetings #f)))
+
+(define/contract (set-meetings c m)
+  (-> course? (listof meeting?) course?)
+  (hash-set c 'meetings m))
 
 
 ;Sets the 'name value in the provided hash.  Does not save the
@@ -157,11 +162,21 @@
 
   (define first-meeting (first (meetings c)))
 
-  
-  (hash-ref first-meeting 'room))
+  (hash-set (hash-ref first-meeting 'room)'the-type "room"))
 
 (define (room-number r)
   (hash-ref r 'room_number))
+
+
+(define/contract (set-room-id x i)
+  
+  (-> (or/c meeting? course?) number? (or/c meeting? course?))
+  
+  (if (course? x)
+      (set-meetings x (map (curryr set-room-id i) (meetings x)))
+      (hash-set x 'room_id i)))
+
+
 
 (define (location r)
   (-> room? location?)
@@ -192,7 +207,7 @@
 
 ;turns topic into string
 (define/contract (get-topic-name t)
-  (-> topic? string?)
+  (-> hash? string?)
   
   (hash-ref
    (hash-ref
@@ -208,3 +223,9 @@
   (define all-topics (hash-ref c 'topic_assignments))
 
   (map get-topic-name all-topics))
+
+;saves all meetings in a course
+(define/contract (save-meetings! c)
+  (-> course? course?)
+  (set-meetings c
+   (map save (meetings c))))
