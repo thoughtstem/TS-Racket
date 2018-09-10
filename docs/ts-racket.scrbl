@@ -96,6 +96,47 @@ A list of constants defined to be used in course creation. Last updated 9/7/2018
 @racketblock[
   albert-einstein
   ocean-air
+  ashley-falls
+  sage-canyon
+  sycamore-ridge
+  torrey-hills
+  carmel-del-mar
+  del-mar-hills
+  kumeyaay
+  liberal-arts
+  jerabek
+  JCS
+  deer-canyon
+  language-academy
+ ]
+
+@larger{descriptions}
+
+@racketblock[
+  python-racket-description
+  robotics-course-description
+  code-your-game-decription
+  digital-comics-description
+  game-design-and-robotics-description
+  coding-and-engineering-description
+ ]
+
+@larger{screenshots}
+
+@racketblock[
+ code-your-game-screenshot
+ digital-comics-screenshot
+ game-design-and-robotics-screenshot
+ ]
+
+@larger{selling points}
+
+@racketblock[
+ k-2nd-selling-points
+ 3rd-5th-selling-points
+ k-2nd-del-mar-selling-points
+ 3rd-5th-del-mar-selling-points
+ 
  ]
 
 @section{Alerts}
