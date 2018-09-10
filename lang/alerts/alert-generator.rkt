@@ -86,7 +86,7 @@
   all-data)
 
 (define/contract (create-alerts computer-list type [message ""])
-  (->* (list? alert-type?) (string?) hash?)
+  (->* ((or/c list? string?) alert-type?) (string?) hash?)
   (define pair-alert
     (lambda (computer)
       (cons computer (create-alert type message))))
@@ -110,7 +110,9 @@
 
 
 (define (zero-pad-if-numbers ls)
-  (make-camp (string-join (map ~a ls) ",")))
+  (make-camp (if (list? ls)
+                 (string-join (map ~a ls) ",")
+                 ls)))
 
 (define (make-camp camp-list)
   (define computers (string-split camp-list ","))
