@@ -25,6 +25,7 @@
          room?
          location?
          attendance?
+         student?
          chunks
          take-until
          drop-until
@@ -85,6 +86,9 @@
 
 (define (attendance? x)
   (hash-with-type? x "attendance"))
+
+(define (student? x)
+  (hash-with-type? x "student"))
 
 (define resource?
   (or/c course? meeting? topic? room? location? attendance?))

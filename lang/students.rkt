@@ -167,16 +167,35 @@
 ;builds badge
 (define/contract (build-badge student crs-id)
   (-> hash? number? image?)
+  (define photo-icon
+    (if (photo-release? student)
+      (bitmap "resources/camera.png")
+      (bitmap "resources/no_photo_camera.png")))
   (overlay/align "left" "top"
-                 (bitmap "/resources/camera.png")
-  (overlay
-   (above
-    (text (first-name student) 40 "darkgreen")
-    (text (last-name student) 40 "darkgreen")
-    (qr-me (password student) crs-id)
-    (text (~a (password student) "-" crs-id) 25 "darkgreen"))
-   BG))
+                 photo-icon
+                 (overlay
+                  (above
+                   (text (first-name student) 50 "darkgreen")
+                   (text (last-name student) 30 "darkgreen")
+                   (qr-me (password student) crs-id)
+                   (text (~a (password student) "-" crs-id) 25 "darkgreen"))
+                  BG)))
 
 
+;gets enrollments from course
+(define/contract (enrollments c)
+  (-> course? list?)
+  (hash-ref c 'enrollments))
 
+;gets list of students from course
+(define/contract (students course)
+  (-> course? (listof student?))
+  (define (f x) (hash-ref x 'student))
+  (define l (map f (enrollments course)))
+  (define (x y) (hash-set y 'the-type "student"))
+  (map x l))
+
+(define (badges course)
+  (define (b x) (build-badge x (hash-ref course 'id)))
+  (map b (students course)))
 
