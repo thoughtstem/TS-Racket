@@ -7,6 +7,8 @@
 (require "./util.rkt"
          json
          pict/code
+         2htdp/image
+         simple-qr
          racket-bricks/renderer)
 
 
@@ -142,8 +144,38 @@
                           code-string)
          snippet))))
 
+;badge base
+(define BG
+  (rectangle 400 300 "outline" "darkgreen"))
 
+;password getter
+(define/contract (password student)
+  (-> hash? string?)
+  (hash-ref student 'password))
 
+;photo release getter
+(define/contract (photo-release? student)
+  (-> hash? boolean?)
+  (hash-ref student 'photo_release))
+
+;builds qr from student password and course id
+(define/contract (qr-me stu-id crs-id)
+  (-> string? number? image?)
+  (qr-write  (~a stu-id "-" crs-id) "qr.png")
+  (bitmap "qr.png"))
+
+;builds badge
+(define/contract (build-badge student crs-id)
+  (-> hash? number? image?)
+  (overlay/align "left" "top"
+                 (bitmap "/resources/camera.png")
+  (overlay
+   (above
+    (text (first-name student) 40 "darkgreen")
+    (text (last-name student) 40 "darkgreen")
+    (qr-me (password student) crs-id)
+    (text (~a (password student) "-" crs-id) 25 "darkgreen"))
+   BG))
 
 
 
