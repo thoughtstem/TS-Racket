@@ -86,8 +86,11 @@
 (define (attendance? x)
   (hash-with-type? x "attendance"))
 
+(define (code-snippet? x)
+  (hash-with-type? x "code_snippet"))
+
 (define resource?
-  (or/c course? meeting? topic? room? location? attendance?))
+  (or/c course? meeting? topic? room? location? attendance? code-snippet?))
 
 (define (show type id)
   (define h
