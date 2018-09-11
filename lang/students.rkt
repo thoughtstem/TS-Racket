@@ -144,9 +144,20 @@
                           code-string)
          snippet))))
 
+;logos
+(define red-logo (scale 1 (bitmap "resources/ts-logo-red.png")))
+
 ;badge base
-(define BG
-  (rectangle 400 300 "outline" "darkgreen"))
+(define/contract (badge-bg c)
+  (-> number? image?)
+  (define line-c
+    (cond
+      [(= c 1) (color 255 35 42 255)]
+      [else (color 255 255 255)]))
+  (overlay/align "right" "bottom"
+   (cond
+     [(= c 1) red-logo])
+   (rectangle 400 300 "outline" (pen line-c 5 "long-dash" "round" "bevel"))))
 
 ;password getter
 (define/contract (password student)
@@ -155,8 +166,12 @@
 
 ;photo release getter
 (define/contract (photo-release? student)
-  (-> hash? boolean?)
-  (hash-ref student 'photo_release))
+  (-> student? boolean?)
+  (define ans (hash-ref student 'photo_release #f))
+
+  (define is-null? (eq? ans 'null))
+  
+  (and ans (not is-null?)))
 
 ;builds qr from student password and course id
 (define/contract (qr-me stu-id crs-id)
@@ -177,11 +192,15 @@
                  photo-icon
                  (overlay
                   (above
-                   (text name 50 "darkgreen")
-                   (text (last-name student) 30 "darkgreen")
+                   (text name 50 "black")
+                   (text (last-name student) 30 "black")
                    (qr-me (password student) crs-id)
                    (text (~a (password student) "-" crs-id) 25 "darkgreen"))
-                  BG)))
+                  (rectangle 400 300 "outline" "black")
+                  #;(badge-bg
+                   (if (photo-release? student)
+                       (random 2 6)
+                       1)))))
 
 
 ;gets enrollments from course
@@ -197,6 +216,7 @@
   (define (x y) (hash-set y 'the-type "student"))
   (map x l))
 
+;builds badges for all students in a course
 (define/contract (badges course)
   (-> course? (listof image?))
   (define (b x) (build-badge x (hash-ref course 'id)))
