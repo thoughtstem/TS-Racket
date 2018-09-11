@@ -82,11 +82,12 @@
 
 
 (define (code-snippet key id)
-  (show "code_snippet" (~a "no-password-needed::" key "::" id)))
+  (show "code_snippet"
+        (~a "no-password-needed::" key "::" id)))
 
 
 (define/contract (value h)
-  (-> hash? string?)
+  (-> hash? (or/c string? #f))
   (hash-ref h 'value #f))
 
 
@@ -101,6 +102,20 @@
 (define (store-snippet-f student-pw snippet-nickname key snippet-string)
   (save
    (new-code-snippet key snippet-string student-pw snippet-nickname)))
+
+
+(define (avatar-snippet s)
+  (get-snippet-by-pw-and-name (hash-ref s 'password) "avatar"))
+
+(define (get-snippet-by-pw-and-name student-pw snippet-name)
+  (value (code-snippet (~a student-pw)
+                       (~a snippet-name))))
+
+
+(define (run-snippet-string a code-string)
+  (eval (read (open-input-string code-string))
+        (namespace-anchor->namespace a)))
+
 
 
 (define-syntax-rule (enable-snippets nick)
@@ -130,9 +145,12 @@
               (value (code-snippet (~a (third nick))
                                    (~a 'key)))])
          
-         
-         (eval (read (open-input-string code-string))
-               (first nick))))))
+         (if code-string
+             (eval (read (open-input-string code-string))
+                   (first nick))
+             (displayln (~a "No snippet for " (third nick) " " 'key)))
+
+         ))))
 
 (define-syntax (store-snippet stx)
   (syntax-case stx ()
