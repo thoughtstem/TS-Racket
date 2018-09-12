@@ -11,7 +11,9 @@
          message-alert
          link-alert
          command-alert
-         alert-type?)
+         alert-type?
+         combine-alerts
+         clear-alerts)
 
 (require racket/date
          racket/gui
@@ -39,7 +41,7 @@
 (define voice-alert   "voice")
 (define message-alert "message")
 (define link-alert    "link")
-(define command-alert "common")
+(define command-alert "command")
 
 (define (alert-type? s)
   (and (string? s)
@@ -175,3 +177,10 @@
 
   (write-data)
   (upload-data))
+
+(define (combine-alerts . alerts)
+  (apply (curry hash-union #:combine/key (lambda (k v1 v2) v2)) alerts))
+
+(define (clear-alerts)
+  (send-alerts (create-alerts "" message-alert "")))
+

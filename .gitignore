@@ -1,3 +1,5 @@
+*compiled/*
 *.rkt~
-*secret-creds*
-*compiled*
+.DS_Store
+*.zo
+*.dep

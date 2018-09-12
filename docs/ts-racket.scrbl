@@ -1,6 +1,7 @@
 #lang scribble/manual
 
-@(require scribble/eval)
+@(require scribble/eval
+          2htdp/image)
 
 @(define helper-eval (make-base-eval))
 @interaction-eval[#:eval helper-eval
@@ -45,9 +46,10 @@ Builds a flyer out of one course.
 
 NOTE: alternative spelling of flyer (flier) in this function also works.
 
-@examples[
-          #:eval helper-eval
-          (scale .3 (course->flyer (course 1137)))]
+@racketblock[(course->flyer (course 1137))]
+
+@bitmap["resources/flyer.png"]
+
 
 @defproc[(courses->flyer [course flyer-ready-course?]
                          [course2 flyer-ready-course?]
@@ -60,9 +62,37 @@ Builds a flyer out of 2 courses (to be used for two courses at one location).
 
 NOTE: alternative spelling of flyer (flier) in this function also works.
 
-@examples[
-          #:eval helper-eval
-          (scale .3 (courses->flyer (course 1137) (course 1128)))]
+
+@racketblock[(courses->flyer (course 1137) (course 1128))]
+
+@bitmap["resources/2panel-flyer.png"]
+
+@section{Students}
+
+@defproc[(badges [course course?]) (listof image?)]
+
+Produces a list of student badges for all students enrolled in a course.
+
+@racketblock[(badges (course 1208))]
+
+@bitmap["resources/badge-list.png"]
+
+@defproc[(build-badge [student student?]
+                      [course-id number?]
+                      [name (string?) (first-name student)])
+         image?]
+
+Produces a single badge. Good to use if you want to change the name
+on single badge to a nickname for example.
+
+@racketblock[(build-badge (student 1753) 1205)]
+
+@bitmap["resources/badge1.png"]
+
+@racketblock[(build-badge (student 1753) 1208 "Triceratops")]
+
+@bitmap["resources/badge2.png"]
+
 
 @section{Courses}
 

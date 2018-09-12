@@ -7,6 +7,8 @@
 (require "./util.rkt"
          json
          pict/code
+         2htdp/image
+         simple-qr
          racket-bricks/renderer)
 
 
@@ -160,9 +162,81 @@
                           code-string)
          snippet))))
 
+;logos
+(define red-logo (scale 1 (bitmap "resources/ts-logo-red.png")))
+
+;badge base
+(define/contract (badge-bg c)
+  (-> number? image?)
+  (define line-c
+    (cond
+      [(= c 1) (color 255 35 42 255)]
+      [else (color 255 255 255)]))
+  (overlay/align "right" "bottom"
+   (cond
+     [(= c 1) red-logo])
+   (rectangle 400 300 "outline" (pen line-c 5 "long-dash" "round" "bevel"))))
+
+;password getter
+(define/contract (password student)
+  (-> hash? string?)
+  (hash-ref student 'password))
+
+;photo release getter
+(define/contract (photo-release? student)
+  (-> student? boolean?)
+  (define ans (hash-ref student 'photo_release #f))
+
+  (define is-null? (eq? ans 'null))
+  
+  (and ans (not is-null?)))
+
+;builds qr from student password and course id
+(define/contract (qr-me stu-id crs-id)
+  (-> string? number? image?)
+  (qr-write  (~a stu-id "-" crs-id) "qr.png")
+  (bitmap "qr.png"))
+
+;builds badge
+(define/contract (build-badge student
+                              crs-id
+                              (name (first-name student)))
+  (->* (student? number?) (string?) image?)
+  (define photo-icon
+    (if (photo-release? student)
+      (bitmap "resources/camera.png")
+      (bitmap "resources/no_photo_camera.png")))
+  (overlay/align "left" "top"
+                 photo-icon
+                 (overlay
+                  (above
+                   (text name 50 "black")
+                   (text (last-name student) 30 "black")
+                   (qr-me (password student) crs-id)
+                   (text (~a (password student) "-" crs-id) 25 "darkgreen"))
+                  (rectangle 400 300 "outline" "black")
+                  #;(badge-bg
+                   (if (photo-release? student)
+                       (random 2 6)
+                       1)))))
 
 
+;gets enrollments from course
+(define/contract (enrollments c)
+  (-> course? list?)
+  (hash-ref c 'enrollments))
 
+;gets list of students from course
+(define/contract (students course)
+  (-> course? (listof student?))
+  (define (f x) (hash-ref x 'student))
+  (define l (map f (enrollments course)))
+  (define (x y) (hash-set y 'the-type "student"))
+  (map x l))
 
-
+;builds badges for all students in a course
+(define/contract (badges course)
+  (-> course? (listof image?))
+  (define (b x) (build-badge x (hash-ref course 'id)))
+  (map b (students course)))
 
