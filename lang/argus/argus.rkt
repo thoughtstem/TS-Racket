@@ -1,6 +1,8 @@
 #lang racket
 
-(provide random-dude)
+(provide random-dude
+         cards->pages
+         print-image)
 
 (require 2htdp/image)
 
@@ -213,6 +215,32 @@
           i)
    card-bg))
 
+
+(define (cards->pages cards)
+  (map
+   (λ(l)
+     (apply above
+            (map (curry apply beside) l)))
+   (map
+    (λ(l) (chunks 3 l))
+    (chunks 9 cards))))
+
+
+(define (print-image p)
+  (define f (make-temporary-file))
+  (save-image p f)
+
+  (system (~a "lpr " (path->string f))))
+
+ (define (chunks n l)
+    (if (>= n (length l))
+        (list l)
+        (cons (take l n)
+              (chunks n (drop l n)))))
+
+
+
+
 (define (argus-sheet)
   (define cards
     (map
@@ -235,29 +263,7 @@
 
 
 
-  (define (chunks n l)
-    (if (>= n (length l))
-        (list l)
-        (cons (take l n)
-              (chunks n (drop l n)))))
-
-  (define (cards->pages cards)
-    (map
-     (λ(l)
-       (apply above
-              (map (curry apply beside) l)))
-     (map
-      (λ(l) (chunks 3 l))
-      (chunks 9 cards))))
-
-
-  (define (print-image p)
-    (define f (make-temporary-file))
-    (save-image p f)
-
-    (system (~a "lpr " (path->string f))))
-
-
+ 
   (define pages (cards->pages cards))
 
   #;(print-image (first pages))

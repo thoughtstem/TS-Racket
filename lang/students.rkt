@@ -5,6 +5,7 @@
 (provide (all-defined-out))
 
 (require "./util.rkt"
+         "./argus/argus.rkt"
          json
          pict/code
          2htdp/image
@@ -194,8 +195,16 @@
 ;builds qr from student password and course id
 (define/contract (qr-me stu-id crs-id)
   (-> string? number? image?)
-  (qr-write  (~a stu-id "-" crs-id) "qr.png")
-  (bitmap "qr.png"))
+  (define p (make-temporary-file))
+  (qr-write  (~a stu-id "-" crs-id) p)
+  (bitmap/file p))
+
+(define-namespace-anchor a)
+
+;scaling avatar funct
+(define/contract (scale-to-fit i w)
+  (-> image? number? image?)
+  (scale (/ w (image-width i)) i))
 
 ;builds badge
 (define/contract (build-badge student
@@ -206,19 +215,32 @@
     (if (photo-release? student)
       (bitmap "resources/camera.png")
       (bitmap "resources/no_photo_camera.png")))
-  (overlay/align "left" "top"
-                 photo-icon
-                 (overlay
-                  (above
-                   (text name 50 "black")
-                   (text (last-name student) 30 "black")
-                   (qr-me (password student) crs-id)
-                   (text (~a (password student) "-" crs-id) 25 "darkgreen"))
-                  (rectangle 400 300 "outline" "black")
-                  #;(badge-bg
-                   (if (photo-release? student)
-                       (random 2 6)
-                       1)))))
+  #;(define s (avatar-snippet student))
+  #;(define avatar
+    (if s
+        (run-snippet-string a s)
+        (circle 1 'solid 'white)
+        #;(overlay
+         (text "no avatar" 20 "black")
+         (circle 30 "solid" "red"))))
+
+  (define avatar
+    (random-dude))
+  (overlay/align "right" "bottom"
+                 (overlay/align "left" "top"
+                                photo-icon
+                                (overlay
+                                 (above
+                                  (text name 50 "black")
+                                  (text (last-name student) 30 "black")
+                                  (qr-me (password student) crs-id)
+                                  (text (~a (password student) "-" crs-id) 25 "darkgreen"))
+                                 (rectangle 400 300 "outline" "black")
+                                 #;(badge-bg
+                                    (if (photo-release? student)
+                                        (random 2 6)
+                                        1))))
+                 (scale-to-fit avatar 100)))
 
 
 ;gets enrollments from course
