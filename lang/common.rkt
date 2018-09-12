@@ -11,6 +11,7 @@
          "./courses.rkt"
          "./students.rkt"
          "./alerts/alert-generator.rkt"
+         "./argus/argus.rkt"
          "./fliers.rkt")
 
 (provide ;(all-from-out gregor)
@@ -19,6 +20,7 @@
          (all-from-out "./courses.rkt")
          (all-from-out "./students.rkt")
          (all-from-out "./alerts/alert-generator.rkt")
+         (all-from-out "./argus/argus.rkt")
          (all-from-out "./fliers.rkt"))
 
 
