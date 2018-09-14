@@ -163,8 +163,21 @@
                           code-string)
          snippet))))
 
+;buffer function
+(define/contract (buffer n i)
+  (-> number? image? image?)
+  (overlay
+   i
+   (rectangle (+ n (image-width i))
+              (+ n (image-height i))
+              'solid 'transparent )))
+
 ;logos
-(define red-logo (scale 1 (bitmap "resources/ts-logo-red.png")))
+(define red-logo (scale .6 (bitmap "resources/ts-logo-red.png")))
+(define orange-logo (scale .5 (bitmap "resources/ts-logo-orange.png")))
+(define logo (scale .6 (bitmap "resources/ts-logo.png")))
+(define blue-logo (scale .6 (bitmap "resources/ts-logo-blue.png")))
+(define purple-logo (scale .6 (bitmap "resources/ts-logo-purple.png")))
 
 ;badge base
 (define/contract (badge-bg c)
@@ -172,11 +185,18 @@
   (define line-c
     (cond
       [(= c 1) (color 255 35 42 255)]
-      [else (color 255 255 255)]))
-  (overlay/align "right" "bottom"
+      [(= c 2) (color 240 141 36 255)]
+      [(= c 3) (color 120 186 65 255)]
+      [(= c 4) (color 36 165 240 255)]
+      [(= c 5) (color 162 36 240 255)]))
+  (overlay/align "left" "bottom"
    (cond
-     [(= c 1) red-logo])
-   (rectangle 400 300 "outline" (pen line-c 5 "long-dash" "round" "bevel"))))
+     [(= c 1) red-logo]
+     [(= c 2) orange-logo]
+     [(= c 3) logo]
+     [(= c 4) blue-logo]
+     [(= c 5) purple-logo])
+   (rectangle 400 270 "outline" (pen line-c 5 "long-dash" "round" "bevel"))))
 
 ;password getter
 (define/contract (password student)
@@ -219,28 +239,34 @@
   #;(define avatar
     (if s
         (run-snippet-string a s)
-        (circle 1 'solid 'white)
-        #;(overlay
+        (overlay
          (text "no avatar" 20 "black")
          (circle 30 "solid" "red"))))
 
   (define avatar
     (random-dude))
-  (overlay/align "right" "bottom"
-                 (overlay/align "left" "top"
-                                photo-icon
-                                (overlay
-                                 (above
-                                  (text name 50 "black")
-                                  (text (last-name student) 30 "black")
-                                  (qr-me (password student) crs-id)
-                                  (text (~a (password student) "-" crs-id) 25 "darkgreen"))
-                                 (rectangle 400 300 "outline" "black")
-                                 #;(badge-bg
-                                    (if (photo-release? student)
-                                        (random 2 6)
-                                        1))))
-                 (scale-to-fit avatar 100)))
+  (define bg
+    ;(rectangle 400 300 "outline" "black")
+    (badge-bg
+     (if (photo-release? student)
+         (random 2 6)
+         1)))
+  
+  (define content
+    (above
+     (text name 45 "black")
+     (text (last-name student) 25 "black")
+     (qr-me (password student) crs-id)
+     (text (~a (password student) "-" crs-id) 25 "grey")))
+  
+  (define badge (overlay/align "right" "bottom"
+                               (overlay/align "left" "top"
+                                              photo-icon
+                                              (overlay
+                                               content
+                                               bg))
+                               (buffer 10 (scale-to-fit avatar 100))))
+  (buffer 10 badge))
 
 
 ;gets enrollments from course
