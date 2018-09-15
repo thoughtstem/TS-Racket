@@ -233,8 +233,8 @@
   (->* (student? number?) (string?) image?)
   (define photo-icon
     (if (photo-release? student)
-      (bitmap "resources/camera.png")
-      (bitmap "resources/no_photo_camera.png")))
+      (buffer 5 (bitmap "resources/camera.png"))
+      (buffer 5 (bitmap "resources/no_photo_camera.png"))))
   #;(define s (avatar-snippet student))
   #;(define avatar
     (if s
@@ -266,7 +266,7 @@
                                                content
                                                bg))
                                (buffer 10 (scale-to-fit avatar 100))))
-  (buffer 10 badge))
+  (buffer 40 badge))
 
 
 ;gets enrollments from course

@@ -230,7 +230,7 @@
   (define f (make-temporary-file))
   (save-image p f)
 
-  (system (~a "lpr " (path->string f))))
+  (system (~a "lpr " (path->string f) " -o media=letter")))
 
  (define (chunks n l)
     (if (>= n (length l))
