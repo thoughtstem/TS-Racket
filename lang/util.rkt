@@ -56,7 +56,9 @@
 
 
 (define (get-url type id)
-  (~a env "/" type "/" id ".json?api_key=" key))
+  (if (string=? key "")
+      (displayln "ERROR: NO API KEY")
+        (~a env "/" type "/" id ".json?api_key=" key)))
 
 (define (get-creation-url type)
   (~a env "/" type ".json?api_key=" key))
