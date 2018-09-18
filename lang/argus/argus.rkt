@@ -239,7 +239,8 @@
         [(= 2 (remainder (length imgs) 3)) (append imgs (list buffer-img))]))
 
 ;TODO: Move this to images.rkt
-(define (cards->pages cards)
+(define/contract (cards->pages cards)
+  (-> (listof image?) (listof image?))
   (map
    (λ(l)
      (apply safe-above
@@ -249,17 +250,18 @@
     (chunks 9 (pad-list cards)))))
 
 
-(define (print-image p)
+(define/contract (print-image p)
+  (-> image? boolean?)
   (define f (make-temporary-file))
   (save-image p f)
 
   (system (~a "lpr " (path->string f) " -o media=letter")))
 
- (define (chunks n l)
-    (if (>= n (length l))
-        (list l)
-        (cons (take l n)
-              (chunks n (drop l n)))))
+(define (chunks n l)
+  (if (>= n (length l))
+      (list l)
+      (cons (take l n)
+            (chunks n (drop l n)))))
 
 
 
