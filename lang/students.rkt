@@ -11,7 +11,9 @@
          pict/code
          2htdp/image
          simple-qr
-         racket-bricks/renderer)
+         racket-bricks/renderer
+         gregor
+         gregor/period)
 
 
 (define (get-password-from-student-json)
@@ -19,7 +21,6 @@
     (string->path
      #;"/Users/thoughtstem/sessions/sessions"
      "/home/thoughtstem/remote/sessions/sessions/"))
-
 
 
   ; === GET PATH OF THE MOST RECENT SESSIONS FOLDER ===
@@ -314,7 +315,9 @@
 ;gets enrollments from course
 (define/contract (enrollments c)
   (-> course? list?)
-  (hash-ref c 'enrollments))
+  (define x (hash-ref c 'enrollments))
+  (define (f y) (hash-set y 'the-type "enrollment"))
+  (map f x))
 
 ;gets list of students from course
 (define/contract (students course)
@@ -330,3 +333,8 @@
   (define (b x) (build-badge x (hash-ref course 'id)))
   (map b (students course)))
 
+
+(define/contract (age student)
+  (-> student? number?)
+  (define dob (iso8601->datetime (hash-ref student 'dob)))
+  (period-ref (period-between dob (now) '(years)) 'years))

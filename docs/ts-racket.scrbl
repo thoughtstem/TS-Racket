@@ -73,9 +73,14 @@ NOTE: alternative spelling of flyer (flier) in this function also works.
 
 Produces a list of student badges for all students enrolled in a course.
 
-@racketblock[(badges (course 1208))]
+@examples[
+     #:eval helper-eval
+     (badges (course 1208))
+   ]}
 
-@bitmap["resources/badge-list.png"]
+@;racketblock[(badges (course 1208))]
+
+@;bitmap["resources/badge-list.png"]
 
 @defproc[(build-badge [student student?]
                       [course-id number?]
@@ -85,14 +90,47 @@ Produces a list of student badges for all students enrolled in a course.
 Produces a single badge. Good to use if you want to change the name
 on single badge to a nickname for example.
 
-@racketblock[(build-badge (student 1753) 1205)]
+@examples[
+     #:eval helper-eval
+     (build-badge (student 1753) 1205)
+     (build-badge (student 1753) 1208 "Triceratops")
+   ]}
 
-@bitmap["resources/badge1.png"]
+@;racketblock[(build-badge (student 1753) 1205)]
 
-@racketblock[(build-badge (student 1753) 1208 "Triceratops")]
+@;bitmap["resources/badge1.png"]
 
-@bitmap["resources/badge2.png"]
+@;racketblock[(build-badge (student 1753) 1208 "Triceratops")]
 
+@;bitmap["resources/badge2.png"]
+
+@defproc[(cards->pages [cards (listof image?)])
+         (listof image?)]
+
+Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
+
+@racketblock[(cards->pages
+              (append
+               (badges (course 1208))
+               (list
+                (build-badge (student 1753) 1208 "Triceratops"))))]
+
+@defproc[(print-image [image image?])
+         boolean?]
+
+Saves an image to a temporary file and uses system commands to print said file.
+
+NOTE: Likely only works on macs for now.
+
+@racketblock[(print-image
+              (bitmap "happyface.png"))]
+
+@racketblock[(map print-image
+                  (cards->pages
+                   (append
+                     (badges (course 1208))
+                     (list
+                      (build-badge (student 1753) 1208 "Triceratops")))))]
 
 @section{Courses}
 
