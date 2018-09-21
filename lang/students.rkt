@@ -7,6 +7,7 @@
 (require "./util.rkt"
          "./argus/argus.rkt"
          "./courses.rkt"
+         "./image-util.rkt"
          json
          pict/code
          2htdp/image
@@ -61,8 +62,6 @@
         [(directory-exists? "/home/thoughtstem/remote/sessions/sessions/")
          (get-password-from-student-json)]
         [else (raise "~/.ts-student-pw file not found")]))
-
-
 
 (define (student id)
   (show "student" id))
@@ -165,19 +164,10 @@
                           code-string)
          snippet))))
 
-;buffer function
-(define/contract (buffer n i)
-  (-> number? image? image?)
-  (overlay
-   i
-   (rectangle (+ n (image-width i))
-              (+ n (image-height i))
-              'solid 'transparent )))
 
 ;logos
 (define red-logo (scale .6 (bitmap "resources/ts-logo-red.png")))
 (define orange-logo (scale .5 (bitmap "resources/ts-logo-orange.png")))
-(define logo (scale .6 (bitmap "resources/ts-logo.png")))
 (define blue-logo (scale .6 (bitmap "resources/ts-logo-blue.png")))
 (define purple-logo (scale .6 (bitmap "resources/ts-logo-purple.png")))
 
@@ -223,11 +213,6 @@
 
 (define-namespace-anchor a)
 
-;scaling avatar funct
-(define/contract (scale-to-fit i w)
-  (-> image? number? image?)
-  (scale (/ w (image-width i)) i))
-
 ;builds badge
 (define/contract (build-badge student
                               crs-id
@@ -270,6 +255,12 @@
                                (buffer 10 (scale-to-fit avatar 100))))
   (buffer 40 badge))
 
+(define (print-badges! . courses)
+  (map print-image!
+       (cards->pages
+        (apply append
+               (map badges courses)))))
+
 ;--------------------------------
 ;gets student's full name
 (define/contract (student-list student)
@@ -290,16 +281,17 @@
   (define (b x) (student-list x))
   (map b (students course)))
 
+;returns number of courses student has been signed up for and attended in the past
+;ignores cancelled enrollments
 (define/contract (prev-enrolled student)
   (-> student? number?)
   (define e (hash-ref student 'enrollments))
   (define c (map (curryr hash-ref 'canceled) e))
   (define l (map swap c))
-  (length (filter true? l))
-)
+  (length (filter true? l)))
 
 (define (true? x)
-  (if x #t #f))
+  (eq? x #t))
 
 ;------------------------------------------------
 
@@ -324,7 +316,7 @@
   (define (b x) (build-badge x (hash-ref course 'id)))
   (map b (students course)))
 
-
+;gets age of a student
 (define/contract (age student)
   (-> student? number?)
   (define dob (iso8601->datetime (hash-ref student 'dob)))

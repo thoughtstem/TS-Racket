@@ -1,11 +1,9 @@
 #lang racket
 
-(provide random-dude
-         cards->pages
-         print-image
-         pad-list)
+(provide random-dude)
 
-(require 2htdp/image)
+(require 2htdp/image
+         "../image-util.rkt")
 
 ;Argus
 ;APEye
@@ -217,51 +215,7 @@
    card-bg))
 
 
-
-(define (safe f imgs)
-  (cond [(= 0 (length imgs)) empty-image]
-        [(= 1 (length imgs)) (first imgs)]
-        [else (apply f imgs)]))
-
-(define (safe-above . imgs)
-  (safe above imgs))
-
-(define (safe-beside . imgs)
-  (safe beside imgs))
-
-(define/contract (pad-list imgs)
-  (-> (listof image?) (listof image?))
-  (define height (image-height (first imgs)))
-  (define width (image-width (first imgs)))
-  (define buffer-img (rectangle width height 'solid 'transparent))
-  (cond [(= 0 (remainder (length imgs) 3)) imgs]
-        [(= 1 (remainder (length imgs) 3)) (append imgs (list buffer-img buffer-img))]
-        [(= 2 (remainder (length imgs) 3)) (append imgs (list buffer-img))]))
-
 ;TODO: Move this to images.rkt
-(define/contract (cards->pages cards)
-  (-> (listof image?) (listof image?))
-  (map
-   (λ(l)
-     (apply safe-above
-            (map (curry apply safe-beside) l)))
-   (map
-    (λ(l) (chunks 3 l))
-    (chunks 9 (pad-list cards)))))
-
-
-(define/contract (print-image p)
-  (-> image? boolean?)
-  (define f (make-temporary-file))
-  (save-image p f)
-
-  (system (~a "lpr " (path->string f) " -o media=letter")))
-
-(define (chunks n l)
-  (if (>= n (length l))
-      (list l)
-      (cons (take l n)
-            (chunks n (drop l n)))))
 
 
 
@@ -286,16 +240,14 @@
                (random-argus
                 (thunk (random-argus random-dude)))) 40))))
 
-
-
  
   (define pages (cards->pages cards))
 
-  #;(print-image (first pages))
+  #;(print-image! (first pages))
   pages
   )
 
 ;Print all?
-;(map print-image pages)
+;(map print-image! pages)
 
 

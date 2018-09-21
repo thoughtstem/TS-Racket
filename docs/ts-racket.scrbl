@@ -104,16 +104,24 @@ on single badge to a nickname for example.
 
 @;bitmap["resources/badge2.png"]
 
+@defproc[(print-badges [. courses course?])
+         boolean?]
+
+Creates and prints badges for all listed courses 3 by 3.
+
+
 @defproc[(cards->pages [cards (listof image?)])
          (listof image?)]
 
 Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
+
 
 @racketblock[(cards->pages
               (append
                (badges (course 1208))
                (list
                 (build-badge (student 1753) 1208 "Triceratops"))))]
+
 
 @defproc[(print-image [image image?])
          boolean?]

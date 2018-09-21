@@ -192,6 +192,7 @@
                         (curry char-count>=? n))
             (chunks n (drop-until l
                                   (curry char-count>=? n))))))
+
 (define (char-count>=? n l)
     (define s (apply string-append l))
     (>= (string-length s) n))
