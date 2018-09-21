@@ -45,6 +45,13 @@
 
   (map computer-id (attendances m)))
 
+(define (teachers course)
+  (-> course? hash?)
+  (define m (hash-ref course 'meetings))
+  (define t (first m))
+  (define t-list (hash-ref t 'teachers))
+  
+  t-list)
 
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.

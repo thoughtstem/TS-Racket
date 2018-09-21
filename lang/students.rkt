@@ -290,25 +290,16 @@
   (define (b x) (student-list x))
   (map b (students course)))
 
-(define (true? x)
-  (equal? x #t))
-
-
-
 (define/contract (prev-enrolled student)
-  (-> student? number? )
+  (-> student? number?)
   (define e (hash-ref student 'enrollments))
-  (define l (map (curryr hash-ref 'canceled) e))
-  (map (null?) l) 
+  (define c (map (curryr hash-ref 'canceled) e))
+  (define l (map swap c))
+  (length (filter true? l))
 )
 
-(define (not-canceled? e)
-  (-> hash? boolean?)
-  (if (hash-ref e 'canceled)
-      #f
-      #t))
-      
-  
+(define (true? x)
+  (if x #t #f))
 
 ;------------------------------------------------
 
@@ -338,3 +329,8 @@
   (-> student? number?)
   (define dob (iso8601->datetime (hash-ref student 'dob)))
   (period-ref (period-between dob (now) '(years)) 'years))
+
+(define (swap i)
+  (if (or (eq? i 'null) (not i))
+  #t
+  #f))
