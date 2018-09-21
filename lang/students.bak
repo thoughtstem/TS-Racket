@@ -6,7 +6,6 @@
 
 (require "./util.rkt"
          "./argus/argus.rkt"
-         "./courses.rkt"
          json
          pict/code
          2htdp/image
@@ -269,47 +268,6 @@
                                (buffer 10 (scale-to-fit avatar 100))))
   (buffer 40 badge))
 
-;--------------------------------
-;gets student's full name
-(define/contract (student-list student)
-  (-> student? string?)
-  
-  (define content
-    (string-append
-     (first-name student)
-     " "
-     (last-name student)))
-  
-  content)
-
-
-;returns list of student names enrolled in course
-(define/contract (all-students course)
-  (-> course? (listof string?))
-  (define (b x) (student-list x))
-  (map b (students course)))
-
-(define (true? x)
-  (equal? x #t))
-
-
-
-(define/contract (prev-enrolled student)
-  (-> student? number? )
-  (define e (hash-ref student 'enrollments))
-  (define l (map (curryr hash-ref 'canceled) e))
-  (map (null?) l) 
-)
-
-(define (not-canceled? e)
-  (-> hash? boolean?)
-  (if (hash-ref e 'canceled)
-      #f
-      #t))
-      
-  
-
-;------------------------------------------------
 
 ;gets enrollments from course
 (define/contract (enrollments c)
