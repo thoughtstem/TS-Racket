@@ -218,6 +218,7 @@
                               crs-id
                               (name (first-name student)))
   (->* (student? number?) (string?) image?)
+  (set-env! PROD)
   (define photo-icon
     (if (photo-release? student)
       (buffer 5 (bitmap "resources/camera.png"))
@@ -285,6 +286,7 @@
 ;ignores cancelled enrollments
 (define/contract (prev-enrolled student)
   (-> student? number?)
+  (set-env! PROD)
   (define e (hash-ref student 'enrollments))
   (define c (map (curryr hash-ref 'canceled) e))
   (define l (map swap c))
@@ -305,6 +307,7 @@
 ;gets list of students from course
 (define/contract (students course)
   (-> course? (listof student?))
+  (set-env! PROD)
   (define (f x) (hash-ref x 'student))
   (define l (map f (enrollments course)))
   (define (x y) (hash-set y 'the-type "student"))
@@ -313,12 +316,14 @@
 ;builds badges for all students in a course
 (define/contract (badges course)
   (-> course? (listof image?))
+  (set-env! PROD)
   (define (b x) (build-badge x (hash-ref course 'id)))
   (map b (students course)))
 
 ;gets age of a student
 (define/contract (age student)
   (-> student? number?)
+  (set-env! PROD)
   (define dob (iso8601->datetime (hash-ref student 'dob)))
   (period-ref (period-between dob (now) '(years)) 'years))
 

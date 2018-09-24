@@ -14,7 +14,6 @@
 
 (define logo (scale .6 (bitmap "resources/ts-logo.png")))
 
-
 (define/contract (buffer n i)
   (-> number? image? image?)
   (overlay

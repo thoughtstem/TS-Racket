@@ -104,41 +104,10 @@ on single badge to a nickname for example.
 
 @;bitmap["resources/badge2.png"]
 
-@defproc[(print-badges [. courses course?])
+@defproc[(print-badges! [courses course?])
          boolean?]
 
 Creates and prints badges for all listed courses 3 by 3.
-
-
-@defproc[(cards->pages [cards (listof image?)])
-         (listof image?)]
-
-Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
-
-
-@racketblock[(cards->pages
-              (append
-               (badges (course 1208))
-               (list
-                (build-badge (student 1753) 1208 "Triceratops"))))]
-
-
-@defproc[(print-image [image image?])
-         boolean?]
-
-Saves an image to a temporary file and uses system commands to print said file.
-
-NOTE: Likely only works on macs for now.
-
-@racketblock[(print-image
-              (bitmap "happyface.png"))]
-
-@racketblock[(map print-image
-                  (cards->pages
-                   (append
-                     (badges (course 1208))
-                     (list
-                      (build-badge (student 1753) 1208 "Triceratops")))))]
 
 @section{Courses}
 
@@ -262,4 +231,56 @@ Can be any member of the following constants.
  (define link-alert    "link")
  (define command-alert "common")
  ]
+
+
+@section{image-util}
+
+@defproc[(buffer [n number?]
+                 [i image?])
+         image?]
+
+Adds a transparent "buffer" around an image to assist with spacing and/or printing
+First argument is the size in pixels fo the buffer.
+
+@examples[
+     #:eval helper-eval
+     ;no buffer
+     (beside
+      (square 30 'solid 'green)
+      (square 30 'solid 'blue))
+
+     ;with buffer
+     (beside
+      (buffer 5 (square 30 'solid 'green))
+      (buffer 5 (square 30 'solid 'blue)))
+   ]
+
+@defproc[(cards->pages [cards (listof image?)])
+         (listof image?)]
+
+Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
+
+
+@racketblock[(cards->pages
+              (append
+               (badges (course 1208))
+               (list
+                (build-badge (student 1753) 1208 "Triceratops"))))]
+
+@defproc[(print-image! [image image?])
+         boolean?]
+
+Saves an image to a temporary file and uses system commands to print said file.
+
+NOTE: Only works on macs for now.
+
+@racketblock[(print-image
+              (bitmap "happyface.png"))]
+
+@racketblock[(map print-image!
+                  (cards->pages
+                   (append
+                     (badges (course 1208))
+                     (list
+                      (build-badge (student 1753) 1208 "Triceratops")))))]
 
