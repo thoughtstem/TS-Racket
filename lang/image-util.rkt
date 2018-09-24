@@ -38,6 +38,9 @@
 (define (safe-beside . imgs)
   (safe beside imgs))
 
+(define (safe-overlay . imgs)
+  (safe overlay imgs))
+
 
 ;buffers when printing 3x3 cards, to standarize image size
 (define/contract (pad-list imgs)

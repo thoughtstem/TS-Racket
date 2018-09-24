@@ -104,7 +104,7 @@ on single badge to a nickname for example.
 
 @;bitmap["resources/badge2.png"]
 
-@defproc[(print-badges! [courses course?])
+@defproc[(print-badges! [courses course?] ...)
          boolean?]
 
 Creates and prints badges for all listed courses 3 by 3.
@@ -239,7 +239,7 @@ Can be any member of the following constants.
                  [i image?])
          image?]
 
-Adds a transparent "buffer" around an image to assist with spacing and/or printing
+Adds a transparent "buffer" around an image to assist with spacing and/or printing.
 First argument is the size in pixels fo the buffer.
 
 @examples[
@@ -252,10 +252,48 @@ First argument is the size in pixels fo the buffer.
      ;with buffer
      (beside
       (buffer 5 (square 30 'solid 'green))
-      (buffer 5 (square 30 'solid 'blue)))
-   ]
+      (buffer 5 (square 30 'solid 'blue)))]
 
-@defproc[(cards->pages [cards (listof image?)])
+@defproc[(scale-to-fit [image image?]
+                       [width number?])
+         image?]
+
+Scales an image to fit a specific dimention rather than percentage of size.
+
+@examples[
+ #:eval helper-eval
+ (scale-to-fit logo 100)]
+
+@defproc[(safe-above [imgs image?] ...)
+         image?]
+
+An above function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-beside [imgs image?])
+         image?]
+
+A beside function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-overlay [imgs image?])
+         image?]
+
+An overlay function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(pad-list [imgs (listof image?)])
+         (listof image?)]
+
+Adds transparent images to bring the length of a list up to a number divisible
+by 3. Build with the purpose of buffering lists of cards being sent to
+print so they will all scale to the same size no matter how many cards are
+on the final page.
+
+@defproc[(cards->pages [imgs (listof image?)])
          (listof image?)]
 
 Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
