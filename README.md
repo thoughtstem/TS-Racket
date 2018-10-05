@@ -11,4 +11,3 @@ work for you the way the documentation suggests that it will.
 However, if you found this repo because you work for ThoughtSTEM, welcome!
 Ask for an API key and let's get started!
 
-
