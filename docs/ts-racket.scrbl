@@ -293,17 +293,30 @@ by 3. Build with the purpose of buffering lists of cards being sent to
 print so they will all scale to the same size no matter how many cards are
 on the final page.
 
-@defproc[(cards->pages [imgs (listof image?)])
+@defproc[(cards->pages [imgs (listof (or/c image? pict?))])
          (listof image?)]
 
 Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
-
 
 @racketblock[(cards->pages
               (append
                (badges (course 1208))
                (list
                 (build-badge (student 1753) 1208 "Triceratops"))))]
+
+
+@defproc[(quest-cards->pages [imgs (listof pict?)])
+         (listof image?)]
+
+Like @racket[cards->pages], this creates a 3 by 3 page of images.
+Handles the fact that our quest cards are usually fairly large.  Scales them down.
+
+@racketblock[(quest-cards->pages
+              quest)]
+
+
+
+
 
 @defproc[(print-image! [image image?])
          boolean?]

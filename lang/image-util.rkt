@@ -7,10 +7,15 @@
          safe-beside
          pad-list
          cards->pages
+         quest-cards->pages
          print-image!
          )
 
 (require 2htdp/image)
+
+(require (prefix-in p: pict))
+
+
 
 (define logo (scale .6 (bitmap "resources/ts-logo.png")))
 
@@ -54,14 +59,34 @@
 
 ;makes a 3x3 page of cards to print
 (define/contract (cards->pages cards)
-  (-> (listof image?) (listof image?))
+  (-> (listof (or/c image? p:pict?)) (listof image?))
+
+  (define (maybe-convert c)
+    (if (image? c)
+        c
+        (p:pict->bitmap c)))
+  
+  (define converted-cards
+    (map maybe-convert cards))
+  
   (map
    (λ(l)
      (apply safe-above
             (map (curry apply safe-beside) l)))
    (map
     (λ(l) (chunks 3 l))
-    (chunks 9 (pad-list cards)))))
+    (chunks 9 (pad-list converted-cards)))))
+
+
+
+
+(define (quest-cards->pages cards)
+  (define (shrink i)
+    (p:scale i 0.25))
+  
+  (cards->pages
+   (map shrink
+        cards)))
 
 ;prints -- on mac only??
 (define/contract (print-image! p)
