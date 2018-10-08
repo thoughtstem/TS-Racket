@@ -52,6 +52,31 @@
 
   (map computer-id (attendances m)))
 
+(define/contract (teachers course)
+  (-> course? list?)
+  (define m (hash-ref course 'meetings))
+  (define t (first m))
+  (define t-list (hash-ref t 'teachers))  
+  t-list)
+
+(define/contract (on-site-t course)
+  (-> course? string?)
+  (define t-list (teachers course))
+  (cond
+    [(null? t-list) "no teacher"]
+    [(eq? (length t-list) 1) (hash-ref (first t-list) 'first_name)]
+    [else (filter-leads t-list)]))
+
+(define (filter-leads t-list)
+  (define l (filter in-classroom? t-list))
+  (if (empty? l)
+      (hash-ref (first t-list) 'first_name)
+      (hash-ref (first l) 'first_name)))
+  
+(define (in-classroom? t)
+  (if (null? (hash-ref t 'tags))
+      #t
+      #f))
 
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.

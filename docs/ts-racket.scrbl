@@ -1,6 +1,7 @@
 #lang scribble/manual
 
-@(require scribble/eval)
+@(require scribble/eval
+          2htdp/image)
 
 @(define helper-eval (make-base-eval))
 @interaction-eval[#:eval helper-eval
@@ -45,9 +46,10 @@ Builds a flyer out of one course.
 
 NOTE: alternative spelling of flyer (flier) in this function also works.
 
-@examples[
-          #:eval helper-eval
-          (scale .3 (course->flyer (course 1137)))]
+@racketblock[(course->flyer (course 1137))]
+
+@bitmap["resources/flyer.png"]
+
 
 @defproc[(courses->flyer [course flyer-ready-course?]
                          [course2 flyer-ready-course?]
@@ -60,9 +62,52 @@ Builds a flyer out of 2 courses (to be used for two courses at one location).
 
 NOTE: alternative spelling of flyer (flier) in this function also works.
 
+
+@racketblock[(courses->flyer (course 1137) (course 1128))]
+
+@bitmap["resources/2panel-flyer.png"]
+
+@section{Students}
+
+@defproc[(badges [course course?]) (listof image?)]
+
+Produces a list of student badges for all students enrolled in a course.
+
 @examples[
-          #:eval helper-eval
-          (scale .3 (courses->flyer (course 1137) (course 1128)))]
+     #:eval helper-eval
+     (badges (course 1208))
+   ]}
+
+@;racketblock[(badges (course 1208))]
+
+@;bitmap["resources/badge-list.png"]
+
+@defproc[(build-badge [student student?]
+                      [course-id number?]
+                      [name (string?) (first-name student)])
+         image?]
+
+Produces a single badge. Good to use if you want to change the name
+on single badge to a nickname for example.
+
+@examples[
+     #:eval helper-eval
+     (build-badge (student 1753) 1205)
+     (build-badge (student 1753) 1208 "Triceratops")
+   ]}
+
+@;racketblock[(build-badge (student 1753) 1205)]
+
+@;bitmap["resources/badge1.png"]
+
+@;racketblock[(build-badge (student 1753) 1208 "Triceratops")]
+
+@;bitmap["resources/badge2.png"]
+
+@defproc[(print-badges! [courses course?] ...)
+         boolean?]
+
+Creates and prints badges for all listed courses 3 by 3.
 
 @section{Courses}
 
@@ -218,4 +263,107 @@ Can be any member of the following constants.
  (define link-alert    "link")
  (define command-alert "common")
  ]
+
+
+@section{image-util}
+
+@defproc[(buffer [n number?]
+                 [i image?])
+         image?]
+
+Adds a transparent "buffer" around an image to assist with spacing and/or printing.
+First argument is the size in pixels fo the buffer.
+
+@examples[
+     #:eval helper-eval
+     ;no buffer
+     (beside
+      (square 30 'solid 'green)
+      (square 30 'solid 'blue))
+
+     ;with buffer
+     (beside
+      (buffer 5 (square 30 'solid 'green))
+      (buffer 5 (square 30 'solid 'blue)))]
+
+@defproc[(scale-to-fit [image image?]
+                       [width number?])
+         image?]
+
+Scales an image to fit a specific dimention rather than percentage of size.
+
+@examples[
+ #:eval helper-eval
+ (scale-to-fit logo 100)]
+
+@defproc[(safe-above [imgs image?] ...)
+         image?]
+
+An above function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-beside [imgs image?])
+         image?]
+
+A beside function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-overlay [imgs image?])
+         image?]
+
+An overlay function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(pad-list [imgs (listof image?)])
+         (listof image?)]
+
+Adds transparent images to bring the length of a list up to a number divisible
+by 3. Build with the purpose of buffering lists of cards being sent to
+print so they will all scale to the same size no matter how many cards are
+on the final page.
+
+@defproc[(cards->pages [imgs (listof (or/c image? pict?))])
+         (listof image?)]
+
+Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
+
+@racketblock[(cards->pages
+              (append
+               (badges (course 1208))
+               (list
+                (build-badge (student 1753) 1208 "Triceratops"))))]
+
+
+@defproc[(quest-cards->pages [imgs (listof pict?)])
+         (listof image?)]
+
+Like @racket[cards->pages], this creates a 3 by 3 page of images.
+Handles the fact that our quest cards are usually fairly large.  Scales them down.
+
+@racketblock[(quest-cards->pages
+              quest)]
+
+
+
+
+
+@defproc[(print-image! [image image?])
+         boolean?]
+
+Saves an image to a temporary file and uses system commands to print said file.
+
+NOTE: Only works on macs for now.
+
+@racketblock[(print-image
+              (bitmap "happyface.png"))]
+
+@racketblock[(map print-image!
+                  (cards->pages
+                   (append
+                     (badges (course 1208))
+                     (list
+                      (build-badge (student 1753) 1208 "Triceratops")))))]
 

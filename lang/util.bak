@@ -56,10 +56,7 @@
 
 
 (define (get-url type id)
-  (if (string=? key "")
-      (raise "ERROR: NO API KEY")
-      (~a env "/" type "/" id ".json?api_key=" key)))
-
+  (~a env "/" type "/" id ".json?api_key=" key))
 
 (define (get-creation-url type)
   (~a env "/" type ".json?api_key=" key))
@@ -103,7 +100,7 @@
 
 (define (show type id)
   (define h
-    (read-json 
+    (read-json
      (open-input-string
       (http-response-body
        (get http-requester
@@ -192,7 +189,6 @@
                         (curry char-count>=? n))
             (chunks n (drop-until l
                                   (curry char-count>=? n))))))
-
 (define (char-count>=? n l)
     (define s (apply string-append l))
     (>= (string-length s) n))

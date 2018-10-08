@@ -6,15 +6,11 @@
 
 (require "./util.rkt"
          "./argus/argus.rkt"
-         "./courses.rkt"
-         "./image-util.rkt"
          json
          pict/code
          2htdp/image
          simple-qr
-         racket-bricks/renderer
-         gregor
-         gregor/period)
+         racket-bricks/renderer)
 
 
 (define (get-password-from-student-json)
@@ -22,6 +18,7 @@
     (string->path
      #;"/Users/thoughtstem/sessions/sessions"
      "/home/thoughtstem/remote/sessions/sessions/"))
+
 
 
   ; === GET PATH OF THE MOST RECENT SESSIONS FOLDER ===
@@ -62,6 +59,8 @@
         [(directory-exists? "/home/thoughtstem/remote/sessions/sessions/")
          (get-password-from-student-json)]
         [else (raise "~/.ts-student-pw file not found")]))
+
+
 
 (define (student id)
   (show "student" id))
@@ -164,10 +163,19 @@
                           code-string)
          snippet))))
 
+;buffer function
+(define/contract (buffer n i)
+  (-> number? image? image?)
+  (overlay
+   i
+   (rectangle (+ n (image-width i))
+              (+ n (image-height i))
+              'solid 'transparent )))
 
 ;logos
 (define red-logo (scale .6 (bitmap "resources/ts-logo-red.png")))
 (define orange-logo (scale .5 (bitmap "resources/ts-logo-orange.png")))
+(define logo (scale .6 (bitmap "resources/ts-logo.png")))
 (define blue-logo (scale .6 (bitmap "resources/ts-logo-blue.png")))
 (define purple-logo (scale .6 (bitmap "resources/ts-logo-purple.png")))
 
@@ -213,12 +221,16 @@
 
 (define-namespace-anchor a)
 
+;scaling avatar funct
+(define/contract (scale-to-fit i w)
+  (-> image? number? image?)
+  (scale (/ w (image-width i)) i))
+
 ;builds badge
 (define/contract (build-badge student
                               crs-id
                               (name (first-name student)))
   (->* (student? number?) (string?) image?)
-  (set-env! PROD)
   (define photo-icon
     (if (photo-release? student)
       (buffer 5 (bitmap "resources/camera.png"))
@@ -256,58 +268,15 @@
                                (buffer 10 (scale-to-fit avatar 100))))
   (buffer 40 badge))
 
-(define (print-badges! . courses)
-  (map print-image!
-       (cards->pages
-        (apply append
-               (map badges courses)))))
-
-;--------------------------------
-;gets student's full name
-(define/contract (student-list student)
-  (-> student? string?)
-  
-  (define content
-    (string-append
-     (first-name student)
-     " "
-     (last-name student)))
-  
-  content)
-
-
-;returns list of student names enrolled in course
-(define/contract (all-students course)
-  (-> course? (listof string?))
-  (define (b x) (student-list x))
-  (map b (students course)))
-
-;returns number of courses student has been signed up for and attended in the past
-;ignores cancelled enrollments
-(define/contract (prev-enrolled student)
-  (-> student? number?)
-  (set-env! PROD)
-  (define e (hash-ref student 'enrollments))
-  (define c (map (curryr hash-ref 'canceled) e))
-  (define l (map swap c))
-  (length (filter true? l)))
-
-(define (true? x)
-  (eq? x #t))
-
-;------------------------------------------------
 
 ;gets enrollments from course
 (define/contract (enrollments c)
   (-> course? list?)
-  (define x (hash-ref c 'enrollments))
-  (define (f y) (hash-set y 'the-type "enrollment"))
-  (map f x))
+  (hash-ref c 'enrollments))
 
 ;gets list of students from course
 (define/contract (students course)
   (-> course? (listof student?))
-  (set-env! PROD)
   (define (f x) (hash-ref x 'student))
   (define l (map f (enrollments course)))
   (define (x y) (hash-set y 'the-type "student"))
@@ -316,18 +285,6 @@
 ;builds badges for all students in a course
 (define/contract (badges course)
   (-> course? (listof image?))
-  (set-env! PROD)
   (define (b x) (build-badge x (hash-ref course 'id)))
   (map b (students course)))
 
-;gets age of a student
-(define/contract (age student)
-  (-> student? number?)
-  (set-env! PROD)
-  (define dob (iso8601->datetime (hash-ref student 'dob)))
-  (period-ref (period-between dob (now) '(years)) 'years))
-
-(define (swap i)
-  (if (or (eq? i 'null) (not i))
-  #t
-  #f))
