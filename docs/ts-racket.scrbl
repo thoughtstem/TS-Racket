@@ -87,6 +87,38 @@ environment.
 
 Calls @racket[save] on all meetings in a course.
 
+
+@defproc[(make-course-with-meetings! [name string?]
+                                     [description string?]
+                                     [location-id number?]
+                                     [price    positive?]
+                                     [duration positive?]
+                                     [foreign-enrollment-site string?]
+                                     [screenshot-url string?]
+                                     [meeting-time moment?] ...)
+         course?]
+
+Creates a course with the supplied info.
+
+You can pass in as many meeting times as you want.  Meeting times
+are Gregor moments.  See the Gregor docs for more info on moments.
+
+@racketblock[
+  (make-course-with-meetings! "Coding and Robotics"
+                              coding-and-engineering-description
+                              sycamore-ridge
+                              330
+                              60
+                              "https://www.someotherschoolsite.org/Page/30492291103"
+                              coding-and-engineering-screenshot
+
+                              (string->time "2018-10-11 2:35pm")
+                              (string->time "2018-10-18 2:35pm")
+                              (string->time "2018-10-25 2:35pm")
+                              )
+ ]
+
+
 @section{Constants for use in course creation}
 
 A list of constants defined to be used in course creation. Last updated 9/7/2018

@@ -8,6 +8,13 @@
 
 (provide (all-defined-out))
 
+
+;saves all meetings in a course
+(define/contract (save-meetings! c)
+  (-> course? course?)
+  (set-meetings c
+   (map save (meetings c))))
+
 (module+ test
   (require rackunit)
 
@@ -88,14 +95,14 @@
         'course_id id))
 
 
-(define (course-with-meetings name
-                              desc
-                              location
-                              price
-                              meeting-duration
-                              foreign-enrollment-url
-                              screenshot-url
-                              . meeting-times)
+(define (make-course-with-meetings! name
+                                    desc
+                                    location
+                                    price
+                                    meeting-duration
+                                    foreign-enrollment-url
+                                    screenshot-url
+                                    . meeting-times)
   ;Step 1: Make course
 
   (define coding-club
@@ -244,8 +251,4 @@
 
   (map get-topic-name all-topics))
 
-;saves all meetings in a course
-(define/contract (save-meetings! c)
-  (-> course? course?)
-  (set-meetings c
-   (map save (meetings c))))
+
