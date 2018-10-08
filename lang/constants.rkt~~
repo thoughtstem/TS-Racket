@@ -18,8 +18,6 @@
 (define language-academy 10508)
 (define thoughtstem 10558)
 (define torah-high 10616)
-(define bird-rock 10617)
-(define ucsd-extension 1)
 
 (define python-racket-description
   @~a{
