@@ -9,12 +9,23 @@
          cards->pages
          quest-cards->pages
          print-image!
+         frame
          )
 
 (require 2htdp/image)
 
 (require (prefix-in p: pict))
 
+
+(define (frame i
+               #:size (size 1)
+               #:color (color 'black))
+
+  (overlay i
+           (rectangle (+ size (image-width i))
+                      (+ size (image-height i))
+                      'solid
+                      color)))
 
 
 (define logo (scale .6 (bitmap "resources/ts-logo.png")))
