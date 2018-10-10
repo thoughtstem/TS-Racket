@@ -58,7 +58,7 @@
   "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2499/Summer_circuit.jpeg")
 
 (define (code-your-game-spring-description name)
-  (~a "<p>This Spring, " name " 3rd-5th students will design & code their very own 2D battle arena video games. What's a battle arena game? Think <i>Pokemon</i> or <i>Final Fantasy</i>! Students will learn how to code their characters' attacks and defenses, create battle animations, and program a turn-based rule system with a user interface. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Spring without having taken the Fall and ani programs.</i></p>
+  (~a "<p>This Spring, " name " 3rd-5th students will design & code their very own 2D battle arena video games. What's a battle arena game? Think <i>Pokemon</i> or <i>Final Fantasy</i>! Students will learn how to code their characters' attacks and defenses, create battle animations, and program a turn-based rule system with a user interface. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
 <p><i><b>Did you know?</b> That different programming languages are really like different dialects of the same language. Like studying other foreign languages, students should focus on becoming an expert in just one language, instead of focusing on a bunch of different dialects.</i></p>"))
 
 (define code-your-game-spring-screenshot
