@@ -17,9 +17,11 @@
 (define deer-canyon 7379)
 (define language-academy 10508)
 (define thoughtstem 10558)
+(define spreckels 10517)
 (define torah-high 10616)
 (define bird-rock 10617)
 (define ucsd-extension 1)
+(define hearst 7517)
 
 (define python-racket-description
   @~a{
@@ -48,12 +50,40 @@
 (define code-your-game-screenshot
   "https://www.thoughtstem.com/system/images/W1siZiIsIjIwMTgvMDgvMjAvMjAvMzYvNDIvNDMwLzN0bzVjdXJyaWN1bHVtZ2lmLmdpZiJdXQ/3to5curriculumgif.gif")
 
+(define (code-your-game-winter-description name)
+  (~a "<p>This Winter, " name " 3rd-5th students will design & code their very own 2D survival games. Students will learn how to build critical features that make survival games like <i>Minecraft</i> and <i>Fortnite</i> fun! Students will use a powerful, typed language to code features like health bars, day-night cycles, and crafting/recipe mechanics. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Winter without having taken the Fall program.</i></p>
+<p><i><b>Did you know?</b> That coding is becoming an integral aspect of other important sciences, including Biology, Chemistry, and the Physical Sciences.</i></p>"))
+
+(define code-your-game-winter-screenshot
+  "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2499/Summer_circuit.jpeg")
+
+(define (code-your-game-spring-description name)
+  (~a "<p>This Spring, " name " 3rd-5th students will design & code their very own 2D battle arena video games. What's a battle arena game? Think <i>Pokemon</i> or <i>Final Fantasy</i>! Students will learn how to code their characters' attacks and defenses, create battle animations, and program a turn-based rule system with a user interface. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
+<p><i><b>Did you know?</b> That different programming languages are really like different dialects of the same language. Like studying other foreign languages, students should focus on becoming an expert in just one language, instead of focusing on a bunch of different dialects.</i></p>"))
+
+(define code-your-game-spring-screenshot
+  "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2498/carlos_thumbs_up_smaller.jpeg")
+
 (define (digital-comics-description name)
   (~a "<p>This Fall, " name " K-2 students will learn how to express their creativity through digital art! We'll teach students how to turn their personal art into digital art by helping them create a portfolio of comic book art. Students will learn how to use MIT's Scratch programming interface to create their art. Students will gain important computer literacy skills, including proficiency with computers, mice, and keyboards. At the end of the course, students can share their portfolio with family!</p>
 <p><i>Did you know? The average student prefers the Arts and Computer Science over all other subjects taught commonly in schools?</i></p>"))
 
 (define digital-comics-screenshot
   "https://www.thoughtstem.com/system/images/W1siZiIsIjIwMTgvMDgvMjAvMjIvMDMvMTAvNDU3L3NjcmF0Y2hfZ2lmLmdpZiJdXQ/scratch_gif.gif")
+
+(define (superhero-animations-description name)
+  (~a "<p>This Winter, " name " K-2nd students will learn how to take their coding to the next level! We'll teach students how to turn their digital art into digital animations with code. Students will learn how to use MIT's Scratch programming interface to create animated stories involving their own artistic creations. Students will gain important computer literacy skills, including proficiency with computers, mice, and keyboards. At the end of the course, students will be able to share their animated stories with family and friends! <i>Note: Students are welcome to join us in the Winter without having taken the Fall program.</i></p>
+<p><i><b>Did you know?</b> 90% of parents want their students to learn how to code, but only 40% of schools teach any form of coding education!</i></p>"))
+
+(define superhero-animations-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/k-2-winter.gif")
+
+(define (superhero-games-description name)
+  (~a "<p>This Spring, Spreckels K-2nd students will learn how to create their own video games with code! Students will learn how to use MIT's Scratch programming interface to create video games featuring important video game design aspects, like game rules, character movement, and scoreboards. Students will continue to gain proficiency in critical technology skills, including typing, use of a mouse, and use of an internet browser. At the end of the course, students will be able to share their superhero-themed games with family and friends! <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
+<p><i><b>Did you know?</b> 58% of all new STEM jobs being created right now are in computing?</i></p>"))
+
+(define superhero-games-screenshot
+  "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2500/AiLAwfDMEA2nTFytSq.gif")
 
 (define game-design-and-robotics-description
   "This Fall, the most experienced computer science instructors in San Diego will teach Del Mar K-2 students how to build their own video games and program small robots using powerful visual programming languages. Founded by UCSD Computer Science PhD students, ThoughtSTEM has been bringing the best in computer science education to Del Mar Union schools since 2014. Teacher to student ratios average 1:5, meaning students get more 1-on-1 mentorship than any other technology program.")
