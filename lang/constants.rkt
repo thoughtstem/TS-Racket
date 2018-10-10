@@ -58,7 +58,7 @@
   "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2499/Summer_circuit.jpeg")
 
 (define (code-your-game-spring-description name)
-  (~a "<p>This Spring, " name " 3rd-5th students will design & code their very own 2D battle arena video games. What's a battle arena game? Think <i>Pokemon</i> or <i>Final Fantasy</i>! Students will learn how to code their characters' attacks and defenses, create battle animations, and program a turn-based rule system with a user interface. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
+  (~a "<p>This Spring, " name " 3rd-5th students will design & code their very own 2D battle arena video games. What's a battle arena game? Think <i>Pokemon</i> or <i>Final Fantasy</i>! Students will learn how to code their characters' attacks and defenses, create battle animations, and program a turn-based rule system with a user interface. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Spring without having taken the Fall and ani programs.</i></p>
 <p><i><b>Did you know?</b> That different programming languages are really like different dialects of the same language. Like studying other foreign languages, students should focus on becoming an expert in just one language, instead of focusing on a bunch of different dialects.</i></p>"))
 
 (define code-your-game-spring-screenshot
@@ -76,7 +76,7 @@
 <p><i><b>Did you know?</b> 90% of parents want their students to learn how to code, but only 40% of schools teach any form of coding education!</i></p>"))
 
 (define superhero-animations-screenshot
-  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/k-2-winter.gif")
+  "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2503/k2-winter.gif")
 
 (define (superhero-games-description name)
   (~a "<p>This Spring, Spreckels K-2nd students will learn how to create their own video games with code! Students will learn how to use MIT's Scratch programming interface to create video games featuring important video game design aspects, like game rules, character movement, and scoreboards. Students will continue to gain proficiency in critical technology skills, including typing, use of a mouse, and use of an internet browser. At the end of the course, students will be able to share their superhero-themed games with family and friends! <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
