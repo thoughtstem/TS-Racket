@@ -10,6 +10,8 @@
          quest-cards->pages
          print-image!
          frame
+
+         any->image
          )
 
 (require 2htdp/image)
@@ -24,8 +26,15 @@
   (overlay i
            (rectangle (+ size (image-width i))
                       (+ size (image-height i))
-                      'solid
+                      'outline
                       color)))
+
+
+(define (any->image i)
+  (cond [(image? i) i]
+        [(p:pict? i)  (p:pict->bitmap i)]
+        [else (error "Not an image")]
+        ))
 
 
 (define logo (scale .6 (bitmap "resources/ts-logo.png")))
@@ -98,6 +107,21 @@
   (cards->pages
    (map shrink
         cards)))
+
+(define (width>? s)
+  (λ(i)
+    (> (image-width i) s)))
+
+(define (height>? s)
+  (λ(i)
+    (> (image-height i) s)))
+
+(define (rotate-height-max i)
+  (if (>= (image-height i)
+          (image-width i))
+      i
+      (rotate 90 i)))
+
 
 ;prints -- on mac only??
 (define/contract (print-image! p)
