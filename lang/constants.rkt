@@ -3,25 +3,27 @@
 (provide (all-defined-out))
 
 (define albert-einstein 3)
-(define ocean-air 7181)
 (define ashley-falls 7185)
-(define sage-canyon 7186)
-(define sycamore-ridge 10531)
-(define torrey-hills 7187)
+(define bird-rock 10617)
 (define carmel-del-mar 7184)
+(define country-montessori 10486)
+(define deer-canyon 7379)
 (define del-mar-hills 7183)
-(define kumeyaay 7600)
-(define liberal-arts 10595)
+(define hearst 7517)
 (define jerabek 7593)
 (define JCS 10597)
-(define deer-canyon 7379)
+(define kumeyaay 7600)
+(define liberal-arts 10595)
 (define language-academy 10508)
-(define thoughtstem 10558)
+(define ocean-air 7181)
+(define sage-canyon 7186)
 (define spreckels 10517)
+(define sycamore-ridge 10531)
+(define thoughtstem 10558)
+(define torrey-hills 7187)
 (define torah-high 10616)
-(define bird-rock 10617)
 (define ucsd-extension 1)
-(define hearst 7517)
+
 
 (define python-racket-description
   @~a{
@@ -79,7 +81,7 @@
   "https://ts-automation-files.s3.amazonaws.com/production/admin_notes/2503/k2-winter.gif")
 
 (define (superhero-games-description name)
-  (~a "<p>This Spring, Spreckels K-2nd students will learn how to create their own video games with code! Students will learn how to use MIT's Scratch programming interface to create video games featuring important video game design aspects, like game rules, character movement, and scoreboards. Students will continue to gain proficiency in critical technology skills, including typing, use of a mouse, and use of an internet browser. At the end of the course, students will be able to share their superhero-themed games with family and friends! <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
+  (~a "<p>This Spring, " name " K-2nd students will learn how to create their own video games with code! Students will learn how to use MIT's Scratch programming interface to create video games featuring important video game design aspects, like game rules, character movement, and scoreboards. Students will continue to gain proficiency in critical technology skills, including typing, use of a mouse, and use of an internet browser. At the end of the course, students will be able to share their superhero-themed games with family and friends! <i>Note: Students are welcome to join us in the Spring without having taken the Fall and Winter programs.</i></p>
 <p><i><b>Did you know?</b> 58% of all new STEM jobs being created right now are in computing?</i></p>"))
 
 (define superhero-games-screenshot
@@ -126,4 +128,22 @@
    "Students will program small robots using another powerful visual programming language"
    "Students will gain proficiency with computers, mice, and keyboards"))
 
+(define (code-your-game-bundle-winter school)
+  (list "Coding Club: Code Your Own Survival Game: 3rd-5th Grade (Winter)"
+        (code-your-game-winter-description school)
+        code-your-game-winter-screenshot))
 
+(define (code-your-game-bundle-spring school)
+  (list "Coding Club: Code Your Own Battle Arena Game: 3rd-5th Grade (Spring)"
+        (code-your-game-spring-description school)
+        code-your-game-spring-screenshot))
+
+(define (superhero-animations-winter school)
+  (list "Coding Club: Digital Animation with Superheroes: K-2nd (Winter)"
+        (superhero-animations-description school)
+        superhero-animations-screenshot))
+
+(define (superhero-game-spring school)
+  (list "Coding Club: Superhero Video Games: K-2nd (Spring)"
+        (superhero-games-description school)
+        superhero-games-screenshot))
