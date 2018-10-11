@@ -197,7 +197,7 @@
 (define (->nice-time t)
   (-> moment? string?)
 
-  (~t t "h:ma"))
+  (~t t "h:mma"))
 
 (define (->day-of-week t)
   (-> moment? string?)
