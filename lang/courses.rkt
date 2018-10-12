@@ -120,6 +120,20 @@
         'course_id id))
 
 
+
+
+
+(define (make-course-with-meetings-from-bundle! bundle id price duration foreign-url . meeting-times)
+  (apply (curry make-course-with-meetings! (first bundle)
+                (second bundle)
+                id
+                price
+                duration
+                foreign-url
+                (third bundle))
+ 
+         (flatten meeting-times)))
+
 (define (make-course-with-meetings! name
                                     desc
                                     location
@@ -197,7 +211,7 @@
 (define (->nice-time t)
   (-> moment? string?)
 
-  (~t t "h:ma"))
+  (~t t "h:mma"))
 
 (define (->day-of-week t)
   (-> moment? string?)
@@ -276,4 +290,20 @@
 
   (map get-topic-name all-topics))
 
+(define (date-strings->dates time s)
+  (define (->better-date-string time-string)
+    (λ(date-string)
+      (define month-num (first  (string-split date-string "/")))
+      (define day-num   (second (string-split date-string "/")))
+      (~a "2019-"
+          (~a month-num #:width 2 #:align 'right #:pad-string "0")
+          "-"
+          (~a day-num #:width 2 #:align 'right #:pad-string "0")
+          " " time-string)))
 
+  (define meetings-string s)
+  (define date-strings (string-split meetings-string ", "))
+  (define better-date-strings (map (->better-date-string time) date-strings))
+  (define dates (map string->time better-date-strings))
+
+  dates)
