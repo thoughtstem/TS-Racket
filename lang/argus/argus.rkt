@@ -3,7 +3,7 @@
 (provide random-dude)
 
 (require 2htdp/image
-         (except-in "../image-util.rkt" frame))
+          "../image-util.rkt")
 
 ;Argus
 ;APEye
