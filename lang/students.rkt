@@ -7,7 +7,7 @@
 (require "./util.rkt"
          "./argus/argus.rkt"
          "./courses.rkt"
-         "./image-util.rkt"
+         (except-in "./image-util.rkt" frame)
          json
          pict/code
          2htdp/image
