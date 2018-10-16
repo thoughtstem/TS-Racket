@@ -9,7 +9,7 @@
          cards->pages
          quest-cards->pages
          print-image!
-         frame
+         ;frame
 
          any->image
          code-blank
@@ -76,8 +76,8 @@
            #:color "black"))
 
 
-
-(define (frame i
+;already has a frame function in everything !!!
+#;(define (frame i
                #:size (size 1)
                #:color (color 'black))
 
