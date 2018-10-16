@@ -15,6 +15,7 @@
          set-env!
          DEV
          PROD
+         index
          show
          destroy
          save
@@ -25,6 +26,7 @@
          string->time
          course?
          topic?
+         topic-assignment?
          meeting?
          room?
          location?
@@ -65,7 +67,9 @@
 (define (get-url type id)
   (if (string=? key "")
       (raise "ERROR: NO API KEY")
-      (~a env "/" type "/" id ".json?api_key=" key)))
+      (if id
+          (~a env "/" type "/" id ".json?api_key=" key)
+          (~a env "/" type ".json?api_key=" key)  )))
 
 
 (define (get-creation-url type)
@@ -88,6 +92,9 @@
 (define (topic? x)
   (hash-with-type? x "topic"))
 
+(define (topic-assignment? x)
+  (hash-with-type? x "topic_assignment"))
+
 (define (room? x)
   (hash-with-type? x "room"))
 
@@ -106,7 +113,21 @@
 
 
 (define resource?
-  (or/c course? meeting? topic? room? location? attendance? code-snippet?))
+  (or/c course? meeting? topic? room? location? attendance? code-snippet? topic-assignment?))
+
+(define (index type)
+  (define url (string->url (get-url (pluralize type) #f)))
+  
+  (define l
+    (read-json 
+     (open-input-string
+      (http-response-body
+       (get http-requester
+            url)))))
+  
+  (map (λ(h)(hash-set h 'the-type type))
+       l)
+  )
 
 (define (show type id)
   (define h
