@@ -21,6 +21,7 @@
          string->time
          course?
          topic?
+         topic-assignment?
          meeting?
          room?
          location?
@@ -80,6 +81,9 @@
 
 (define (topic? x)
   (hash-with-type? x "topic"))
+
+(define (topic-assignment? x)
+  (hash-with-type? x "topic_assignment"))
 
 (define (room? x)
   (hash-with-type? x "room"))

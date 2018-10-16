@@ -16,7 +16,7 @@
    (map save (meetings c))))
 
 (module+ test
-  (require rackunit)
+  (require rackunit) 
 
   (define test-course-1
     (hash 'the-type "course"
@@ -26,6 +26,10 @@
 (define/contract (course id)
   (-> number? course?)
   (show "course" id))
+
+(define/contract (topic-assignment id)
+  (-> number? topic-assignment?)
+  (show "topic_assignment" id))
 
 (define (meeting id)
   (show "meeting" id))
