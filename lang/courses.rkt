@@ -274,3 +274,13 @@
   (-> course? course?)
   (set-meetings c
    (map save (meetings c))))
+
+;builds roster for a course
+
+(define/contract (roster course)
+  (-> course? image?)
+  (build-roster (students course)))
+
+(define/contract (build-roster students)
+  (-> (listof student?) image)
+  ())
