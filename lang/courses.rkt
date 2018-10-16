@@ -295,13 +295,6 @@
   (map get-topic-name all-topics))
 
 
-;saves all meetings in a course
-(define/contract (save-meetings! c)
-  (-> course? course?)
-  (set-meetings c
-   (map save (meetings c))))
-
-;builds roster for a course
 
 #;(define/contract (roster course)
   (-> course? image?)
