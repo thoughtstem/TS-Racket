@@ -5,6 +5,10 @@
          json
          gregor
          gregor/period
+         aws/keys
+         (only-in aws/s3 put/file
+                         s3-region)
+         2htdp/image
          "./constants.rkt")
 
 (provide ;set-key!
@@ -29,10 +33,13 @@
          chunks
          take-until
          drop-until
-         name)
+         name
+         host-image!)
 
 (module+ test
   (require rackunit))
+
+(s3-region "us-west-1")
 
 (define DEV "http://34.197.96.0")
 (define PROD "https://secure.thoughtstem.com")
@@ -230,3 +237,23 @@
 (define/contract (name h)
   (-> hash? (or/c string? boolean?))
   (hash-ref h 'name #f))
+
+(define (host-image-from-string! s)
+  (define p (string->path s))
+  (define name (last (explode-path p)))
+  (put/file (format "ts-email-assets-and-stuff/~a" name) p)
+  (format "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/~a" name))
+
+(define (host-image-from-image! i)
+  (define f (make-temporary-file "~a.png"))
+  (define name (last (explode-path f)))
+  (save-image i f)
+  (put/file (format "ts-email-assets-and-stuff/~a" name) f)
+  (format "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/~a" name))
+
+(define/contract (host-image! x)
+  (-> (or/c image? string?) string?)
+  (cond [(image? x) (host-image-from-image! x)]
+        [(string? x) (host-image-from-string! x)]))
+
+
