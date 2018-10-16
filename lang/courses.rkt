@@ -8,13 +8,6 @@
 
 (provide (all-defined-out))
 
-
-;saves all meetings in a course
-(define/contract (save-meetings! c)
-  (-> course? course?)
-  (set-meetings c
-   (map save (meetings c))))
-
 (module+ test
   (require rackunit)
 
