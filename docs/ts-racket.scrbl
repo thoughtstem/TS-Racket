@@ -33,6 +33,12 @@ Takes either DEV or PROD. Default is DEV.
 
 REMINDER!! Only set to PROD after sufficient testing in DEV.
 
+@defproc[(host-image! [x (or/c image? string?)])
+         string?]
+
+Takes either an image or a string of a path to a saved file and uploads that file to S3. Returns the link to
+the file.
+
 @section{Flyers}
 
 How to use ts-racket to automate flyer generation from a course ID.
@@ -108,6 +114,8 @@ on single badge to a nickname for example.
          boolean?]
 
 Creates and prints badges for all listed courses 3 by 3.
+
+WARNING -- currently only works for Macs. Sorry. :(
 
 @section{Courses}
 
