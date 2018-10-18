@@ -73,9 +73,14 @@ NOTE: alternative spelling of flyer (flier) in this function also works.
 
 Produces a list of student badges for all students enrolled in a course.
 
-@racketblock[(badges (course 1208))]
+@examples[
+     #:eval helper-eval
+     (badges (course 1208))
+   ]}
 
-@bitmap["resources/badge-list.png"]
+@;racketblock[(badges (course 1208))]
+
+@;bitmap["resources/badge-list.png"]
 
 @defproc[(build-badge [student student?]
                       [course-id number?]
@@ -85,14 +90,24 @@ Produces a list of student badges for all students enrolled in a course.
 Produces a single badge. Good to use if you want to change the name
 on single badge to a nickname for example.
 
-@racketblock[(build-badge (student 1753) 1205)]
+@examples[
+     #:eval helper-eval
+     (build-badge (student 1753) 1205)
+     (build-badge (student 1753) 1208 "Triceratops")
+   ]}
 
-@bitmap["resources/badge1.png"]
+@;racketblock[(build-badge (student 1753) 1205)]
 
-@racketblock[(build-badge (student 1753) 1208 "Triceratops")]
+@;bitmap["resources/badge1.png"]
 
-@bitmap["resources/badge2.png"]
+@;racketblock[(build-badge (student 1753) 1208 "Triceratops")]
 
+@;bitmap["resources/badge2.png"]
+
+@defproc[(print-badges! [courses course?] ...)
+         boolean?]
+
+Creates and prints badges for all listed courses 3 by 3.
 
 @section{Courses}
 
@@ -116,6 +131,38 @@ environment.
          course?]
 
 Calls @racket[save] on all meetings in a course.
+
+
+@defproc[(make-course-with-meetings! [name string?]
+                                     [description string?]
+                                     [location-id number?]
+                                     [price    positive?]
+                                     [duration positive?]
+                                     [foreign-enrollment-site string?]
+                                     [screenshot-url string?]
+                                     [meeting-time moment?] ...)
+         course?]
+
+Creates a course with the supplied info.
+
+You can pass in as many meeting times as you want.  Meeting times
+are Gregor moments.  See the Gregor docs for more info on moments.
+
+@racketblock[
+  (make-course-with-meetings! "Coding and Robotics"
+                              coding-and-engineering-description
+                              sycamore-ridge
+                              330
+                              60
+                              "https://www.someotherschoolsite.org/Page/30492291103"
+                              coding-and-engineering-screenshot
+
+                              (string->time "2018-10-11 2:35pm")
+                              (string->time "2018-10-18 2:35pm")
+                              (string->time "2018-10-25 2:35pm")
+                              )
+ ]
+
 
 @section{Constants for use in course creation}
 
@@ -216,4 +263,115 @@ Can be any member of the following constants.
  (define link-alert    "link")
  (define command-alert "common")
  ]
+
+
+@section{image-util}
+
+@defproc[(buffer [n number?]
+                 [i image?])
+         image?]
+
+Adds a transparent "buffer" around an image to assist with spacing and/or printing.
+First argument is the size in pixels fo the buffer.
+
+@examples[
+     #:eval helper-eval
+     ;no buffer
+     (beside
+      (square 30 'solid 'green)
+      (square 30 'solid 'blue))
+
+     ;with buffer
+     (beside
+      (buffer 5 (square 30 'solid 'green))
+      (buffer 5 (square 30 'solid 'blue)))]
+
+@defproc[(scale-to-fit [image image?]
+                       [width number?])
+         image?]
+
+Scales an image to fit a specific dimention rather than percentage of size.
+
+@examples[
+ #:eval helper-eval
+ (scale-to-fit logo 100)]
+
+@defproc[(safe-above [imgs image?] ...)
+         image?]
+
+An above function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-beside [imgs image?])
+         image?]
+
+A beside function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(safe-overlay [imgs image?])
+         image?]
+
+An overlay function that handles being called with 0 or 1 images. Perfect for
+use in complex image building functions that will be given a range of images
+and might run into a list of 0 or 1.
+
+@defproc[(frame [i image?]
+                [#:size size number? 1]
+                [#:color color color? 'black]
+                )
+         image?]
+
+Puts a border around the given image.  Default is a single pixel black border.
+
+@defproc[(pad-list [imgs (listof image?)])
+         (listof image?)]
+
+Adds transparent images to bring the length of a list up to a number divisible
+by 3. Build with the purpose of buffering lists of cards being sent to
+print so they will all scale to the same size no matter how many cards are
+on the final page.
+
+@defproc[(cards->pages [imgs (listof (or/c image? pict?))])
+         (listof image?)]
+
+Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
+
+@racketblock[(cards->pages
+              (append
+               (badges (course 1208))
+               (list
+                (build-badge (student 1753) 1208 "Triceratops"))))]
+
+
+@defproc[(quest-cards->pages [imgs (listof pict?)])
+         (listof image?)]
+
+Like @racket[cards->pages], this creates a 3 by 3 page of images.
+Handles the fact that our quest cards are usually fairly large.  Scales them down.
+
+@racketblock[(quest-cards->pages
+              quest)]
+
+
+
+
+
+@defproc[(print-image! [image image?])
+         boolean?]
+
+Saves an image to a temporary file and uses system commands to print said file.
+
+NOTE: Only works on macs for now.
+
+@racketblock[(print-image
+              (bitmap "happyface.png"))]
+
+@racketblock[(map print-image!
+                  (cards->pages
+                   (append
+                     (badges (course 1208))
+                     (list
+                      (build-badge (student 1753) 1208 "Triceratops")))))]
 
