@@ -9,17 +9,75 @@
          cards->pages
          quest-cards->pages
          print-image!
-         frame
+         ;frame
 
          any->image
-         )
+         code-blank
+         code+hints
+         hint  ) 
 
 (require 2htdp/image)
 
 (require (prefix-in p: pict))
 
+(require racket/class)
+(require (only-in racket/draw color%))
 
-(define (frame i
+
+(define (code+hint full-code
+                   hint-targets+hint-text)
+
+  
+  (define hint-targets (take hint-targets+hint-text
+                             (sub1 (length hint-targets+hint-text))))
+  
+
+  (define hint   (last   hint-targets+hint-text))
+
+  (define (render-arrow target)
+   (p:pin-arrow-line 10
+                     full-code
+                     hint       p:lc-find
+                     target     p:rc-find
+                     #:line-width 3
+                     #:color (make-object color% 255 0 0 0.5)
+                     ))
+
+  (define imgs
+    (map render-arrow
+         hint-targets))
+
+  (apply p:cc-superimpose imgs))
+
+(define (code+hints code . hints)
+
+  (define hint-stack
+    (apply (curry p:vl-append 10)
+           (map last hints)))
+
+  (define combined
+    (p:hc-append 50 code hint-stack))
+
+  (define (render h)
+    (code+hint combined h))
+  
+  (apply p:lc-superimpose
+    (map render hints)))
+
+(define (code-blank (w 100) (h 20))
+  (p:colorize (p:rectangle w h) "red"))  
+
+(define (hint t)
+  (p:frame (p:inset
+            (p:colorize (if (string? t)
+                            (p:text t)
+                            t) "red")
+            10)
+           #:color "black"))
+
+
+;already has a frame function in everything !!!
+#;(define (frame i
                #:size (size 1)
                #:color (color 'black))
 

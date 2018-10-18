@@ -9,6 +9,9 @@
 
 (save-meetings!
 
- (set-room-id (course 1185) 493))
+ (set-room-id (course 1181) 494))
+
+(save-meetings!
+(set-room-id (course 1189) 494))
 
 

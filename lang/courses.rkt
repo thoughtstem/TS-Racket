@@ -8,15 +8,53 @@
 
 (provide (all-defined-out))
 
-
 ;saves all meetings in a course
 (define/contract (save-meetings! c)
   (-> course? course?)
   (set-meetings c
    (map save (meetings c))))
 
+(define/contract (save-topics! c)
+  (-> course? course?)
+  (hash-set c 'topic_assignments
+   (map save (topic-assignments c))))
+
+(define/contract (add-topic c t)
+  (-> course? string? course?)
+  (define current (hash-ref c 'topic_assignments '()))
+
+  (define new (new-topic-assignment (id c)
+                                    (topic-id-for t)))
+
+  (hash-set c 'topic_assignments
+            (cons new current)))
+
+(define (add-topics c ts)
+  (foldl (λ(t prev-c)
+           (add-topic prev-c t)) c ts))
+
+(define/contract (new-topic-assignment cid tid)
+  (-> number? number? topic-assignment?)
+  (hash 'course_id cid
+        'topic_id tid
+        'the-type "topic_assignment"))
+
+(define/contract (topic-id-for t)
+  (-> string? number?)
+  
+  (define topics (index "topic"))
+
+  (define i
+    (id
+     (findf (λ(topic)
+              (string=? t
+                        (hash-ref topic 'name)))
+         topics)))
+
+  i)
+
 (module+ test
-  (require rackunit)
+  (require rackunit) 
 
   (define test-course-1
     (hash 'the-type "course"
@@ -27,12 +65,21 @@
   (-> number? course?)
   (show "course" id))
 
+(define/contract (topic-assignment id)
+  (-> number? topic-assignment?)
+  (show "topic_assignment" id))
+
 (define (meeting id)
   (show "meeting" id))
 
 (define/contract (meetings h)
   (-> course? (listof meeting?))
   (map (curryr set-type "meeting") (hash-ref h 'meetings #f)))
+
+(define/contract (topic-assignments h)
+  (-> course? (listof topic-assignment?))
+  (map (curryr set-type "topic_assignment")
+       (hash-ref h 'topic_assignments)))
 
 (define/contract (set-meetings c m)
   (-> course? (listof meeting?) course?)
@@ -124,7 +171,8 @@
 
 
 (define (make-course-with-meetings-from-bundle! bundle id price duration foreign-url . meeting-times)
-  (apply (curry make-course-with-meetings! (first bundle)
+  (define c
+    (apply (curry make-course-with-meetings! (first bundle)
                 (second bundle)
                 id
                 price
@@ -133,6 +181,13 @@
                 (third bundle))
  
          (flatten meeting-times)))
+
+
+  (save-topics!
+   (add-topics c
+               (fourth bundle)))
+  
+  c)
 
 (define (make-course-with-meetings! name
                                     desc
@@ -289,6 +344,16 @@
   (define all-topics (hash-ref c 'topic_assignments))
 
   (map get-topic-name all-topics))
+
+
+
+#;(define/contract (roster course)
+  (-> course? image?)
+  (build-roster (students course)))
+
+#;(define/contract (build-roster students)
+  (-> (listof student?) image)
+  ())
 
 (define (date-strings->dates time s)
   (define (->better-date-string time-string)

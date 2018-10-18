@@ -5,12 +5,17 @@
          json
          gregor
          gregor/period
+         aws/keys
+         (only-in aws/s3 put/file
+                         s3-region)
+         2htdp/image
          "./constants.rkt")
 
 (provide ;set-key!
          set-env!
          DEV
          PROD
+         index
          show
          destroy
          save
@@ -21,6 +26,7 @@
          string->time
          course?
          topic?
+         topic-assignment?
          meeting?
          room?
          location?
@@ -29,10 +35,13 @@
          chunks
          take-until
          drop-until
-         name)
+         name
+         host-image!)
 
 (module+ test
   (require rackunit))
+
+(s3-region "us-west-1")
 
 (define DEV "http://34.197.96.0")
 (define PROD "https://secure.thoughtstem.com")
@@ -58,7 +67,9 @@
 (define (get-url type id)
   (if (string=? key "")
       (raise "ERROR: NO API KEY")
-      (~a env "/" type "/" id ".json?api_key=" key)))
+      (if id
+          (~a env "/" type "/" id ".json?api_key=" key)
+          (~a env "/" type ".json?api_key=" key)  )))
 
 
 (define (get-creation-url type)
@@ -81,6 +92,9 @@
 (define (topic? x)
   (hash-with-type? x "topic"))
 
+(define (topic-assignment? x)
+  (hash-with-type? x "topic_assignment"))
+
 (define (room? x)
   (hash-with-type? x "room"))
 
@@ -99,7 +113,21 @@
 
 
 (define resource?
-  (or/c course? meeting? topic? room? location? attendance? code-snippet?))
+  (or/c course? meeting? topic? room? location? attendance? code-snippet? topic-assignment?))
+
+(define (index type)
+  (define url (string->url (get-url (pluralize type) #f)))
+  
+  (define l
+    (read-json 
+     (open-input-string
+      (http-response-body
+       (get http-requester
+            url)))))
+  
+  (map (λ(h)(hash-set h 'the-type type))
+       l)
+  )
 
 (define (show type id)
   (define h
@@ -230,3 +258,23 @@
 (define/contract (name h)
   (-> hash? (or/c string? boolean?))
   (hash-ref h 'name #f))
+
+(define (host-image-from-string! s)
+  (define p (string->path s))
+  (define name (last (explode-path p)))
+  (put/file (format "ts-email-assets-and-stuff/~a" name) p)
+  (format "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/~a" name))
+
+(define (host-image-from-image! i)
+  (define f (make-temporary-file "~a.png"))
+  (define name (last (explode-path f)))
+  (save-image i f)
+  (put/file (format "ts-email-assets-and-stuff/~a" name) f)
+  (format "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/~a" name))
+
+(define/contract (host-image! x)
+  (-> (or/c image? string?) string?)
+  (cond [(image? x) (host-image-from-image! x)]
+        [(string? x) (host-image-from-string! x)]))
+
+

@@ -26,6 +26,7 @@
 (define torrey-hills 7187)
 (define torah-high 10616)
 (define ucsd-extension 1)
+(define urban-discovery 10509)
 
 
 (define python-racket-description
@@ -145,19 +146,23 @@
 (define (code-your-game-bundle-winter school)
   (list "Coding Club: Code Your Own Survival Game: 3rd-5th Grade (Winter)"
         (code-your-game-winter-description school)
-        code-your-game-winter-screenshot))
+        code-your-game-winter-screenshot
+        (list "3rd-5th")))
 
 (define (code-your-game-bundle-spring school)
   (list "Coding Club: Code Your Own Battle Arena Game: 3rd-5th Grade (Spring)"
         (code-your-game-spring-description school)
-        code-your-game-spring-screenshot))
+        code-your-game-spring-screenshot
+        (list "3rd-5th")))
 
 (define (superhero-animations-winter school)
   (list "Coding Club: Digital Animation with Superheroes: K-2nd (Winter)"
         (superhero-animations-description school)
-        superhero-animations-screenshot))
+        superhero-animations-screenshot
+        (list "K-2nd")))
 
 (define (superhero-game-spring school)
   (list "Coding Club: Superhero Video Games: K-2nd (Spring)"
         (superhero-games-description school)
-        superhero-games-screenshot))
+        superhero-games-screenshot
+        (list "K-2nd")))

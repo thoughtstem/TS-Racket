@@ -103,10 +103,17 @@ on single badge to a nickname for example.
 @;racketblock[(build-badge (student 1753) 1208 "Triceratops")]
 
 @;bitmap["resources/badge2.png"]
+<<<<<<< HEAD
 
 @defproc[(print-badges! [courses course?] ...)
          boolean?]
 
+=======
+
+@defproc[(print-badges! [courses course?] ...)
+         boolean?]
+
+>>>>>>> 1149965510af9a0855a5c513ad60c28aaa28cd94
 Creates and prints badges for all listed courses 3 by 3.
 
 @section{Courses}
@@ -317,6 +324,7 @@ An overlay function that handles being called with 0 or 1 images. Perfect for
 use in complex image building functions that will be given a range of images
 and might run into a list of 0 or 1.
 
+<<<<<<< HEAD
 @defproc[(frame [i image?]
                 [#:size size number? 1]
                 [#:color color color? 'black]
@@ -325,6 +333,8 @@ and might run into a list of 0 or 1.
 
 Puts a border around the given image.  Default is a single pixel black border.
 
+=======
+>>>>>>> 1149965510af9a0855a5c513ad60c28aaa28cd94
 @defproc[(pad-list [imgs (listof image?)])
          (listof image?)]
 
@@ -333,17 +343,26 @@ by 3. Build with the purpose of buffering lists of cards being sent to
 print so they will all scale to the same size no matter how many cards are
 on the final page.
 
+<<<<<<< HEAD
 @defproc[(cards->pages [imgs (listof (or/c image? pict?))])
+=======
+@defproc[(cards->pages [imgs (listof image?)])
+>>>>>>> 1149965510af9a0855a5c513ad60c28aaa28cd94
          (listof image?)]
 
 Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1149965510af9a0855a5c513ad60c28aaa28cd94
 @racketblock[(cards->pages
               (append
                (badges (course 1208))
                (list
                 (build-badge (student 1753) 1208 "Triceratops"))))]
 
+<<<<<<< HEAD
 
 @defproc[(quest-cards->pages [imgs (listof pict?)])
          (listof image?)]
@@ -358,6 +377,8 @@ Handles the fact that our quest cards are usually fairly large.  Scales them dow
 
 
 
+=======
+>>>>>>> 1149965510af9a0855a5c513ad60c28aaa28cd94
 @defproc[(print-image! [image image?])
          boolean?]
 
