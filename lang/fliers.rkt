@@ -106,7 +106,7 @@
                        spacer
                        (text register-url 60 "white")
                        spacer
-                       (text "(858) 869-9430 | contact@thoughtstem.com" 60 "white"))))
+                       (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))))
 
 (define/contract (filter-out-words s l)
   (-> string? list? string?)
@@ -436,7 +436,11 @@
                   (selling-points1 (selling-points c1)) 
                   (selling-points2 (selling-points c2))
                   (registration-link "https://secure.thoughtstem.com")
-                  #:bg (bg (bitmap "resources/bg.png"))
+                  #:bg (bg (make-2-course-flier-bg
+                            (bitmap "resources/k-2nd-screenshot.png")
+                            (bitmap "resources/survival-screenshot.png")
+                            (bitmap "resources/student-image-1.jpg")
+                            (bitmap "resources/student-image-2.jpg")))
                   #:first-title (title1 (name c1))
                   #:second-title (title2 (name c2)))
 
@@ -446,49 +450,49 @@
   
   (make-flier-double-panel bg
 
-   ;Course 1 Details
-   title1
-   (grade-level c1)
-   selling-points1
-   (length (meetings c1))
-   (->nice-date
-    (start-time (first (meetings c1))))
-   (->nice-date
-    (end-time (last (meetings c1))))
-   (price c1)
-   (list (->day-of-week
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (end-time (first (meetings c1)))))
+                           ;Course 1 Details
+                           title1
+                           (grade-level c1)
+                           selling-points1
+                           (length (meetings c1))
+                           (->nice-date
+                            (start-time (first (meetings c1))))
+                           (->nice-date
+                            (end-time (last (meetings c1))))
+                           (price c1)
+                           (list (->day-of-week
+                                  (start-time (first (meetings c1))))
+                                 (->nice-time
+                                  (start-time (first (meetings c1))))
+                                 (->nice-time
+                                  (end-time (first (meetings c1)))))
 
-   ;Course 2 Details
-   title2
-   (grade-level c2)
-   selling-points2
-   (length (meetings c2))
-   (->nice-date
-    (start-time (first (meetings c2))))
-   (->nice-date
-    (end-time (last (meetings c2))))
-   (price c2)
-   (list (->day-of-week
-          (start-time (first (meetings c2))))
+                           ;Course 2 Details
+                           title2
+                           (grade-level c2)
+                           selling-points2
+                           (length (meetings c2))
+                           (->nice-date
+                            (start-time (first (meetings c2))))
+                           (->nice-date
+                            (end-time (last (meetings c2))))
+                           (price c2)
+                           (list (->day-of-week
+                                  (start-time (first (meetings c2))))
 
                     
-         (->nice-time
-          (start-time (first (meetings c2))))
-         (->nice-time
-          (end-time (first (meetings c2)))))
+                                 (->nice-time
+                                  (start-time (first (meetings c2))))
+                                 (->nice-time
+                                  (end-time (first (meetings c2)))))
 
-   ;Location Details
-   (list
-    (room-number (room c1)) ; does this need to have data for course 2?
-    (name (location (room c1)))
-    (address (location (room c1))))
+                           ;Location Details
+                           (list
+                            (room-number (room c1)) ; does this need to have data for course 2?
+                            (name (location (room c1)))
+                            (address (location (room c1))))
                            
-   registration-link))
+                           registration-link))
 
 ;to account for alternate spelling
 

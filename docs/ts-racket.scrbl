@@ -81,6 +81,13 @@ NOTE: alternative spelling of flyer (flier) in this function also works.
 
 @bitmap["resources/2panel-flyer.png"]
 
+Alternatively, you can define the titles for 2-panel fliers like this:
+
+@racketblock[(courses->flyer
+              #:first-title "Superhero Digital Animation"
+              #:second-title "Code Survival Games"
+              (course 1258) (course 1259))]
+
 @section{Students}
 
 @defproc[(badges [course course?]) (listof image?)]
