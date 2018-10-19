@@ -133,7 +133,7 @@
 
 (define 3rd-5th-winter-selling-points
   (list
-   "Students will code & design their own 2D survival games with game features similar to their favorites, like Minecraft and Fortnite"
+   "Students will code & design their own 2D survival games with game features similar to favorites like Minecraft and Fortnite"
    "Students will learn how to code game features like health, day-night cycles, and crafting mechanics"
    "Students can share their game with friends and family!"))
 
