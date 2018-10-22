@@ -33,6 +33,12 @@ Takes either DEV or PROD. Default is DEV.
 
 REMINDER!! Only set to PROD after sufficient testing in DEV.
 
+@defproc[(host-image! [x (or/c image? string?)])
+         string?]
+
+Takes either an image or a string of a path to a saved file and uploads that file to S3. Returns the link to
+the file.
+
 @section{Flyers}
 
 How to use ts-racket to automate flyer generation from a course ID.
@@ -109,6 +115,8 @@ on single badge to a nickname for example.
 
 Creates and prints badges for all listed courses 3 by 3.
 
+WARNING -- currently only works for Macs. Sorry. :(
+
 @section{Courses}
 
 @defproc[(course [id number?])
@@ -131,6 +139,38 @@ environment.
          course?]
 
 Calls @racket[save] on all meetings in a course.
+
+
+@defproc[(make-course-with-meetings! [name string?]
+                                     [description string?]
+                                     [location-id number?]
+                                     [price    positive?]
+                                     [duration positive?]
+                                     [foreign-enrollment-site string?]
+                                     [screenshot-url string?]
+                                     [meeting-time moment?] ...)
+         course?]
+
+Creates a course with the supplied info.
+
+You can pass in as many meeting times as you want.  Meeting times
+are Gregor moments.  See the Gregor docs for more info on moments.
+
+@racketblock[
+  (make-course-with-meetings! "Coding and Robotics"
+                              coding-and-engineering-description
+                              sycamore-ridge
+                              330
+                              60
+                              "https://www.someotherschoolsite.org/Page/30492291103"
+                              coding-and-engineering-screenshot
+
+                              (string->time "2018-10-11 2:35pm")
+                              (string->time "2018-10-18 2:35pm")
+                              (string->time "2018-10-25 2:35pm")
+                              )
+ ]
+
 
 @section{Constants for use in course creation}
 
@@ -285,6 +325,14 @@ An overlay function that handles being called with 0 or 1 images. Perfect for
 use in complex image building functions that will be given a range of images
 and might run into a list of 0 or 1.
 
+@defproc[(frame [i image?]
+                [#:size size number? 1]
+                [#:color color color? 'black]
+                )
+         image?]
+
+Puts a border around the given image.  Default is a single pixel black border.
+
 @defproc[(pad-list [imgs (listof image?)])
          (listof image?)]
 
@@ -293,17 +341,30 @@ by 3. Build with the purpose of buffering lists of cards being sent to
 print so they will all scale to the same size no matter how many cards are
 on the final page.
 
-@defproc[(cards->pages [imgs (listof image?)])
+@defproc[(cards->pages [imgs (listof (or/c image? pict?))])
          (listof image?)]
 
 Creates a 3 by 3 page of images (usually used for cards or badges). Ideal for printing!
-
 
 @racketblock[(cards->pages
               (append
                (badges (course 1208))
                (list
                 (build-badge (student 1753) 1208 "Triceratops"))))]
+
+
+@defproc[(quest-cards->pages [imgs (listof pict?)])
+         (listof image?)]
+
+Like @racket[cards->pages], this creates a 3 by 3 page of images.
+Handles the fact that our quest cards are usually fairly large.  Scales them down.
+
+@racketblock[(quest-cards->pages
+              quest)]
+
+
+
+
 
 @defproc[(print-image! [image image?])
          boolean?]

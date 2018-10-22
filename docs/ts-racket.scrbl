@@ -325,13 +325,14 @@ An overlay function that handles being called with 0 or 1 images. Perfect for
 use in complex image building functions that will be given a range of images
 and might run into a list of 0 or 1.
 
-@defproc[(frame [i image?]
+@;undone the mistake fo rewriting the exact function that already exists in both pict and 2htdp/image
+@#;@defproc[(frame [i image?]
                 [#:size size number? 1]
                 [#:color color color? 'black]
                 )
          image?]
 
-Puts a border around the given image.  Default is a single pixel black border.
+@;Puts a border around the given image.  Default is a single pixel black border.
 
 @defproc[(pad-list [imgs (listof image?)])
          (listof image?)]
