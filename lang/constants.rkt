@@ -26,6 +26,7 @@
 (define torrey-hills 7187)
 (define torah-high 10616)
 (define ucsd-extension 1)
+(define urban-discovery 10509)
 
 
 (define python-racket-description
@@ -124,6 +125,17 @@
    "Students will gain proficiency with computers, mice, and keyboards"
    "Students will learn creativity through digital art that can be shared with family"))
 
+(define k-2nd-winter-selling-points
+  (list
+   "Students will learn how to use MIT's Scratch programming interface"
+   "Students will create animations of their digital superhero art"
+   "Students will gain proficiency with computers, mice, and keyboards and will become confident with technology!"))
+
+(define 3rd-5th-winter-selling-points
+  (list
+   "Students will code & design their own 2D survival games with game features similar to favorites like Minecraft and Fortnite"
+   "Students will learn how to code game features like health, day-night cycles, and crafting mechanics"
+   "Students can share their game with friends and family!"))
 
 (define k-2nd-del-mar-selling-points
   (list

@@ -3,6 +3,8 @@
 
 (require "./util.rkt"
          "./constants.rkt"
+         "./flier-background-generator.rkt"
+         "./2-flier-background-generator.rkt"
          2htdp/image
          (only-in "./courses.rkt"
                   location
@@ -22,19 +24,21 @@
 (provide course->flier
          courses->flier
          course->flyer
-         courses->flyer)
+         courses->flyer
+         make-flier-bg
+         make-2-course-flier-bg)
 
 (module+ test
   (require rackunit))
 
 
-
+;UPDATE THIS AT EACH NEW QUARTER! (TODO: make this another optional parameter for courses->flyer)
 ;grabs selling-points for each grade level from constants.rkt
 (define/contract (selling-points c)
   (-> course? list?)
   (if (k-2nd? c)
-      k-2nd-selling-points
-      3rd-5th-selling-points))
+      k-2nd-winter-selling-points
+      3rd-5th-winter-selling-points))
 
 ;functions to assist building flyer
 (define/contract (bold-text s size color)
@@ -102,7 +106,7 @@
                        spacer
                        (text register-url 60 "white")
                        spacer
-                       (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))))
+                       (text "(858) 869-9430 | contact@thoughtstem.com" 60 "white"))))
 
 (define/contract (filter-out-words s l)
   (-> string? list? string?)
@@ -138,7 +142,7 @@
 (define (superfluous-course-title-words)
   (define words
     '("K-2" "K-2nd" "3rd-6th" "3-6th" "Studio" "Coding Club:"
-            "Grade" "3rd-5th" "3-5th"))
+            "Grade" "3rd-5th" "3-5th" "(Winter)" "(Spring)"))
 
   (define :words
     (map (λ(s) (~a ": " s)) words))
@@ -151,7 +155,8 @@
         (string-length b)))))
 
 ;builds flyer from course info
-(define/contract (make-flier course-title
+(define/contract (make-flier bg
+                             course-title
                              grade-level
                              selling-points
                              duration
@@ -161,10 +166,8 @@
                              location-details
                              time-details
                              register-url)
-  (-> string? string? list? number? string? string? number? list? list? string?
+  (-> image? string? string? list? number? string? string? number? list? list? string?
       image?)
-
-  (define bg (bitmap "resources/bg.png"))
 
   (define bg-with-title
     (place-image
@@ -235,7 +238,9 @@
   flier-img-with-footer)
 
 ; build 2 course flyer
-(define/contract (make-flier-double-panel course-title
+(define/contract (make-flier-double-panel bg
+
+                                          course-title
                                           grade-level
                                           selling-points
                                           duration
@@ -256,12 +261,10 @@
                                           location-details
                                           register-url)
   
-  (-> string? string? list? number? string? string? number? list?
+  (-> image? string? string? list? number? string? string? number? list?
       string? string? list? number? string? string? number? list?
       list? string?
       image?)
-
-  (define bg (bitmap "resources/bg-double-panel.png"))
 
   (define (string->bullet s)
     (text (~a "•  " s) 60 "white"))
@@ -386,12 +389,20 @@
   (not (not (grade-level c))))
 
 ;one course flyer
-(define/contract (course->flier c
-                       (selling-points (selling-points c))
-                       (registration-link "https://secure.thoughtstem.com"))
+(define/contract (course->flier
+                  c
+                  (selling-points (selling-points c))
+                  (registration-link "https://secure.thoughtstem.com")
+                  #:bg (bg (make-flier-bg
+                            (bitmap "resources/student-image-2.jpg")
+                            (bitmap "resources/k-2nd-screenshot.png")
+                            (bitmap "resources/student-image-1.jpg")))
+                  #:title (title1 (name c)))
+
  
-  (->* (flyer-ready-course?) ((listof string?) string?) image?)
-  (make-flier (name c)
+  (->* (flyer-ready-course?) ((listof string?) string? #:bg image? #:title string?) image?)
+  (make-flier bg
+              title1
               (grade-level c)
 
               ;TODO: Come back to this
@@ -419,63 +430,73 @@
                     (->nice-time
                      (end-time (first (meetings c)))))
 
-              ;TODO: Figure out how to generate this...
               registration-link))
 
 ;for 2 courses at one location
-(define/contract (courses->flier c1 ;course one ID
-                                 c2 ;course two ID
-                                 (selling-points1 (selling-points c1)) 
-                                 (selling-points2 (selling-points c2))
-                                 (registration-link "https://secure.thoughtstem.com"))
+(define/contract (courses->flier
 
-  (->* (flyer-ready-course? flyer-ready-course?) ((listof string?) (listof string?) string?) image?)
+                  c1 ;course one ID
+                  c2 ;course two ID
+                  (selling-points1 (selling-points c1)) 
+                  (selling-points2 (selling-points c2))
+                  (registration-link "https://secure.thoughtstem.com")
+                  #:bg (bg (make-2-course-flier-bg
+                            (bitmap "resources/k-2nd-screenshot.png")
+                            (bitmap "resources/survival-screenshot.png")
+                            (bitmap "resources/student-image-1.jpg")
+                            (bitmap "resources/student-image-2.jpg")))
+                  #:first-title (title1 (name c1))
+                  #:second-title (title2 (name c2)))
+
+  (->* (flyer-ready-course? flyer-ready-course?) ((listof string?) (listof string?) string? #:bg image?
+                                                                   #:first-title string?
+                                                                   #:second-title string?) image?)
   
-  (make-flier-double-panel
+  (make-flier-double-panel bg
 
-   ;Course 1 Details
-   (name c1)
-   (grade-level c1)
-   selling-points1
-   (length (meetings c1))
-   (->nice-date
-    (start-time (first (meetings c1))))
-   (->nice-date
-    (end-time (last (meetings c1))))
-   (price c1)
-   (list (->day-of-week
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (start-time (first (meetings c1))))
-         (->nice-time
-          (end-time (first (meetings c1)))))
+                           ;Course 1 Details
+                           title1
+                           (grade-level c1)
+                           selling-points1
+                           (length (meetings c1))
+                           (->nice-date
+                            (start-time (first (meetings c1))))
+                           (->nice-date
+                            (end-time (last (meetings c1))))
+                           (price c1)
+                           (list (->day-of-week
+                                  (start-time (first (meetings c1))))
+                                 (->nice-time
+                                  (start-time (first (meetings c1))))
+                                 (->nice-time
+                                  (end-time (first (meetings c1)))))
 
-   ;Course 2 Details
-   (name c2)
-   (grade-level c2)
-   selling-points2
-   (length (meetings c2))
-   (->nice-date
-    (start-time (first (meetings c2))))
-   (->nice-date
-    (end-time (last (meetings c2))))
-   (price c2)
-   (list (->day-of-week
-          (start-time (first (meetings c2))))
+                           ;Course 2 Details
+                           title2
+                           (grade-level c2)
+                           selling-points2
+                           (length (meetings c2))
+                           (->nice-date
+                            (start-time (first (meetings c2))))
+                           (->nice-date
+                            (end-time (last (meetings c2))))
+                           (price c2)
+                           (list (->day-of-week
+                                  (start-time (first (meetings c2))))
 
                     
-         (->nice-time
-          (start-time (first (meetings c2))))
-         (->nice-time
-          (end-time (first (meetings c2)))))
+                                 (->nice-time
+                                  (start-time (first (meetings c2))))
+                                 (->nice-time
+                                  (end-time (first (meetings c2)))))
 
-   ;Location Details
-   (list
-    (room-number (room c1)) ; does this need to have data for course 2?
-    (name (location (room c1)))
-    (address (location (room c1))))
+                           ;Location Details
+                           (list
+                            (room-number (room c1)) ; does this need to have data for course 2?
+                            (name (location (room c1)))
+                            (address (location (room c1))))
                            
-   registration-link))
+                           registration-link))
 
 ;to account for alternate spelling
 

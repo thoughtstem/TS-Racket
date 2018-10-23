@@ -56,6 +56,14 @@ NOTE: alternative spelling of flyer (flier) in this function also works.
 
 @bitmap["resources/flyer.png"]
 
+Alternatively, you can define the individual images on a flyer like this:
+
+@racketblock[(course->flyer (course 1206)
+                            #:bg (make-flier-bg
+                                  (bitmap "resources/template-image.jpg")
+                                  (bitmap "resources/template-image.jpg")
+                                  (bitmap "resources/template-image.jpg")))]
+
 
 @defproc[(courses->flyer [course flyer-ready-course?]
                          [course2 flyer-ready-course?]
@@ -72,6 +80,13 @@ NOTE: alternative spelling of flyer (flier) in this function also works.
 @racketblock[(courses->flyer (course 1137) (course 1128))]
 
 @bitmap["resources/2panel-flyer.png"]
+
+Alternatively, you can define the titles for 2-panel fliers like this:
+
+@racketblock[(courses->flyer
+              #:first-title "Superhero Digital Animation"
+              #:second-title "Code Survival Games"
+              (course 1258) (course 1259))]
 
 @section{Students}
 
