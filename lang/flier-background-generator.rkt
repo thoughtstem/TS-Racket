@@ -10,7 +10,8 @@
   (define middle (bitmap "resources/middle.png"))
   (define bottom (bitmap "resources/bottom.png"))
   (define white-divider (rectangle 2550 10 "solid" "white"))
-  (define sticker (bitmap "resources/sticker.png"))
+  ;(define sticker (bitmap "resources/sticker.png"))
+  (define sticker (circle 10 "outline" "transparent"))
   
   ;Switch out course images as necessary here:
   (define image-row

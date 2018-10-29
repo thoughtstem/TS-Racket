@@ -4,7 +4,8 @@
          "./constants.rkt"
          gregor
          gregor/period
-         2htdp/image)
+         2htdp/image
+         threading)
 
 (provide (all-defined-out))
 
@@ -253,18 +254,26 @@
 (define/contract (start-time m)
   (-> meeting? moment?)
 
-  (-hours
-   (iso8601->moment
-    (hash-ref m 'start_time))
-   7))
+  (define s (hash-ref m 'start_time))
+
+  (if (string? s)
+      (-hours
+       (iso8601->moment
+        s)
+       7)
+      s))
 
 (define/contract (end-time m)
   (-> meeting? moment?)
 
-  (-hours
-   (iso8601->moment
-    (hash-ref m 'end_time))
-   7))
+  (define s (hash-ref m 'end_time))
+
+  (if (string? s)
+      (-hours
+       (iso8601->moment
+        s)
+       7)
+      s))
 
 
 
@@ -382,3 +391,20 @@
   (define dates (map string->time better-date-strings))
 
   dates)
+
+(define/contract (change-meeting-times f c)
+  (-> procedure? course? course?)
+
+  (hash-set c 'meetings (map f (meetings c))))
+
+(define (add-hours h)
+  (lambda (m)
+    (define start (+hours (start-time m) h))
+    (define end   (+hours (end-time m) h))
+
+    (~> m
+        (hash-set _ 'start_time start)
+        (hash-set _ 'end_time end))
+    ))
+
+
