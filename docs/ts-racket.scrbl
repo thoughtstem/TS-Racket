@@ -239,53 +239,16 @@ A list of constants defined to be used in course creation. Last updated 9/7/2018
  
  ]
 
-@section{Alerts}
-
-@defproc[(send-alerts [alerts alerts?])
-         void?]
-
-Sends alerts.  Alerts should be created with @racket[create-alerts].
-For example, this will send an alert to all computers at meeting 6686.
-
-@racketblock[
- (send-alerts
-  (create-alerts
-   (computer-ids (meeting 6686))
-   voice-alert
-   "Test!"))
-]
-
-@defproc[(create-alerts [computer-ids (or/c (listof number?)
-                                            string?)]
-                        [alert-type alert-type?]
-                        [message string?])
-         alerts?]
-
-Creates alerts for some list of computer ids.  The computer
-ids can either be a comma separated string (for easy pasting):
-
-@racket["1,2,3"]
-
-Or it can be a list of numbers:
-
-@racket['(1 2 3)]
 
 
-@defproc[(alert-type? [x any/c])
-         boolean?]
 
-Can be any member of the following constants.
 
-@racketblock[
- (define phone-alert   "phone")
- (define help-alert    "help")
- (define full-alert    "full")
- (define block-alert   "block")
- (define voice-alert   "voice")
- (define message-alert "message")
- (define link-alert    "link")
- (define command-alert "common")
- ]
+
+
+
+
+
+
 
 
 @section{image-util}
@@ -340,14 +303,6 @@ An overlay function that handles being called with 0 or 1 images. Perfect for
 use in complex image building functions that will be given a range of images
 and might run into a list of 0 or 1.
 
-@;undone the mistake fo rewriting the exact function that already exists in both pict and 2htdp/image
-@#;@defproc[(frame [i image?]
-                [#:size size number? 1]
-                [#:color color color? 'black]
-                )
-         image?]
-
-@;Puts a border around the given image.  Default is a single pixel black border.
 
 @defproc[(pad-list [imgs (listof image?)])
          (listof image?)]
@@ -398,4 +353,78 @@ NOTE: Only works on macs for now.
                      (badges (course 1208))
                      (list
                       (build-badge (student 1753) 1208 "Triceratops")))))]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section{Alerts}
+
+@defproc[(send-alerts [alerts alerts?])
+         void?]
+
+Sends alerts.  Alerts should be created with @racket[create-alerts].
+For example, this will send an alert to all computers at meeting 6686.
+
+@racketblock[
+ (send-alerts
+  (create-alerts
+   (computer-ids (meeting 6686))
+   voice-alert
+   "Test!"))
+]
+
+@defproc[(create-alerts [computer-ids (or/c (listof number?)
+                                            string?)]
+                        [alert-type alert-type?]
+                        [message string?])
+         alerts?]
+
+Creates alerts for some list of computer ids.  The computer
+ids can either be a comma separated string (for easy pasting):
+
+@racket["1,2,3"]
+
+Or it can be a list of numbers:
+
+@racket['(1 2 3)]
+
+
+@defproc[(alert-type? [x any/c])
+         boolean?]
+
+Can be any member of the following constants.
+
+@racketblock[
+ (define phone-alert   "phone")
+ (define help-alert    "help")
+ (define full-alert    "full")
+ (define block-alert   "block")
+ (define voice-alert   "voice")
+ (define message-alert "message")
+ (define link-alert    "link")
+ (define command-alert "common")
+ ]
+
+
+
+
+
+
+
+
+
 

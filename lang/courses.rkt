@@ -90,6 +90,16 @@
   (map (curryr set-type "attendance")
        (hash-ref m 'attendances)))
 
+(define/contract (course-id m)
+  (-> meeting? number?)
+  (hash-ref m 'course_id))
+
+
+(define/contract (backup-url a)
+  (-> attendance? (or/c string? #f))
+
+  (hash-ref a 'backup_url #f))
+
 (define/contract (computer-id a)
   (-> attendance? number?)
   (hash-ref a 'computer_id))

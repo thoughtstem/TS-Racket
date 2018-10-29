@@ -14,7 +14,8 @@
          any->image
          code-blank
          code+hints
-         hint  ) 
+         hint
+         choose) 
 
 (require 2htdp/image)
 
@@ -196,3 +197,5 @@
             (chunks n (drop l n)))))
 
 
+(define (choose . l)
+  (list-ref l (random (length l))))
