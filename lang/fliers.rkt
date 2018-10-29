@@ -102,7 +102,7 @@
                                  " - "
                                  (third time-details)) 60 "white")
                        spacer
-                       (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
+                       (text "K-2nd & 3rd-6th classes available year-round" 60 "white")
                        spacer
                        (text register-url 60 "white")
                        spacer

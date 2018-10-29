@@ -5,15 +5,20 @@
 (set-env! PROD)
 
 ;2-panel flyer: K-2nd & 3rd-5th Winter
-;(scale 0.25 (courses->flyer
-; #:first-title "Superhero Digital Animation"
-; #:second-title "Code Survival Games"
-; (course 1258) (course 1259)))
+#;(courses->flyer
+ #:first-title "Superhero Digital Animation"
+ #:second-title "Code Survival Games"
+ (change-meeting-times
+  (add-hours -1)
+  (course 1343))
+ (change-meeting-times
+  (add-hours -1)
+  (course 1344)))
 
 ;1-panel flyer: K-2nd Winter
-(scale 0.25 (course->flyer
-             #:title "Digital Animation with Superheroes"
-             (course 1258)))
+;(scale 0.25 (course->flyer
+;             #:title "Digital Animation with Superheroes"
+;             (course 1258)))
 
 ;1-panel flyer: 3rd-5th Winter
 ;(scale 0.25 (course->flyer #:bg (make-flier-bg
