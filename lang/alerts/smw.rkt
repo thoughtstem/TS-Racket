@@ -3,7 +3,14 @@
 (provide meeting->backup-urls
          meeting+student->backup-url
          previous-meeting
-         )
+         create-smw!
+         delete-smw!
+         restore-smw!
+         login!
+
+         current-student
+         current-course
+         current-meeting)
 
 (require "../util.rkt"
          "../courses.rkt"
@@ -43,7 +50,7 @@
   (login! 1120 'cHB)
   (first-name (current-student))
   
-  (create-swm!)
+  (create-smw!)
   (restore-smw!))
 
 
@@ -176,10 +183,10 @@
            (> (file-or-directory-modify-seconds (build-path path a))
               (file-or-directory-modify-seconds (build-path path b)))))))
 
-(define (create-swm!)
+(define (create-smw!)
   (make-directory* SMW-PATH))
 
-(define (delete-swm!)
+(define (delete-smw!)
   (delete-directory SMW-PATH))
 
 (define (restore-smw!)
