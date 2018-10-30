@@ -25,6 +25,7 @@
 
 (define SMW-PATH
   (build-path (find-system-path 'home-dir)
+              "Desktop"
               "SAVE_MY_WORK"))
 
 (define SESSION-PATH
