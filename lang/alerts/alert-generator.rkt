@@ -193,9 +193,9 @@
     (define payload 'command)
 
     (send-alerts
-      (create-alerts (string-join (map ~a (list computer-ids ...)) ",") command-alert
+      (create-alerts (string-join (map ~a (flatten (list computer-ids ...))) ",") command-alert
                      (string-replace
-                      (~a "racket -e (begin (require ts-racket) " payload ")")  "!" "\\!"
+                      (~a "racket -e \"(begin (require ts-racket) " (~s payload) ")\"")  "!" "\\!"
                       )))))
 
 

@@ -15,7 +15,7 @@
          code-blank
          code+hints
          hint
-         choose) 
+         random-choose) 
 
 (require 2htdp/image)
 
@@ -197,5 +197,5 @@
             (chunks n (drop l n)))))
 
 
-(define (choose . l)
+(define (random-choose . l)
   (list-ref l (random (length l))))
