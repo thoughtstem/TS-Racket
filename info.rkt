@@ -4,6 +4,6 @@
 
 (define version "0.0.1")
 
-(define deps '("aws" "request" "gregor" 
+(define deps '("aws" "request" "gregor" "anaphoric"
   "https://github.com/thoughtstem/racket-blocks.git?path=racket-bricks"
   "simple-qr"))

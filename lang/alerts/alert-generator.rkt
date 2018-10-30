@@ -13,7 +13,9 @@
          command-alert
          alert-type?
          combine-alerts
-         clear-alerts)
+         clear-alerts
+
+         on-computers)
 
 (require racket/date
          racket/gui
@@ -183,4 +185,19 @@
 
 (define (clear-alerts)
   (send-alerts (create-alerts "" message-alert "")))
+
+
+
+(define-syntax-rule (on-computers computer-ids ... #:do command)
+  (begin
+    (define payload 'command)
+
+    (send-alerts
+      (create-alerts (string-join (map ~a (list computer-ids ...)) ",") command-alert
+                     (~a "racket -e (begin (require ts-racket) " payload ")")))))
+
+
+
+
+
 

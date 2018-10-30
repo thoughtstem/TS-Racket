@@ -11,7 +11,7 @@
          2htdp/image
          "./constants.rkt")
 
-(provide ;set-key!
+(provide env
          set-env!
          DEV
          PROD
@@ -36,7 +36,9 @@
          take-until
          drop-until
          name
-         host-image!)
+         host-image!
+         get-url
+         download-file)
 
 (module+ test
   (require rackunit))
@@ -64,12 +66,12 @@
   (set! env k))
 
 
-(define (get-url type id)
-  (if (string=? key "")
+(define (get-url type id (k key))
+  (if (string=? k "")
       (raise "ERROR: NO API KEY")
       (if id
-          (~a env "/" type "/" id ".json?api_key=" key)
-          (~a env "/" type ".json?api_key=" key)  )))
+          (~a env "/" type "/" id ".json?api_key=" k)
+          (~a env "/" type ".json?api_key=" k)  )))
 
 
 (define (get-creation-url type)
@@ -130,13 +132,14 @@
   )
 
 (define (show type id)
-  (define h
-    (read-json 
-     (open-input-string
+  (with-handlers ([exn:fail? (λ(e) (error (~a "Could not find " type " with id " id)))])
+    (define resp
       (http-response-body
        (get http-requester
-            (string->url (get-url (pluralize type) id)))))))
-  (hash-set h 'the-type type))
+            (string->url (get-url (pluralize type) id)))))
+  
+    (define h  (read-json  (open-input-string  resp)))
+    (hash-set h 'the-type type)))
 
 
 (define (update type id json)
@@ -277,4 +280,10 @@
   (cond [(image? x) (host-image-from-image! x)]
         [(string? x) (host-image-from-string! x)]))
 
+(define (download-file url outfile)
+  (call-with-output-file outfile
+    (lambda (p)
+      (display (port->bytes (get-pure-port (string->url url)))
+               p))
+    #:exists 'replace))
 
