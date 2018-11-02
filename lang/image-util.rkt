@@ -15,7 +15,9 @@
          code-blank
          code+hints
          hint
-         random-choose) 
+         random-choose
+         x-out
+         inset-frame)  
 
 (require 2htdp/image)
 
@@ -199,3 +201,22 @@
 
 (define (random-choose . l)
   (list-ref l (random (length l))))
+
+
+
+(define (x-out img)
+  (define img-slash (p:pin-line img
+                               img p:lt-find
+                               img p:rb-find
+                               #:color "red"))
+  (p:pin-line img-slash
+              img-slash p:lb-find
+              img-slash p:rt-find
+              #:color "red"))
+
+
+(define (inset-frame i #:color (color "black") #:amount (amount 10))
+  (p:frame #:color color
+   (p:inset i amount)))
+
+
