@@ -219,8 +219,10 @@
               #:color "red"))
 
 
-(define (inset-frame i #:color (color "black") #:amount (amount 10))
-  (p:frame #:color color
-   (p:inset i amount)))
+(define (inset-frame i #:color (color "black") #:amount (amount 10) #:thickness (thickness 1))
+  (p:frame #:color color #:line-width thickness
+   (p:inset i amount))
+
+  )
 
 
