@@ -14,7 +14,8 @@
          simple-qr
          racket-bricks/renderer
          gregor
-         gregor/period)
+         gregor/period
+         )
 
 
 (define (get-password-from-student-json)
@@ -164,6 +165,8 @@
                           code-string)
          snippet))))
 
+;===== BADGES ======
+
 
 ;logos
 (define red-logo (scale .6 (bitmap "resources/ts-logo-red.png")))
@@ -256,11 +259,17 @@
                                (buffer 10 (scale-to-fit avatar 100))))
   (buffer 40 badge))
 
+;print all badges in course or list of courses (only works on macs)
 (define (print-badges! . courses)
   (map print-image!
        (cards->pages
         (apply append
                (map badges courses)))))
+
+;attempt at function to save-out badges
+#;(define (save-badges! course)
+  (save-out-materials "badges"
+                      (cards->pages (badges course))))
 
 ;--------------------------------
 ;gets student's full name

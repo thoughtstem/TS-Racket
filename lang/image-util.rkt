@@ -26,7 +26,6 @@
 (require racket/class)
 (require (only-in racket/draw color%))
 
-
 (define (code+hint full-code
                    hint-targets+hint-text)
 
