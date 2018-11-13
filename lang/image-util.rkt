@@ -17,7 +17,13 @@
          hint
          random-choose
          x-out
-         inset-frame)  
+         inset-frame
+
+         hints-on-top
+         hints-on-bottom
+         hints-on-right
+         hints-on-left
+         )  
 
 (require 2htdp/image)
 
@@ -26,7 +32,72 @@
 (require racket/class)
 (require (only-in racket/draw color%))
 
-(define (code+hint full-code
+
+(struct hint-settings
+  (
+   ;1 Relationship between hint stack and code
+   hint-stack+code->pict
+   ;2 Relationship hints in a stack
+   hints->hint-stack
+   ;3 Anchor point for start of arrow
+   arrow-start-anchor
+   ;4 Anchor point for end of arrow
+   arrow-end-anchor
+   ))
+
+(define hints-on-top
+  (hint-settings
+   ;1 Relationship between hint stack and code
+   (lambda (stack code) (p:vc-append 20 stack code))
+   ;2 Relationship hints in a stack
+   (lambda (h . hints) (apply (curry p:hb-append 10)
+                              (cons h hints)))
+   ;3 Anchor point for start of arrow
+   p:cb-find
+   ;4 Anchor point for end of arrow
+   p:ct-find))
+
+
+(define hints-on-bottom
+  (hint-settings
+   ;1 Relationship between hint stack and code
+   (lambda (stack code) (p:vc-append 20 code stack))
+   ;2 Relationship hints in a stack
+   (lambda (h . hints) (apply (curry p:hb-append 10)
+                              (cons h hints)))
+   ;3 Anchor point for start of arrow
+   p:ct-find
+   ;4 Anchor point for end of arrow
+   p:cb-find))
+
+(define hints-on-right
+  (hint-settings
+   ;1 Relationship between hint stack and code
+   (lambda (stack code) (p:hc-append 20 code stack))
+   ;2 Relationship hints in a stack
+   (lambda (h . hints) (apply (curry p:vl-append 10)
+                              (cons h hints)))
+   ;3 Anchor point for start of arrow
+   p:lc-find
+   ;4 Anchor point for end of arrow
+   p:rc-find))
+
+(define hints-on-left
+  (hint-settings
+   ;1 Relationship between hint stack and code
+   (lambda (stack code) (p:hc-append 20 stack code))
+   ;2 Relationship hints in a stack
+   (lambda (h . hints) (apply (curry p:vr-append 10)
+                              (cons h hints)))
+   ;3 Anchor point for start of arrow
+   p:rc-find
+   ;4 Anchor point for end of arrow
+   p:lc-find))
+
+
+
+(define (code+hint #:settings (settings hints-on-top)
+                   full-code
                    hint-targets+hint-text)
 
   
@@ -39,8 +110,8 @@
   (define (render-arrow target)
    (p:pin-arrow-line 10
                      full-code
-                     hint       p:lc-find
-                     target     p:rc-find
+                     hint       (hint-settings-arrow-start-anchor settings)  ;3. Anchor point for start of arrow
+                     target     (hint-settings-arrow-end-anchor settings)  ;4. Anchor point for end of arrow
                      #:line-width 3
                      #:color (make-object color% 255 0 0 0.5)
                      ))
@@ -51,17 +122,19 @@
 
   (apply p:cc-superimpose imgs))
 
-(define (code+hints code . hints)
+(define (code+hints #:settings (settings hints-on-top) code . hints)
 
   (define hint-stack
-    (apply (curry p:vl-append 10)
-           (map last hints)))
+    (apply ;2. Relationship hints in a stack
+     (hint-settings-hints->hint-stack settings)
+     (map last hints)))
 
   (define combined
-    (p:hc-append 50 code hint-stack))
+    ((hint-settings-hint-stack+code->pict settings)
+     hint-stack code))
 
   (define (render h)
-    (code+hint combined h))
+    (code+hint #:settings settings combined h))
   
   (apply p:lc-superimpose
     (map render hints)))
@@ -218,8 +291,10 @@
               #:color "red"))
 
 
-(define (inset-frame i #:color (color "black") #:amount (amount 10))
-  (p:frame #:color color
-   (p:inset i amount)))
+(define (inset-frame i #:color (color "black") #:amount (amount 10) #:thickness (thickness 1))
+  (p:frame #:color color #:line-width thickness
+   (p:inset i amount))
+
+  )
 
 
