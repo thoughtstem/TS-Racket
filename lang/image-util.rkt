@@ -67,15 +67,19 @@
     (map render hints)))
 
 (define (code-blank (w 100) (h 20))
-  (p:colorize (p:rectangle w h) "red"))  
+  (p:colorize (p:rectangle w h) "red"))
 
-(define (hint t)
+
+(define (hint . ts)
   (p:frame (p:inset
-            (p:colorize (if (string? t)
-                            (p:text t)
-                            t) "red")
+            (apply p:vl-append (map hint1 ts))
             10)
            #:color "black"))
+
+(define (hint1 t)
+  (p:colorize (if (string? t)
+                  (p:text t)
+                  t) "red"))
 
 
 ;already has a frame function in everything !!!
