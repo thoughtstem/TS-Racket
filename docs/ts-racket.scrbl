@@ -356,7 +356,9 @@ NOTE: Only works on macs for now.
 
 
 
-@defproc[(code+hints [#:settings settings (hint-settings?)]
+
+
+@defproc[(code+hints [#:settings settings (hint-settings?) (hints-on-top)]
                      [code pict?]
                      [hints list?])
          pict?]
@@ -365,7 +367,7 @@ Built for use in curriculum -- for launch codes etc.
 
 @larger{Example uses:}
 
-@centered{Defining a code image with one hint}
+@centered{@bold{Defining a code image with one hint.}}
 
 Inside this definition, you need two additional definitions prior to calling @racket[code+hints].
 @bold{First} define the code snippet you wish to hint. @bold{Second}, define the rest of the code,
@@ -389,7 +391,7 @@ inserting the previously defined code snippet where it belongs. @bold{Lastly}, c
 
  (example-code)]
 
-@centered{Defining a code image with multiple hints}
+@centered{@bold{Defining a code image with multiple hints.}}
 
 In this case, you need pull out and define each snippet of code you want to hint.
 
@@ -414,6 +416,28 @@ In this case, you need pull out and define each snippet of code you want to hint
                (list nickname (hint "This argument is optional."
                                     "This nickname will replace"
                                     "the name in the student struct."))))
+
+ (example-code)]
+
+@centered{@bold{Defining a code image with hints to the right of the code.}}
+
+You will want to use the optional keyword parameter @racket[#:settings].
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+   
+   (define nickname (code "Triceritops"))
+
+   (define all-code (code (build-badge (student 1753) 1208 #,nickname)))
+
+   (code+hints all-code
+               #:settings hints-on-right
+               (list nickname (hint "Please don't replace student"
+                                    "names with dinosaurs."))))
 
  (example-code)]
 
