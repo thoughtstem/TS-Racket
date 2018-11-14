@@ -356,6 +356,67 @@ NOTE: Only works on macs for now.
 
 
 
+@defproc[(code+hints [#:settings settings (hint-settings?)]
+                     [code pict?]
+                     [hints list?])
+         pict?]
+
+Built for use in curriculum -- for launch codes etc.
+
+@larger{Example uses:}
+
+@centered{Defining a code image with one hint}
+
+Inside this definition, you need two additional definitions prior to calling @racket[code+hints].
+@bold{First} define the code snippet you wish to hint. @bold{Second}, define the rest of the code,
+inserting the previously defined code snippet where it belongs. @bold{Lastly}, call @racket[code+hints].
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+
+   (define target (code "Triceritops"))
+
+   (define all-code (code (build-badge (student 1753) 1208 #,target)))
+
+   (code+hints all-code
+               (list target (hint "This argument is optional."
+                                  "This nickname will replace"
+                                  "the name in the student struct."))))
+
+ (example-code)]
+
+@centered{Defining a code image with multiple hints}
+
+In this case, you need pull out and define each snippet of code you want to hint.
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+
+   (define id (code 1753))
+
+   (define course (code 1208))
+   
+   (define nickname (code "Triceritops"))
+
+   (define all-code (code (build-badge (student #,id) #,course #,nickname)))
+
+   (code+hints all-code
+               (list id (hint "Cannot be negative number."))
+               (list course (hint "This neither."))
+               (list nickname (hint "This argument is optional."
+                                    "This nickname will replace"
+                                    "the name in the student struct."))))
+
+ (example-code)]
+
 
 
 
