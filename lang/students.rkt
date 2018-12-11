@@ -245,10 +245,11 @@
   
   (define content
     (above
-     (text name 45 "black")
-     (text (last-name student) 25 "black")
-     (qr-me (password student) crs-id)
-     (text (~a (password student) "-" crs-id) 25 "grey")))
+     (text name 55 "black")
+     (text (last-name student) 35 "black")
+     ;(qr-me (password student) crs-id)
+     ;(text (~a (password student) "-" crs-id) 25 "grey")
+     ))
   
   (define badge (overlay/align "right" "bottom"
                                (overlay/align "left" "top"
