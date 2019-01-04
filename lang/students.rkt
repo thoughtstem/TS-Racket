@@ -123,7 +123,6 @@
 
 (define-syntax-rule (enable-snippets nick)
   (begin
-    (set-env! PROD)
     (define-namespace-anchor a)
     (define nick (list
                   (namespace-anchor->namespace a)
@@ -216,12 +215,40 @@
 
 (define-namespace-anchor a)
 
-;builds badge
+
+
+;builds badge with QR
+(define/contract (build-qr-badge student
+                                 crs-id
+                                 (name (first-name student)))
+  (->* ((and/c student? prod-preferred!) number?) (string?) image?)
+
+  
+  (define QR-and-code
+    (above
+     (qr-me (password student) crs-id)
+     (text (~a (password student) "-" crs-id) 25 "grey")))
+
+  
+  (badge-builder student crs-id QR-and-code 45 25 name))
+
+
+;builds badge -- NO QR
 (define/contract (build-badge student
                               crs-id
                               (name (first-name student)))
-  (->* (student? number?) (string?) image?)
-  (set-env! PROD)
+  (->* ((and/c student? prod-preferred!) number?) (string?) image?)
+
+  (badge-builder student crs-id empty-image 55 35 name))
+
+;badge-builder function
+(define/contract (badge-builder student
+                              crs-id
+                              img
+                              n1
+                              n2
+                              name)
+  (-> (and/c student? prod-preferred!) number? image? number? number? string? image?)
   (define photo-icon
     (if (photo-release? student)
       (buffer 5 (bitmap "resources/camera.png"))
@@ -236,6 +263,7 @@
 
   (define avatar
     (random-dude))
+
   (define bg
     ;(rectangle 400 300 "outline" "black")
     (badge-bg
@@ -245,11 +273,9 @@
   
   (define content
     (above
-     (text name 55 "black")
-     (text (last-name student) 35 "black")
-     ;(qr-me (password student) crs-id)
-     ;(text (~a (password student) "-" crs-id) 25 "grey")
-     ))
+     (text name n1 "black")
+     (text (last-name student) n2 "black")
+     img))
   
   (define badge (overlay/align "right" "bottom"
                                (overlay/align "left" "top"
@@ -260,12 +286,25 @@
                                (buffer 10 (scale-to-fit avatar 100))))
   (buffer 40 badge))
 
+
+  
+
 ;print all badges in course or list of courses (only works on macs)
+;no QR
 (define (print-badges! . courses)
   (map print-image!
        (cards->pages
         (apply append
                (map badges courses)))))
+
+;print all badges in course or list of courses (only works on macs)
+;YES QR
+(define (print-qr-badges! . courses)
+  (map print-image!
+       (cards->pages
+        (apply append
+               (map qr-badges courses)))))
+
 
 ;attempt at function to save-out badges
 #;(define (save-badges! course)
@@ -296,7 +335,6 @@
 ;ignores cancelled enrollments
 (define/contract (prev-enrolled student)
   (-> student? number?)
-  (set-env! PROD)
   (define e (hash-ref student 'enrollments))
   (define c (map (curryr hash-ref 'canceled) e))
   (define l (map swap c))
@@ -317,23 +355,26 @@
 ;gets list of students from course
 (define/contract (students course)
   (-> course? (listof student?))
-  (set-env! PROD)
   (define (f x) (hash-ref x 'student))
   (define l (map f (enrollments course)))
   (define (x y) (hash-set y 'the-type "student"))
   (map x l))
 
-;builds badges for all students in a course
+;builds QR badges for all students in a course
+(define/contract (qr-badges course)
+  (-> course? (listof image?))
+  (define (b x) (build-qr-badge x (hash-ref course 'id)))
+  (map b (students course)))
+
+;builds non-QR badges for all students in a course
 (define/contract (badges course)
   (-> course? (listof image?))
-  (set-env! PROD)
   (define (b x) (build-badge x (hash-ref course 'id)))
   (map b (students course)))
 
 ;gets age of a student
 (define/contract (age student)
   (-> student? number?)
-  (set-env! PROD)
   (define dob (iso8601->datetime (hash-ref student 'dob)))
   (period-ref (period-between dob (now) '(years)) 'years))
 

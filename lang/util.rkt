@@ -38,7 +38,10 @@
          name
          host-image!
          get-url
-         download-file)
+         download-file
+
+         is-prod?
+         prod-preferred!)
 
 (module+ test
   (require rackunit))
@@ -139,7 +142,22 @@
             (string->url (get-url (pluralize type) id)))))
   
     (define h  (read-json  (open-input-string  resp)))
-    (hash-set h 'the-type type)))
+
+    (hash-set (hash-set h 'the-type type)
+              'env env)))
+
+
+(define (prod-preferred! x)
+
+  (if (is-prod? x)
+      (void)
+      (displayln "WARNING: Producing a badge from DEV information.\nYou probably want to (set-env! PROD)."))
+
+  #t)
+
+(define (is-prod? x)
+  (string=? PROD
+            (hash-ref x 'env)))
 
 
 (define (update type id json)
