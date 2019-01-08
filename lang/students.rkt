@@ -357,7 +357,8 @@
   (-> course? (listof student?))
   (define (f x) (hash-ref x 'student))
   (define l (map f (enrollments course)))
-  (define (x y) (hash-set y 'the-type "student"))
+  (define (x y) (hash-set (hash-set y 'the-type "student")
+                          'env env))
   (map x l))
 
 ;builds QR badges for all students in a course
