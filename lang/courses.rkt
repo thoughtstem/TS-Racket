@@ -251,8 +251,8 @@
 
 
 
-(define/contract (start-time m)
-  (-> meeting? moment?)
+(define/contract (start-time m (adj 7))
+  (->* (meeting?) (number?) moment?)
 
   (define s (hash-ref m 'start_time))
 
@@ -260,11 +260,12 @@
       (-hours
        (iso8601->moment
         s)
-       7)
+       adj)
       s))
 
-(define/contract (end-time m)
-  (-> meeting? moment?)
+(define/contract (end-time m (adj 7))
+  (->* (meeting?) (number?) moment?)
+
 
   (define s (hash-ref m 'end_time))
 
@@ -272,7 +273,7 @@
       (-hours
        (iso8601->moment
         s)
-       7)
+       adj)
       s))
 
 
@@ -399,12 +400,29 @@
 
 (define (add-hours h)
   (lambda (m)
-    (define start (+hours (start-time m) h))
-    (define end   (+hours (end-time m) h))
+    (define start (+hours (start-time m 0) h))
+    (define end   (+hours (end-time m 0) h))
 
     (~> m
-        (hash-set _ 'start_time start)
-        (hash-set _ 'end_time end))
+        (hash-set _ 'start_time (moment->iso8601 start))
+        (hash-set _ 'end_time   (moment->iso8601 end)))
     ))
 
+(define (add-minutes mins)
+  (lambda (m)
+    (define start (+minutes (start-time m 0) mins))
+    (define end   (+minutes (end-time m 0) mins))
+
+    (~> m
+        (hash-set _ 'start_time (moment->iso8601 start))
+        (hash-set _ 'end_time   (moment->iso8601 end)))
+    ))
+
+(define (set-minutes minutes)
+  (lambda (m)
+    (define end (+minutes (start-time m 0) minutes))
+
+    (~> m
+        (hash-set _ 'end_time   (moment->iso8601 end)))
+    ))
 
