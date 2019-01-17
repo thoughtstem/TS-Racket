@@ -4,12 +4,12 @@
 (set-env! PROD)
 
 
-(make-course-with-meetings-from-bundle! (superhero-game-spring "Old Town")
-                                        old-town
-                                        180
+(make-course-with-meetings-from-bundle! (code-your-game-bundle-spring "Westwood")
+                                        west-wood
+                                        190
                                         60
                                         ""
  
-                                        (date-strings->dates "3:15pm"
-                                                             "4/1, 4/8, 4/15, 4/29, 5/6, 5/13, 5/20, 6/3")
+                                        (date-strings->dates "2:00pm"
+                                                             "3/20, 3/27, 4/3, 4/10, 4/24, 5/1, 5/8, 5/15")
                                         )
