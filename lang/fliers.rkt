@@ -102,11 +102,11 @@
                                  " - "
                                  (third time-details)) 60 "white")
                        spacer
-                       (text "K-2nd & 3rd-5th classes available year-round" 60 "white")
+                       (text "K-2nd & 3rd-6th classes available year-round" 60 "white")
                        spacer
                        (text register-url 60 "white")
                        spacer
-                       (text "(858) 869-9430 | contact@thoughtstem.com | www.thoughtstem.com" 60 "white"))))
+                       (text "(858) 869-9430 | contact@thoughtstem.com" 60 "white"))))
 
 (define/contract (filter-out-words s l)
   (-> string? list? string?)
@@ -390,14 +390,19 @@
 
 ;one course flyer
 (define/contract (course->flier
-                  #:bg (bg (bitmap "resources/bg.png"))
                   c
                   (selling-points (selling-points c))
-                  (registration-link "https://secure.thoughtstem.com"))
+                  (registration-link "https://secure.thoughtstem.com")
+                  #:bg (bg (make-flier-bg
+                            (bitmap "resources/student-image-2.jpg")
+                            (bitmap "resources/k-2nd-screenshot.png")
+                            (bitmap "resources/student-image-1.jpg")))
+                  #:title (title1 (name c)))
+
  
-  (->* (flyer-ready-course?) ((listof string?) string? #:bg image?) image?)
+  (->* (flyer-ready-course?) ((listof string?) string? #:bg image? #:title string?) image?)
   (make-flier bg
-              (name c)
+              title1
               (grade-level c)
 
               ;TODO: Come back to this
@@ -425,7 +430,6 @@
                     (->nice-time
                      (end-time (first (meetings c)))))
 
-              ;TODO: Figure out how to generate this...
               registration-link))
 
 ;for 2 courses at one location

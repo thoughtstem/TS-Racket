@@ -9,10 +9,13 @@
 
 (save-meetings!
 
- (set-room-id (course 1349) 544))
+ (set-room-id (course 1273) 484))
 
 (save-meetings!
-(set-room-id (course 1350) 543))
+
+ (set-room-id (course 1272) 272))
+
+
 
 
 

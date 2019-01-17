@@ -4,7 +4,8 @@
          "./constants.rkt"
          gregor
          gregor/period
-         2htdp/image)
+         2htdp/image
+         threading)
 
 (provide (all-defined-out))
 
@@ -89,6 +90,16 @@
   (-> meeting? (listof attendance?))
   (map (curryr set-type "attendance")
        (hash-ref m 'attendances)))
+
+(define/contract (course-id m)
+  (-> meeting? number?)
+  (hash-ref m 'course_id))
+
+
+(define/contract (backup-url a)
+  (-> attendance? (or/c string? #f))
+
+  (hash-ref a 'backup_url #f))
 
 (define/contract (computer-id a)
   (-> attendance? number?)
@@ -240,21 +251,30 @@
 
 
 
-(define/contract (start-time m)
-  (-> meeting? moment?)
+(define/contract (start-time m (adj 7))
+  (->* (meeting?) (number?) moment?)
 
-  (-hours
-   (iso8601->moment
-    (hash-ref m 'start_time))
-   7))
+  (define s (hash-ref m 'start_time))
 
-(define/contract (end-time m)
-  (-> meeting? moment?)
+  (if (string? s)
+      (-hours
+       (iso8601->moment
+        s)
+       adj)
+      s))
 
-  (-hours
-   (iso8601->moment
-    (hash-ref m 'end_time))
-   7))
+(define/contract (end-time m (adj 7))
+  (->* (meeting?) (number?) moment?)
+
+
+  (define s (hash-ref m 'end_time))
+
+  (if (string? s)
+      (-hours
+       (iso8601->moment
+        s)
+       adj)
+      s))
 
 
 
@@ -372,3 +392,37 @@
   (define dates (map string->time better-date-strings))
 
   dates)
+
+(define/contract (change-meeting-times f c)
+  (-> procedure? course? course?)
+
+  (hash-set c 'meetings (map f (meetings c))))
+
+(define (add-hours h)
+  (lambda (m)
+    (define start (+hours (start-time m 0) h))
+    (define end   (+hours (end-time m 0) h))
+
+    (~> m
+        (hash-set _ 'start_time (moment->iso8601 start))
+        (hash-set _ 'end_time   (moment->iso8601 end)))
+    ))
+
+(define (add-minutes mins)
+  (lambda (m)
+    (define start (+minutes (start-time m 0) mins))
+    (define end   (+minutes (end-time m 0) mins))
+
+    (~> m
+        (hash-set _ 'start_time (moment->iso8601 start))
+        (hash-set _ 'end_time   (moment->iso8601 end)))
+    ))
+
+(define (set-minutes minutes)
+  (lambda (m)
+    (define end (+minutes (start-time m 0) minutes))
+
+    (~> m
+        (hash-set _ 'end_time   (moment->iso8601 end)))
+    ))
+

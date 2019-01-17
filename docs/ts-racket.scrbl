@@ -239,53 +239,16 @@ A list of constants defined to be used in course creation. Last updated 9/7/2018
  
  ]
 
-@section{Alerts}
-
-@defproc[(send-alerts [alerts alerts?])
-         void?]
-
-Sends alerts.  Alerts should be created with @racket[create-alerts].
-For example, this will send an alert to all computers at meeting 6686.
-
-@racketblock[
- (send-alerts
-  (create-alerts
-   (computer-ids (meeting 6686))
-   voice-alert
-   "Test!"))
-]
-
-@defproc[(create-alerts [computer-ids (or/c (listof number?)
-                                            string?)]
-                        [alert-type alert-type?]
-                        [message string?])
-         alerts?]
-
-Creates alerts for some list of computer ids.  The computer
-ids can either be a comma separated string (for easy pasting):
-
-@racket["1,2,3"]
-
-Or it can be a list of numbers:
-
-@racket['(1 2 3)]
 
 
-@defproc[(alert-type? [x any/c])
-         boolean?]
 
-Can be any member of the following constants.
 
-@racketblock[
- (define phone-alert   "phone")
- (define help-alert    "help")
- (define full-alert    "full")
- (define block-alert   "block")
- (define voice-alert   "voice")
- (define message-alert "message")
- (define link-alert    "link")
- (define command-alert "common")
- ]
+
+
+
+
+
+
 
 
 @section{image-util}
@@ -340,13 +303,6 @@ An overlay function that handles being called with 0 or 1 images. Perfect for
 use in complex image building functions that will be given a range of images
 and might run into a list of 0 or 1.
 
-@defproc[(frame [i image?]
-                [#:size size number? 1]
-                [#:color color color? 'black]
-                )
-         image?]
-
-Puts a border around the given image.  Default is a single pixel black border.
 
 @defproc[(pad-list [imgs (listof image?)])
          (listof image?)]
@@ -397,4 +353,163 @@ NOTE: Only works on macs for now.
                      (badges (course 1208))
                      (list
                       (build-badge (student 1753) 1208 "Triceratops")))))]
+
+
+
+
+
+@defproc[(code+hints [#:settings settings (hint-settings?) (hints-on-top)]
+                     [code pict?]
+                     [hints list?])
+         pict?]
+
+Built for use in curriculum -- for launch codes etc.
+
+@larger{Example uses:}
+
+@centered{@bold{Defining a code image with one hint.}}
+
+Inside this definition, you need two additional definitions prior to calling @racket[code+hints].
+@bold{First} define the code snippet you wish to hint. @bold{Second}, define the rest of the code,
+inserting the previously defined code snippet where it belongs. @bold{Lastly}, call @racket[code+hints].
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+
+   (define target (code "Triceritops"))
+
+   (define all-code (code (build-badge (student 1753) 1208 #,target)))
+
+   (code+hints all-code
+               (list target (hint "This argument is optional."
+                                  "This nickname will replace"
+                                  "the name in the student struct."))))
+
+ (example-code)]
+
+@centered{@bold{Defining a code image with multiple hints.}}
+
+In this case, you need pull out and define each snippet of code you want to hint.
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+
+   (define id (code 1753))
+
+   (define course (code 1208))
+   
+   (define nickname (code "Triceritops"))
+
+   (define all-code (code (build-badge (student #,id) #,course #,nickname)))
+
+   (code+hints all-code
+               (list id (hint "Cannot be negative number."))
+               (list course (hint "This neither."))
+               (list nickname (hint "This argument is optional."
+                                    "This nickname will replace"
+                                    "the name in the student struct."))))
+
+ (example-code)]
+
+@centered{@bold{Defining a code image with hints to the right of the code.}}
+
+You will want to use the optional keyword parameter @racket[#:settings].
+
+@examples[
+ #:eval helper-eval
+ #:escape potato
+ (require pict/code)
+ 
+ (define (example-code)
+   
+   (define nickname (code "Triceritops"))
+
+   (define all-code (code (build-badge (student 1753) 1208 #,nickname)))
+
+   (code+hints all-code
+               #:settings hints-on-right
+               (list nickname (hint "Please don't replace student"
+                                    "names with dinosaurs."))))
+
+ (example-code)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section{Alerts}
+
+@defproc[(send-alerts [alerts alerts?])
+         void?]
+
+Sends alerts.  Alerts should be created with @racket[create-alerts].
+For example, this will send an alert to all computers at meeting 6686.
+
+@racketblock[
+ (send-alerts
+  (create-alerts
+   (computer-ids (meeting 6686))
+   voice-alert
+   "Test!"))
+]
+
+@defproc[(create-alerts [computer-ids (or/c (listof number?)
+                                            string?)]
+                        [alert-type alert-type?]
+                        [message string?])
+         alerts?]
+
+Creates alerts for some list of computer ids.  The computer
+ids can either be a comma separated string (for easy pasting):
+
+@racket["1,2,3"]
+
+Or it can be a list of numbers:
+
+@racket['(1 2 3)]
+
+
+@defproc[(alert-type? [x any/c])
+         boolean?]
+
+Can be any member of the following constants.
+
+@racketblock[
+ (define phone-alert   "phone")
+ (define help-alert    "help")
+ (define full-alert    "full")
+ (define block-alert   "block")
+ (define voice-alert   "voice")
+ (define message-alert "message")
+ (define link-alert    "link")
+ (define command-alert "common")
+ ]
+
+
+
+
+
+
+
+
+
 

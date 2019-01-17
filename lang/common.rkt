@@ -11,6 +11,7 @@
          "./courses.rkt"
          "./students.rkt"
          "./alerts/alert-generator.rkt"
+         "./alerts/smw.rkt"
          "./argus/argus.rkt"
          "./fliers.rkt"
          "./image-util.rkt")
@@ -21,6 +22,7 @@
          (all-from-out "./courses.rkt")
          (all-from-out "./students.rkt")
          (all-from-out "./alerts/alert-generator.rkt")
+         (all-from-out "./alerts/smw.rkt")
          (all-from-out "./argus/argus.rkt")
          (all-from-out "./fliers.rkt")
          (all-from-out "./image-util.rkt"))
