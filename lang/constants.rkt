@@ -10,23 +10,35 @@
 (define country-montessori 10486)
 (define deer-canyon 7379)
 (define del-mar-hills 7183)
+(define del-mar-heights 10503)
+(define east-lake 7159)
+(define fleet-spring 10515)
+(define grant 7512)
 (define hearst 7517)
+(define hickman 7582)
 (define jerabek 7593)
 (define JCS 10597)
 (define kumeyaay 7600)
 (define liberal-arts 10595)
 (define language-academy 10508)
+(define la-jolla 7526)
+(define la-jolla-country-day 10537)
+(define marshall 7165)
 (define notre-dame 10502)
 (define ocean-air 7181)
 (define old-town 7435)
+(define painted-rock 10488)
 (define sage-canyon 7186)
 (define spreckels 10517)
 (define sycamore-ridge 10531)
+(define tierrasanta 7584)
 (define thoughtstem 10558)
 (define torrey-hills 7187)
+(define torrey-pines 7557)
 (define torah-high 10616)
 (define ucsd-extension 1)
 (define urban-discovery 10509)
+(define west-wood 7368)
 
 
 (define python-racket-description
@@ -166,3 +178,31 @@
         (superhero-games-description school)
         superhero-games-screenshot
         (list "K-2nd")))
+
+;DMUSD Spring 2019 bundles
+(define (superhero-scratch-game-description name)
+  (~a "<p>This Spring," name "K-2nd students will learn how to take their coding to the next level! We'll teach students how to turn their digital art into digital animations with code and MIT's Scratch programming interface. Students will learn how to create animated stories involving their own artistic creations and to create video games featuring important video game design aspects, like game rules, character movement, and scoreboards.
+ Students will gain important computer literacy skills, including proficiency with computers, mice, and keyboards. At the end of the course, students will be able to share their superhero-themed games with family and friends!</i></p>"))
+
+
+(define (survival-battle-game-description name)
+  (~a "<p>This Spring," name "3rd-6th students will design & code their very own 2D survival and battle arena games. Students will learn how to build critical features that make survival games like <i>Minecraft</i> and <i>Fortnite</i> fun! Students will use a powerful, typed language to code features like health bars, day-night cycles, and crafting/recipe mechanics.
+ They'll also learn how to code their characters' attacks and defenses and create battle animations. At the end of this course, students will be able to share their survival and battle arena games with friends and family.</i><p>")) 
+
+
+(define (superhero-scratch-game-bundle school)
+  (list "Super Hero Animations and Video Games: K-2nd"
+        (superhero-scratch-game-description school)
+        superhero-games-screenshot
+        (list "K-2nd")))
+
+
+(define (survival-battle-game-bundle school)
+  (list "Survival and Battle Arena Video Game Design: 3rd-6th"
+        (survival-battle-game-description school)
+        code-your-game-spring-screenshot
+        (list "3rd-6th")))
+
+
+
+
