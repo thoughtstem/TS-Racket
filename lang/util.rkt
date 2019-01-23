@@ -123,12 +123,16 @@
 (define (index type)
   (define url (string->url (get-url (pluralize type) #f)))
   
-  (define l
+  (define d
     (read-json 
      (open-input-string
       (http-response-body
        (get http-requester
             url)))))
+
+  (define l (if (hash? d)
+                (hash-ref d 'records)
+                d))
   
   (map (λ(h)(hash-set h 'the-type type))
        l)
