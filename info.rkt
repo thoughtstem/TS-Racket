@@ -10,5 +10,4 @@
 ))
 
 (define deps '("aws" "request" "gregor" "anaphoric"
-  "https://github.com/thoughtstem/racket-blocks.git?path=racket-bricks"
   "simple-qr"))
