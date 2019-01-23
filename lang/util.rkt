@@ -77,7 +77,7 @@
             (~a env "/" type "/" id ".json?api_key=" k)
             (~a env "/" type ".json?api_key=" k)  )))
 
-  (~a url "?give_all=true"))
+  (~a url "&give_all=true"))
 
 
 (define (get-creation-url type)
