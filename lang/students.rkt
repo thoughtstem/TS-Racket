@@ -239,7 +239,12 @@
                               (name (first-name student)))
   (->* ((and/c student? prod-preferred!) number?) (string?) image?)
 
-  (badge-builder student crs-id empty-image 55 35 name))
+  (define course-only
+    (above
+     (rectangle 1 20 'solid 'transparent)
+     (text (number->string crs-id) 20 "gray")))
+
+  (badge-builder student crs-id course-only 55 35 name))
 
 ;badge-builder function
 (define/contract (badge-builder student
@@ -264,6 +269,7 @@
   (define avatar
     (random-dude))
 
+
   (define bg
     ;(rectangle 400 300 "outline" "black")
     (badge-bg
@@ -275,7 +281,8 @@
     (above
      (text name n1 "black")
      (text (last-name student) n2 "black")
-     img))
+     img
+     ))
   
   (define badge (overlay/align "right" "bottom"
                                (overlay/align "left" "top"

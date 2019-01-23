@@ -393,11 +393,13 @@
 
   dates)
 
+;to change times for all meetings in a course
 (define/contract (change-meeting-times f c)
   (-> procedure? course? course?)
 
   (hash-set c 'meetings (map f (meetings c))))
 
+;option to pass in to change-meeting-times
 (define (add-hours h)
   (lambda (m)
     (define start (+hours (start-time m 0) h))
@@ -408,6 +410,7 @@
         (hash-set _ 'end_time   (moment->iso8601 end)))
     ))
 
+;option to pass in to change-meeting-times
 (define (add-minutes mins)
   (lambda (m)
     (define start (+minutes (start-time m 0) mins))
@@ -418,6 +421,7 @@
         (hash-set _ 'end_time   (moment->iso8601 end)))
     ))
 
+;option to pass in to change-meeting-times
 (define (set-minutes minutes)
   (lambda (m)
     (define end (+minutes (start-time m 0) minutes))
