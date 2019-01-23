@@ -37,8 +37,8 @@
 (define/contract (selling-points c)
   (-> course? list?)
   (if (k-2nd? c)
-      k-2nd-winter-selling-points
-      3rd-5th-winter-selling-points))
+      k-2nd-spring-selling-points
+      3rd-5th-spring-selling-points))
 
 ;functions to assist building flyer
 (define/contract (bold-text s size color)
@@ -53,7 +53,7 @@
    #rx" \n "
 
    (string-join
-    (flatten (add-between words (list "\n")))
+    (flatten (add-between words (list "\n   ")))
     " ")
    "\n"))
 
@@ -77,36 +77,35 @@
   (-> list? list? string? image?)
   (define headers
     (above/align "left"
-                 (text "LOCATION:" 60 "white")
+                 (text/font "LOCATION:" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                  spacer
-                 (text "DAY & TIME:" 60 "white")
+                 (text/font "DAY & TIME:" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                  spacer
-                 (text "GRADES:" 60 "white")
+                 (text/font "GRADES:" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                  spacer
-                 (text "REGISTER:" 60 "white")
+                 (text/font "REGISTER:" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                  spacer
-                 (text "CONTACT US:" 60 "white")))
-  (beside headers
-          
+                 (text/font "CONTACT US:" 60 "white" "Helvetica" "default" 'normal 'bold #f)))
+  (beside headers (rectangle 40 40 "outline" "transparent")
           (above/align "left"
-                       (text (~a (first location-details)
+                       (text/font (~a (first location-details)
                                  " at "
                                  (second location-details)
                                  ; " | "
                                  ;(third location-details)
-                                 ) 60 "white")
+                                 ) 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text (~a (first time-details)
+                       (text/font (~a (first time-details)
                                  " | "
                                  (second time-details)
                                  " - "
-                                 (third time-details)) 60 "white")
+                                 (third time-details)) 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text "K-2nd & 3rd-6th classes available year-round" 60 "white")
+                       (text/font "K-2nd & 3rd-5th classes available year-round" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text register-url 60 "white")
+                       (text/font register-url 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text "(858) 869-9430 | contact@thoughtstem.com" 60 "white"))))
+                       (text/font "(858) 869-9430 | contact@thoughtstem.com" 60 "white" "Helvetica" "default" 'normal 'bold #f))))
 
 (define/contract (filter-out-words s l)
   (-> string? list? string?)
@@ -274,6 +273,8 @@
 
   (define bullets
     (above/align "left"
+                 (text "In this class, students will: " 60 "white")
+                 spacer
                  (string->bullet
                   (newline-every 20
                                  (first selling-points)))
@@ -288,6 +289,8 @@
 
   (define bullets1
     (above/align "left"
+                 (text "In this class, students will: " 60 "white")
+                 spacer
                  (string->bullet
                   (newline-every 20
                                  (first selling-points1)))
@@ -303,7 +306,7 @@
   (define with-bullets
     (place-image
      (scale 0.8 bullets)
-     (+ 100 (/ (image-width (scale 0.8 bullets)) 2))
+     (+ 120 (/ (image-width (scale 0.8 bullets)) 2))
      (+ (/ (image-height (scale 0.8 bullets)) 2) 1970)
      bg))
 
@@ -319,7 +322,7 @@
   (define with-header
     (place-image
      header-img
-     (half-width-plus 100 header-img)
+     (half-width-plus 120 header-img)
      (half-height-plus 1760 header-img)
      with-bullets1))
 
@@ -339,7 +342,7 @@
   (define with-course-title
     (place-image
      title-img
-     (half-width-plus 100 title-img)
+     (half-width-plus 120 title-img)
      1920
      with-header1))
 
@@ -359,7 +362,7 @@
   (define with-time-and-price
     (place-image
      time-and-price
-     (half-width-plus 100 time-and-price)
+     (half-width-plus 120 time-and-price)
      2660
      with-course-title1))
 
@@ -378,7 +381,7 @@
   (define flier-img-with-footer
     (place-image
      footer
-     (half-width-plus 110 footer)
+     (half-width-plus 120 footer)
      (half-height-plus 2740 footer)
      with-time-and-price1))
 
@@ -441,10 +444,10 @@
                   (selling-points2 (selling-points c2))
                   (registration-link "https://secure.thoughtstem.com")
                   #:bg (bg (make-2-course-flier-bg
-                            (bitmap "resources/k-2nd-screenshot.png")
-                            (bitmap "resources/survival-screenshot.png")
-                            (bitmap "resources/student-image-1.jpg")
-                            (bitmap "resources/student-image-2.jpg")))
+                            (bitmap "resources/superhero-screenshot-3.png")
+                            (bitmap "resources/battle_screenshot2.png")
+                            (bitmap "resources/student-image-4.jpg")
+                            (bitmap "resources/student-image-3.jpg")))
                   #:first-title (title1 (name c1))
                   #:second-title (title2 (name c2)))
 

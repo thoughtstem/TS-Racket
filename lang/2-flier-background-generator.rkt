@@ -11,9 +11,10 @@
   (define blue-section (bitmap "resources/blue-section.png"))
   (define purple-section (bitmap "resources/purple-section.png"))
   (define footer (bitmap "resources/thinner-footer.png"))
-  (define sticker (bitmap "resources/sticker.png"))
+  ;(define sticker (bitmap "resources/sticker.png"))
   ;(define sticker (bitmap "resources/sticker-nov.png"))
-  ;(define sticker (circle 10 "outline" "transparent"))
+  ;(define sticker (bitmap "resources/sticker-spring-break.png"))
+  (define sticker (circle 10 "outline" "transparent"))
   ;(define course-image-2 (bitmap "resources/superhero-screenshot.png"))
   ;(define course-image-1 (bitmap "resources/survival-screenshot.png"))
   ;(define student-image-1 (bitmap "resources/student-image-1.jpg"))
@@ -55,9 +56,11 @@
   
   ;Generates flyer background
   (place-image/align
-   (scale 0.95 sticker)
-   (- (image-width flier-underneath) 80)
-   (- (image-height flier-underneath) 80) "right" "bottom"
+   sticker
+   (- (image-width flier-underneath) 60)
+   (- (image-height flier-underneath) 60)
+   "right"
+   "bottom"
    flier-underneath))
 
 (module+ test

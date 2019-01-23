@@ -149,11 +149,24 @@
    "Students will create animations of their digital superhero art"
    "Students will gain proficiency with computers, mice, and keyboards and will become confident with technology!"))
 
+(define k-2nd-spring-selling-points
+  (list
+   "Learn how to use MIT's Scratch programming interface"
+   "Create video games using their own superhero art"
+   "Gain proficiency with computers, mice, and keyboards and will become confident with technology!"))
+
+
 (define 3rd-5th-winter-selling-points
   (list
    "Students will code & design their own 2D survival games with game features similar to favorites like Minecraft and Fortnite"
    "Students will learn how to code game features like health, day-night cycles, and crafting mechanics"
    "Students can share their game with friends and family!"))
+
+(define 3rd-5th-spring-selling-points
+  (list
+   "Code & design their own 2D battle arena games with features from games like Pokemon and Final Fantasy"
+   "Learn how to code character attacks, defenses, magic, and a turn-based rule system"
+   "Be able to share their game with friends and family!"))
 
 (define k-2nd-del-mar-selling-points
   (list
