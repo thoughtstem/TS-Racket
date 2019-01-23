@@ -4,12 +4,12 @@
 (set-env! PROD)
 
 
-(make-course-with-meetings-from-bundle! (code-your-game-bundle-spring "Westwood")
-                                        west-wood
-                                        190
-                                        60
+(make-course-with-meetings-from-bundle! (710-harry-potter-camp-bundle "UCSD")
+                                        ucsd-summer-camp
+                                        370
+                                        240
                                         ""
  
-                                        (date-strings->dates "2:00pm"
-                                                             "3/20, 3/27, 4/3, 4/10, 4/24, 5/1, 5/8, 5/15")
+                                        (date-strings->dates "9:00am"
+                                                             "7/1, 7/2, 7/3, 7/5")
                                         )
