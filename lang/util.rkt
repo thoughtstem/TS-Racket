@@ -70,11 +70,14 @@
 
 
 (define (get-url type id (k key))
-  (if (string=? k "")
-      (raise "ERROR: NO API KEY")
-      (if id
-          (~a env "/" type "/" id ".json?api_key=" k)
-          (~a env "/" type ".json?api_key=" k)  )))
+  (define url
+    (if (string=? k "")
+        (raise "ERROR: NO API KEY")
+        (if id
+            (~a env "/" type "/" id ".json?api_key=" k)
+            (~a env "/" type ".json?api_key=" k)  )))
+
+  (~a url "?give_all=true"))
 
 
 (define (get-creation-url type)
@@ -121,18 +124,17 @@
   (or/c course? meeting? topic? room? location? attendance? code-snippet? topic-assignment?))
 
 (define (index type)
-  (define url (string->url (get-url (pluralize type) #f)))
+  (define url
+    (string->url (get-url (pluralize type) #f)))
   
-  (define d
+  (define l
     (read-json 
      (open-input-string
       (http-response-body
        (get http-requester
             url)))))
 
-  (define l (if (hash? d)
-                (hash-ref d 'records)
-                d))
+
   
   (map (λ(h)(hash-set h 'the-type type))
        l)
