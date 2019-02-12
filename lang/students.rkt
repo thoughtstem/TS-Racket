@@ -12,7 +12,6 @@
          pict/code
          2htdp/image
          simple-qr
-         racket-bricks/renderer
          gregor
          gregor/period
          )
@@ -93,76 +92,6 @@
   (-> hash? (or/c string? #f))
   (hash-ref h 'value #f))
 
-
-(define (new-code-snippet key snippet-string student-pw snippet-nickname)
-  (hash 'the-type "code_snippet"
-        'key key
-        'value snippet-string
-        'nickname snippet-nickname
-        'id (~a student-pw "::" snippet-nickname "::" key)))
-
-
-(define (store-snippet-f student-pw snippet-nickname key snippet-string)
-  (save
-   (new-code-snippet key snippet-string student-pw snippet-nickname)))
-
-
-(define (avatar-snippet s)
-  (get-snippet-by-pw-and-name (hash-ref s 'password) "avatar"))
-
-(define (get-snippet-by-pw-and-name student-pw snippet-name)
-  (value (code-snippet (~a student-pw)
-                       (~a snippet-name))))
-
-
-(define (run-snippet-string a code-string)
-  (eval (read (open-input-string code-string))
-        (namespace-anchor->namespace a)))
-
-
-
-(define-syntax-rule (enable-snippets nick)
-  (begin
-    (define-namespace-anchor a)
-    (define nick (list
-                  (namespace-anchor->namespace a)
-                  (lookup-student-pw)
-                  'nick))))
-
-(define-syntax (display-snippet stx)
-  (syntax-case stx ()
-    ((_ nick key)
-     #`(let ([code-string
-              (value (code-snippet (~a (third nick))
-                                   (~a 'key)))])
-         
-         ((render-text)
-          (read (open-input-string code-string))))
-         )))
-
-(define-syntax (get-snippet stx)
-  (syntax-case stx ()
-    ((_ nick key)
-     #`(let ([code-string
-              (value (code-snippet (~a (third nick))
-                                   (~a 'key)))])
-         
-         (if code-string
-             (eval (read (open-input-string code-string))
-                   (first nick))
-             (displayln (~a "No snippet for " (third nick) " " 'key)))
-
-         ))))
-
-(define-syntax (store-snippet stx)
-  (syntax-case stx ()
-    ((_ nick key snippet)
-     #`(let ([code-string (~s 'snippet)])
-         (store-snippet-f (~a (second nick)) ;OMG refactor this list bs..
-                          (~a (third nick))
-                          (~a 'key)
-                          code-string)
-         snippet))))
 
 ;===== BADGES ======
 
