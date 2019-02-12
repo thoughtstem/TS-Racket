@@ -4,12 +4,12 @@
 (set-env! PROD)
 
 
-(make-course-with-meetings-from-bundle! (710-harry-potter-camp-bundle "UCSD")
-                                        ucsd-summer-camp
-                                        370
-                                        240
+(make-course-with-meetings-from-bundle! (710-mario-camp-bundle "Cal State San Marcos")
+                                        csu-san-marcos
+                                        290
+                                        180
                                         ""
  
-                                        (date-strings->dates "9:00am"
-                                                             "7/1, 7/2, 7/3, 7/5")
+                                        (date-strings->dates "1:00pm"
+                                                             "6/24, 6/25, 6/26, 6/27, 6/28")
                                         )
