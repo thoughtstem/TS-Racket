@@ -26,6 +26,7 @@
 (define language-academy 10508)
 (define la-jolla 7526)
 (define la-jolla-country-day 10537)
+(define country-day-summer 10575)
 (define marshall 7165)
 (define mira-costa 10576)
 (define notre-dame 10502)
