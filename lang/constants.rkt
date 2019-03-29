@@ -156,6 +156,18 @@
    "Students will learn how to code game features like health, day-night cycles, and crafting mechanics"
    "Students can share their game with friends and family!"))
 
+(define k-2nd-spring-selling-points
+  (list
+   "Students will learn the fundamentals of coding"
+   "Students will create video games involving their favorite superheroes"
+   "Students will gain proficiency with computers, mice, and keyboards and will become confident with technology!"))
+
+(define 3rd-5th-spring-selling-points
+  (list
+   "Students will code & design their own 2D battle arena games with game features similar to favorites like Minecraft and Fortnite"
+   "Students will learn how to code game features like weapons, armor, and potions"
+   "Students can share their game with friends and family!"))
+
 (define k-2nd-del-mar-selling-points
   (list
    "Students will learn how to build their own video games using MIT's Scratch language"
