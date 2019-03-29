@@ -37,8 +37,8 @@
 (define/contract (selling-points c)
   (-> course? list?)
   (if (k-2nd? c)
-      k-2nd-spring-selling-points
-      3rd-5th-spring-selling-points))
+      k-2nd-selling-points
+      3rd-5th-selling-points))
 
 ;functions to assist building flyer
 (define/contract (bold-text s size color)
