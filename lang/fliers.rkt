@@ -101,7 +101,7 @@
                                  " - "
                                  (third time-details)) 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text/font "K-2nd & 3rd-5th classes available year-round" 60 "white" "Helvetica" "default" 'normal 'bold #f)
+                       (text/font "K-2nd. Great for first time coders!" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
                        (text/font register-url 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
