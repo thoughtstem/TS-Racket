@@ -1,7 +1,7 @@
 #lang racket
 (require ts-racket
          2htdp/image)
-(set-env! PROD)
+(set-env! DEV)
 
 
 (make-course-with-meetings-from-bundle! (code-your-game-bundle-spring "Doyle Elementary")
@@ -11,7 +11,7 @@
                                         ""
  
                                         (date-strings->dates "2:05pm"
-                                                             "4/8, 4/15, 4/22, 4/29, 5/6, 5/13, 5/20")
+                                                             "12/8/2019, 12/15/2019, 12/22/2019, 12/29/2019, 1/6/2020, 1/13/2020, 1/20/2020")
                                         )
 
 

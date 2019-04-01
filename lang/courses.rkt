@@ -380,7 +380,9 @@
     (λ(date-string)
       (define month-num (first  (string-split date-string "/")))
       (define day-num   (second (string-split date-string "/")))
-      (~a "2019-"
+      (define year-num (third  (string-split date-string "/")))
+      (~a (~a year-num)
+          "-"
           (~a month-num #:width 2 #:align 'right #:pad-string "0")
           "-"
           (~a day-num #:width 2 #:align 'right #:pad-string "0")
