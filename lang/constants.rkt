@@ -4,6 +4,7 @@
 
 (define albert-einstein 3)
 (define ashley-falls 7185)
+(define barrio-logan 10640)
 (define bird-rock 10617)
 (define csu-san-marcos 10528)
 (define carmel-del-mar 7184)
@@ -12,12 +13,15 @@
 (define deer-canyon 7379)
 (define del-mar-hills 7183)
 (define del-mar-heights 10503)
+(define doyle 7591)
 (define east-lake 7159)
+(define hillsdale-middle 10642)
 (define fleet 10484)
 (define fleet-spring 10515)
 (define grant 7512)
 (define hearst 7517)
 (define hickman 7582)
+(define high-tech-high 10641)
 (define jerabek 7593)
 (define jcc 10507)
 (define JCS 10597)
@@ -38,6 +42,7 @@
 (define sdsu 10572)
 (define spreckels 10517)
 (define sycamore-ridge 10531)
+(define tecolote-shores 10643)
 (define tierrasanta 7584)
 (define thoughtstem 10558)
 (define torrey-hills 7187)
@@ -186,6 +191,29 @@
         (superhero-games-description school)
         superhero-games-screenshot
         (list "K-2nd")))
+
+;Generic Course Bundle
+(define (generic-course-description)
+  (~a "<p>This session's course curriculum has not yet been finalized. Please check back soon!</i></p>"))
+
+(define (generic-course-k-2 school)
+  (list "ThoughtSTEM K-2 Coding Club"
+        (generic-course-description)
+        ""
+        (list "K-2nd")))
+
+(define (generic-course-3-5 school)
+  (list "ThoughtSTEM 3-5 Coding Club"
+        (generic-course-description)
+        ""
+        (list "3rd-5th")))
+
+(define (barrio-logan-hs school)
+  (list "Barrio Logan High School Course"
+        (generic-course-description)
+        ""
+        (list "3rd-5th")))
+
 
 ;DMUSD Spring 2019 bundles
 (define (superhero-scratch-game-description name)
