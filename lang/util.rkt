@@ -152,8 +152,14 @@
   
     (define h  (read-json  (open-input-string  resp)))
 
-    (hash-set (hash-set h 'the-type type)
-              'env env)))
+    (cond [(and (eq? type "attendance")(eq? h 'null))
+           ;(begin (displayln "=== CAUGHT A NULL ATTENDANCE ===")
+           ;      "")
+           ""]
+          [else (hash-set (hash-set h 'the-type type)
+                          'env env)])
+    
+    ))
 
 
 (define (prod-preferred! x)

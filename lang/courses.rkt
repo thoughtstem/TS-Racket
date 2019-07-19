@@ -66,6 +66,19 @@
   (-> number? course?)
   (show "course" id))
 
+(define/contract (meeting-id meeting)
+  (-> meeting? number?)
+  (hash-ref meeting 'id))
+
+(define (no-attendance? ar)
+  (eq? ar ""))
+
+(define/contract (attendance student-id meeting-id)
+  (-> number? number? (or/c attendance?
+                            no-attendance?))
+  (show "attendance" (~a student-id "_" meeting-id)))
+
+
 (define/contract (topic-assignment id)
   (-> number? topic-assignment?)
   (show "topic_assignment" id))
@@ -135,6 +148,16 @@
   (if (null? (hash-ref t 'tags))
       #t
       #f))
+
+(define/contract (all-t-names course)
+  (-> course? (listof string?))
+  (define t-list (teachers course))
+  (cond
+    [(null? t-list) (list "no teacher")]
+    [else (map t-first-name t-list)]))
+
+(define (t-first-name teacher)
+  (hash-ref teacher 'first_name))
 
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.
@@ -251,7 +274,7 @@
 
 
 
-(define/contract (start-time m (adj 7))
+(define/contract (start-time m [adj 7])
   (->* (meeting?) (number?) moment?)
 
   (define s (hash-ref m 'start_time))

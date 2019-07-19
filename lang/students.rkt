@@ -315,6 +315,41 @@
   (define dob (iso8601->datetime (hash-ref student 'dob)))
   (period-ref (period-between dob (now) '(years)) 'years))
 
+;gets id of a student
+(define/contract (student-id student)
+  (-> student? number?)
+  (hash-ref student 'id))
+
+;gets medical notes of a student
+(define (medical-notes student)
+  (define tmp-notes (hash-ref student 'medical_notes))
+  (cond
+    [(eq? tmp-notes 'null) ""]
+    [else tmp-notes])
+  )
+
+;gets parent's name of a student
+(define/contract (parent-name student)
+  (-> student? string?)
+
+  (define parent (list-ref (hash-ref student 'customers) 0))
+  
+  (define content
+    (string-append
+     (first-name parent)
+     " "
+     (last-name parent)))
+  
+  content)
+
+;gets parent's phone number of a student
+(define/contract (parent-phone student)
+  (-> student? string?)
+  (define parent (list-ref (hash-ref student 'customers) 0))
+
+  (hash-ref parent 'phone_number)
+  )
+
 (define (swap i)
   (if (or (eq? i 'null) (not i))
   #t
