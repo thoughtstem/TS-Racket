@@ -149,6 +149,18 @@
       #t
       #f))
 
+(define/contract (every-t-appearance course)
+  (-> course? list?)
+  (define m (hash-ref course 'meetings))
+  (define (get-meeting-teachers meeting-list day)
+    (cond
+      [(>= day (length meeting-list)) '()]
+      [else (append (hash-ref (list-ref meeting-list day) 'teachers)
+                    (get-meeting-teachers meeting-list (+ day 1)))])
+    )
+    (map t-first-name (flatten (get-meeting-teachers m 0)))
+  )
+
 (define/contract (all-t-names course)
   (-> course? (listof string?))
   (define t-list (teachers course))
@@ -315,6 +327,11 @@
   (-> moment? string?)
 
   (~t t "EEEE"))
+
+(define/contract (->nice-start-year m)
+  (-> meeting? string?)
+  (define start-year (hash-ref m 'start_time))
+  (if (equal? start-year 'null) "N/A" (substring start-year 0 4)))
 
 
 (define (price c)

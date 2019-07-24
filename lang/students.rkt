@@ -312,8 +312,11 @@
 ;gets age of a student
 (define/contract (age student)
   (-> student? number?)
-  (define dob (iso8601->datetime (hash-ref student 'dob)))
-  (period-ref (period-between dob (now) '(years)) 'years))
+  (define (stud-age dob) (period-ref (period-between dob (now) '(years)) 'years))
+  (if (equal? 'null (hash-ref student 'dob))
+      0 
+      (stud-age (iso8601->datetime (hash-ref student 'dob))))
+  )
 
 ;gets id of a student
 (define/contract (student-id student)
@@ -332,22 +335,28 @@
 (define/contract (parent-name student)
   (-> student? string?)
 
-  (define parent (list-ref (hash-ref student 'customers) 0))
+  (cond
+    [(equal? (hash-ref student 'customers) (list )) "No Name"]
+    [else
+     (define parent (list-ref (hash-ref student 'customers) 0))
   
-  (define content
-    (string-append
-     (first-name parent)
-     " "
-     (last-name parent)))
+     (define content
+       (string-append
+        (first-name parent)
+        " "
+        (last-name parent)))
   
-  content)
+     content]))
 
 ;gets parent's phone number of a student
 (define/contract (parent-phone student)
   (-> student? string?)
-  (define parent (list-ref (hash-ref student 'customers) 0))
+  (cond
+    [(equal? (hash-ref student 'customers) (list )) "No Phone"]
+    [else
+     (define parent (list-ref (hash-ref student 'customers) 0))
 
-  (hash-ref parent 'phone_number)
+     (hash-ref parent 'phone_number)])
   )
 
 (define (swap i)
