@@ -614,6 +614,11 @@
 (define (print-roster course-number)
   ;(-> number? bitmap?)
   (pict->bitmap (assemble-roster course-number -1)))
+
+(define (print-completed-roster course-number meetings)
+  ;(-> number? bitmap?)
+  (pict->bitmap (assemble-roster course-number (- meetings 1))))
+
 ;Saves roster as a PNG
 (define (save-roster course-number)
   (save-pict (assemble-roster course-number -1) (string-append (number->string course-number) "-roster.png")))
