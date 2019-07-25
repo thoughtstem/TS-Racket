@@ -352,11 +352,13 @@
 (define/contract (parent-phone student)
   (-> student? string?)
   (cond
-    [(equal? (hash-ref student 'customers) (list )) "No Phone"]
+    [(equal? (hash-ref student 'customers) (list )) "No Customer"]
     [else
      (define parent (list-ref (hash-ref student 'customers) 0))
-
-     (hash-ref parent 'phone_number)])
+     (if (not (string? (hash-ref parent 'phone_number)))
+         "No Phone"
+         (hash-ref parent 'phone_number))
+     ])
   )
 
 (define (swap i)

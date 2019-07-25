@@ -333,6 +333,14 @@
   (define start-year (hash-ref m 'start_time))
   (if (equal? start-year 'null) "N/A" (substring start-year 0 4)))
 
+(define/contract (->nice-full-date m)
+  (-> meeting? string?)
+  (define start-date (hash-ref m 'start_time))
+  (if (equal? start-date 'null)
+      "N/A"
+      (~a (substring start-date 5 7) "/"
+          (substring start-date 8 10) "/"
+          (substring start-date 0 4))))
 
 (define (price c)
   (hash-ref c 'price))

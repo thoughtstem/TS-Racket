@@ -213,6 +213,10 @@
   (define m (list-ref (meetings course) 0))
   (->nice-start-year m))
 
+(define (get-start-date course)
+  (define m (list-ref (meetings course) 0))
+  (->nice-full-date m))
+
 (define (make-roster-header course-number course-day body-width)
   (define title-pict       (text (string-append "Course Name:  " filler-title)))
   (define course-num-pict  (text (string-append "Course Number: " filler-course-num)))
@@ -220,7 +224,7 @@
   (define lr-label-pict    (text (string-append "Location: " filler-location)))
   (define loc-room-pict    (text (string-append "Room: " filler-room)))
   (define coach-time-pict  (text (string-append "Time: " filler-time)))
-  (define start-year-pict  (text (string-append "Start Year:" filler-year)))
+  (define start-year-pict  (text (string-append "Start Date:" filler-year)))
   (define course-object    "")
   
   (cond
@@ -229,7 +233,7 @@
      (set! course-object    (course course-number))
      (set! title-pict       (wrap-bold-pict-text (name course-object) (- (/ body-width 1.5) (pict-width logo-pict))))
      (set! course-num-pict  (hc-append (blank 1)(colorize (text "Course Number: ") (dark "gray")) (text (number->string course-number) (cons 'bold null))))
-     (set! start-year-pict (hc-append (colorize (text "Start Year: ") (dark "gray")) (text (get-start-year course-object) (cons 'bold null))))
+     (set! start-year-pict (hc-append (colorize (text "Start Date: ") (dark "gray")) (text (get-start-date course-object) (cons 'bold null))))
      (set! coach-day-pict   (vr-append (colorize (text "Coaches:")  (dark "gray"))                       (blank 1)(colorize (text "Time:") (dark "gray"))))
      (set! lr-label-pict    (vr-append (colorize (text "Location:") (dark "gray"))                       (blank 1)(colorize (text "Room:") (dark "gray"))))
      (set! loc-room-pict    (vl-append (text (name (location (room course-object)))   (cons 'bold null)) (blank 1) (text (room-number (room course-object))          (cons 'bold null))))
@@ -608,6 +612,7 @@
   )
 ;Builds roster as a single image
 (define (print-roster course-number)
+  ;(-> number? bitmap?)
   (pict->bitmap (assemble-roster course-number -1)))
 ;Saves roster as a PNG
 (define (save-roster course-number)
