@@ -37,8 +37,8 @@
 (define/contract (selling-points c)
   (-> course? list?)
   (if (k-2nd? c)
-      k-2nd-selling-points
-      3rd-5th-selling-points))
+      k-2nd-fall-2019-selling-points
+      3rd-5th-fall-2019-selling-points))
 
 ;functions to assist building flyer
 (define/contract (bold-text s size color)
@@ -101,7 +101,7 @@
                                  " - "
                                  (third time-details)) 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
-                       (text/font "K-2nd. Great for first time coders!" 60 "white" "Helvetica" "default" 'normal 'bold #f)
+                       (text/font "K-2nd and 3rd-5th classes run all year-round!" 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
                        (text/font register-url 60 "white" "Helvetica" "default" 'normal 'bold #f)
                        spacer
@@ -397,9 +397,9 @@
                   (selling-points (selling-points c))
                   (registration-link "https://secure.thoughtstem.com")
                   #:bg (bg (make-flier-bg
-                            (bitmap "resources/student-image-2.jpg")
-                            (bitmap "resources/k-2nd-screenshot.png")
-                            (bitmap "resources/student-image-1.jpg")))
+                            (bitmap "resources/single-panel-k-2nd-3.jpg")
+                            (bitmap "resources/single-panel-k-2nd-2.jpg")
+                            (bitmap "resources/single-panel-k-2nd.jpg")))
                   #:title (title1 (name c)))
 
  
@@ -444,10 +444,10 @@
                   (selling-points2 (selling-points c2))
                   (registration-link "https://secure.thoughtstem.com")
                   #:bg (bg (make-2-course-flier-bg
-                            (bitmap "resources/superhero-screenshot-3.png")
-                            (bitmap "resources/battle_screenshot2.png")
-                            (bitmap "resources/student-image-4.jpg")
-                            (bitmap "resources/student-image-3.jpg")))
+                            (bitmap "resources/double-panel-k-2nd-3.jpg")
+                            (bitmap "resources/double-panel-3rd-5th.jpg")
+                            (bitmap "resources/double-panel-k-2nd-2.jpg")
+                            (bitmap "resources/double-panel-k-2nd.jpg")))
                   #:first-title (title1 (name c1))
                   #:second-title (title2 (name c2)))
 

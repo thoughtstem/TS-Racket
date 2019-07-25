@@ -130,6 +130,15 @@
   "http://www.thoughtstem.com/system/images/W1siZiIsIjIwMTcvMDgvMDgvMTYvNTMvNTUvOTM5L2V6Z2lmLmNvbV9vcHRpbWl6ZS5naWYiXV0/ezgif.com-optimize.gif")
 
 
+(define k-2nd-fall-2019-selling-points
+  (list "Learn to code by making games involving fun, animal characters!"
+        "Gain critical skills with a mouse and keyboard, which every student needs to truly succeed with technology."
+        "Coding knowledge is critical for the future! We believe kids should start becoming fluent in technology now!"))
+
+(define 3rd-5th-fall-2019-selling-points
+  (list "Learn to code by making games with quests, crafting, and student designed cut-scenes."
+        "Level up fluency in programming languages through cutting-edge language-learning curriculum."
+        "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
 
 (define 3rd-5th-del-mar-selling-points
   (list
