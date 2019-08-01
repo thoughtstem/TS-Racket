@@ -37,6 +37,7 @@
          drop-until
          name
          host-image!
+         bulk-host-image!
          get-url
          download-file
 
@@ -151,8 +152,14 @@
   
     (define h  (read-json  (open-input-string  resp)))
 
-    (hash-set (hash-set h 'the-type type)
-              'env env)))
+    (cond [(and (eq? type "attendance")(eq? h 'null))
+           ;(begin (displayln "=== CAUGHT A NULL ATTENDANCE ===")
+           ;      "")
+           ""]
+          [else (hash-set (hash-set h 'the-type type)
+                          'env env)])
+    
+    ))
 
 
 (define (prod-preferred! x)
@@ -305,6 +312,20 @@
   (-> (or/c image? string?) string?)
   (cond [(image? x) (host-image-from-image! x)]
         [(string? x) (host-image-from-string! x)]))
+
+(define/contract (bulk-host-image! file-list
+                                   #:extension ext 
+                                   #:file-prefix [loc ""]
+                                   )
+  (->* ((listof string?) #:extension string?) (#:file-prefix string?)
+       (listof list?))
+  
+  (define (host-single-image! f)
+    (list
+     f
+     (host-image! (bitmap/file (~a loc f ext)))))
+
+  (map host-single-image! file-list))
 
 (define (download-file url outfile)
   (call-with-output-file outfile

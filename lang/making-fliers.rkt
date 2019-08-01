@@ -5,11 +5,11 @@
 (set-env! PROD)
 
 ;2-panel flyer: K-2nd & 3rd-5th Winter
-;(courses->flyer
-; #:first-title "Coding for Minecraft Fans"
-; #:second-title "Code Battle Arena Games"
-; (course 1375)
-; (course 1376))
+(courses->flyer
+ #:first-title "Coding Club: Awesome Animals"
+ #:second-title "Coding Club: Epic Quests"
+ (course 1702)
+ (course 1703))
 
 ;2-panel flyer: K-2nd & 3rd-5th Spring
 ;DAYLIGHT SAVINGS TIME FIX!!!
@@ -18,15 +18,16 @@
 ; #:second-title "Code Battle Arena Games"
 ; (change-meeting-times
 ;  (add-hours -1)
-;  (course 1600))
+;  (course 1266))
 ; (change-meeting-times
 ;  (add-hours -1)
-;  (course 1601)))
+;  (course 1267)))
 
 ;1-panel flyer: K-2nd Winter
+#;
 (course->flyer
-             #:title "Video Games with Superheroes"
-             (course 1666))
+             #:title "Coding Club: Awesome Animals"
+             (course 1706))
 
 ;1-panel flyer: 3rd-5th Winter
 ;(course->flyer #:bg (make-flier-bg

@@ -66,6 +66,19 @@
   (-> number? course?)
   (show "course" id))
 
+(define/contract (meeting-id meeting)
+  (-> meeting? number?)
+  (hash-ref meeting 'id))
+
+(define (no-attendance? ar)
+  (eq? ar ""))
+
+(define/contract (attendance student-id meeting-id)
+  (-> number? number? (or/c attendance?
+                            no-attendance?))
+  (show "attendance" (~a student-id "_" meeting-id)))
+
+
 (define/contract (topic-assignment id)
   (-> number? topic-assignment?)
   (show "topic_assignment" id))
@@ -135,6 +148,28 @@
   (if (null? (hash-ref t 'tags))
       #t
       #f))
+
+(define/contract (every-t-appearance course)
+  (-> course? list?)
+  (define m (hash-ref course 'meetings))
+  (define (get-meeting-teachers meeting-list day)
+    (cond
+      [(>= day (length meeting-list)) '()]
+      [else (append (hash-ref (list-ref meeting-list day) 'teachers)
+                    (get-meeting-teachers meeting-list (+ day 1)))])
+    )
+    (map t-first-name (flatten (get-meeting-teachers m 0)))
+  )
+
+(define/contract (all-t-names course)
+  (-> course? (listof string?))
+  (define t-list (teachers course))
+  (cond
+    [(null? t-list) (list "no teacher")]
+    [else (map t-first-name t-list)]))
+
+(define (t-first-name teacher)
+  (hash-ref teacher 'first_name))
 
 ;Sets the 'name value in the provided hash.  Does not save the
 ;  associated remote resource.  You must use save for that.
@@ -251,7 +286,7 @@
 
 
 
-(define/contract (start-time m (adj 7))
+(define/contract (start-time m [adj 7])
   (->* (meeting?) (number?) moment?)
 
   (define s (hash-ref m 'start_time))
@@ -293,6 +328,19 @@
 
   (~t t "EEEE"))
 
+(define/contract (->nice-start-year m)
+  (-> meeting? string?)
+  (define start-year (hash-ref m 'start_time))
+  (if (equal? start-year 'null) "N/A" (substring start-year 0 4)))
+
+(define/contract (->nice-full-date m)
+  (-> meeting? string?)
+  (define start-date (hash-ref m 'start_time))
+  (if (equal? start-date 'null)
+      "N/A"
+      (~a (substring start-date 5 7) "/"
+          (substring start-date 8 10) "/"
+          (substring start-date 0 4))))
 
 (define (price c)
   (hash-ref c 'price))
@@ -380,7 +428,9 @@
     (λ(date-string)
       (define month-num (first  (string-split date-string "/")))
       (define day-num   (second (string-split date-string "/")))
-      (~a "2019-"
+      (define year-num (third  (string-split date-string "/")))
+      (~a (~a year-num)
+          "-"
           (~a month-num #:width 2 #:align 'right #:pad-string "0")
           "-"
           (~a day-num #:width 2 #:align 'right #:pad-string "0")
