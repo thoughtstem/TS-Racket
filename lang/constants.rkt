@@ -16,6 +16,7 @@
 (define doyle 7591)
 (define east-lake 7159)
 (define hillsdale-middle 10642)
+(define holly-drive 10510)
 (define fleet 10484)
 (define fleet-spring 10515)
 (define grant 7512)
@@ -38,7 +39,9 @@
 (define old-town 7435)
 (define painted-rock 10488)
 (define sage-canyon 7186)
+(define sage-canyon-summer 10520)
 (define san-diego-christian-college 10638)
+(define serra-mesa-library 10635)
 (define sdsu 10572)
 (define spreckels 10517)
 (define sycamore-ridge 10531)
@@ -442,8 +445,35 @@
         (list "3rd-6th")))
 
 
+; ASP Fall 2019 Bundles
+
+(define (k2-awesome-animals-description name)
+  (~a "<p>Our popular Coding Club is a fun & effective way for kids to learn how to code through video game design! ThoughtSTEM’s novel approach to computer science education is
+ backed by the latest scientific research that shows learning how to code is more like learning a foreign language than learning math. Therefore, we leverage the entire field of language acquisition so that our students are ready for a future where they’ll need to speak the languages of computers fluently. We also keep the emphasis on FUN, so throughout the course students will earn badges and prizes as they expand their knowledge of computer science. During this session of Coding Club, students will be designing video games featuring animals
+ - they'll learn how to customize the colors of & heal their animal game characters, and also avoid enemies!</p>"))
+
+(define (3-5-epic-quest-description name)
+  (~a "<p>Our popular Coding Club is a fun & effective way for kids to learn how to code through video game design! ThoughtSTEM’s novel approach to computer science education is backed by the latest scientific research that shows learning how to code is more like learning a foreign language than learning math. Therefore, we leverage the entire field of language acquisition so that our students are ready for a future where they’ll need to speak the languages of computers fluently. We also keep the emphasis on FUN, so throughout the course students
+will earn badges and prizes as they expand their knowledge of computer science. During this session of Coding Club, students will be designing video games that involve quests, crafting, and building their own in-game cut-scenes!</p>"))
+
+(define k2-awesome-animals-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/k-2.gif")
+
+(define 3-5-epic-quest-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/adventure.gif")
 
 
+(define (k2-awesome-animals-bundle school)
+  (list "Coding Club: Awesome Animals: K-2nd (Fall)"
+        (k2-awesome-animals-description school)
+        k2-awesome-animals-screenshot
+        (list "K-2nd")))
+
+(define (3-5-epic-quest-bundle school)
+  (list "Coding Club: Epic Quest: 3rd-5th (Fall)"
+        (3-5-epic-quest-description school)
+        3-5-epic-quest-screenshot
+        (list "3rd-5th")))
 
 
 
