@@ -1,6 +1,8 @@
 #lang racket
 
-(provide computer computer-ready?)
+(provide computer
+         ;computer-ready?
+         )
 
 (require "./util.rkt" json gregor simple-http pkg/lib setup/getinfo)
 
@@ -47,7 +49,7 @@
 (define (remove-query-params url)
   (second (regexp-match #px"github.com/(.*)\\.git.*" url)))
 
-(define (repos-to-watch)
+#|(define (repos-to-watch)
   (remove-duplicates 
     (map remove-query-params (filter 
                                (curryr string-contains? "thoughtstem")
@@ -63,7 +65,7 @@
    (define cb-update (updated-at (computer id)))
    (define repo-update (time-of-last-repo-change))
    (moment>? cb-update repo-update))
-
+|#
 
 
 

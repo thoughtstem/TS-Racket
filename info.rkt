@@ -11,4 +11,5 @@
 
 (define deps '("aws" "request" "gregor" "anaphoric"
   "simple-qr"
-  "https://github.com/thoughtstem/kata-installer.git" ))
+  ;"https://github.com/thoughtstem/kata-installer.git"
+  ))
