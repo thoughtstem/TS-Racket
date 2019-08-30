@@ -311,7 +311,7 @@
                                     100
                                     row-height
                                     my-green)
-             (make-bold-colored-text-box "Health Notes"
+             (make-bold-colored-text-box "Notes"
                                     200
                                     row-height
                                     my-green)
@@ -484,17 +484,22 @@
 ;Health notes stuff
 ;Creates a health notes text box
 (define (make-health-notes students-list student-index width)
-  (define student-med-notes (remove-trailing-whitespace
-                             (format-medical-notes (medical-notes
-                                                   (list-ref students-list
-                                                             student-index)))))
-  (define this-pict (make-text-box student-med-notes 200))
+  (define student-med-notes (map (compose (curryr string-replace "\n" "")
+                                          remove-trailing-whitespace
+                                          format-medical-notes
+                                          (curryr hash-ref 'note))
+                                 (student-notes
+                                  (list-ref students-list
+                                            student-index))))
+  (define pict-list (map (curryr make-text-box 200) student-med-notes))
+  (define notes-pict (apply vl-append pict-list))
 
-  (cond [(> (+ (pict-height green-check) 10) (pict-height this-pict))
-         (if (equal? student-med-notes "N/A")
-             (colorize (make-text-box-height student-med-notes 200 (+(pict-height green-check) 10)) (dark "gray"))
-             (make-text-box-height student-med-notes 200 (+(pict-height green-check) 10)))]
-        [else this-pict])
+  (cond [(> (+ (pict-height green-check) 10) (pict-height notes-pict))
+         (if (and (= (length student-med-notes) 1)
+                  (equal? (first student-med-notes) "N/A"))
+             (colorize (make-text-box-height (first student-med-notes) 200 (+(pict-height green-check) 10)) (dark "gray"))
+             (make-text-box-height (apply ~a student-med-notes) 200 (+ (pict-height green-check) 10)))]
+        [else notes-pict])
   )
 
 ;If a string is an empty string then this function returns "N/A"

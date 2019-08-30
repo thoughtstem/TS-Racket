@@ -331,6 +331,17 @@
     [else tmp-notes])
   )
 
+(define (has-ignore-tag? note)
+  (define (is-ignore-tag? tag)
+    (equal? (hash-ref tag 'name) "ignore"))
+  (findf is-ignore-tag? (hash-ref note 'tags)))
+  
+;get all notes from an enrollment
+(define (student-notes student)
+  (define notes-list (filter-not has-ignore-tag? (hash-ref student 'admin_notes)))
+  ;(displayln (~a "STUDENT NOTES: " notes-list))
+  notes-list)
+
 ;gets parent's name of a student
 (define/contract (parent-name student)
   (-> student? string?)
