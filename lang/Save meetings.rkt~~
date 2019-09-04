@@ -7,13 +7,13 @@
 
 (set-env! PROD)
 
-; (save-meetings!
+;(save-meetings!
 
- (set-room-id (course 1718) 525)
+#; (set-room-id (course 1706) 580)
 
 
 
-#; (save-meetings!
+(save-meetings!
 (change-meeting-times
  (add-minutes 10)
  (course 1703)))

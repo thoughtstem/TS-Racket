@@ -41,6 +41,7 @@
 (define sage-canyon 7186)
 (define sage-canyon-summer 10520)
 (define san-diego-christian-college 10638)
+(define san-marino 10647)
 (define serra-mesa-library 10635)
 (define sdsu 10572)
 (define spreckels 10517)
