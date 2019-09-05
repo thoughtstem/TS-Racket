@@ -41,6 +41,7 @@
 ;Will need to change path of camera.png if this file is moved
 (define camera-pict (scale (bitmap "resources/camera.png") .5))
 (define logo-pict   (scale (bitmap "resources/ts-logo-name.png").25))
+(define pizza-pict  (inset (bitmap "resources/pizza-sprite.png") 2))
 
 (define filler-title       "Marvel Course")
 (define filler-course-num  "03000")
@@ -481,6 +482,18 @@
   phone-number)
   )
 
+(define (maybe-pizza-box str)
+  (if (string-contains? (string-downcase str) "pizza: yes")
+      (rb-superimpose (make-text-box (string-replace str "Permission to get pizza: Yes." "") 200)
+                      pizza-pict)
+      (make-text-box (string-replace str "Permission to get pizza: No." "") 200)))
+
+(define (maybe-pizza-box-height str)
+  (if (string-contains? (string-downcase str) "pizza: yes")
+      (rb-superimpose (make-text-box-height (string-replace str "Permission to get pizza: Yes." "") 200 (+ (pict-height green-check) 10))
+                      pizza-pict)
+      (make-text-box-height (string-replace str "Permission to get pizza: No." "") 200 (+ (pict-height green-check) 10))))
+
 ;Health notes stuff
 ;Creates a health notes text box
 (define (make-health-notes students-list student-index width)
@@ -491,14 +504,18 @@
                                  (student-notes
                                   (list-ref students-list
                                             student-index))))
-  (define pict-list (map (curryr make-text-box 200) student-med-notes))
-  (define notes-pict (apply vl-append pict-list))
+  (define pict-list (map maybe-pizza-box student-med-notes))
+  (define notes-pict (if (empty? pict-list)
+                         (make-text-box "" 200)
+                         (apply vl-append pict-list)))
 
   (cond [(> (+ (pict-height green-check) 10) (pict-height notes-pict))
          (if (and (= (length student-med-notes) 1)
                   (equal? (first student-med-notes) "N/A"))
              (colorize (make-text-box-height (first student-med-notes) 200 (+(pict-height green-check) 10)) (dark "gray"))
-             (make-text-box-height (apply ~a student-med-notes) 200 (+ (pict-height green-check) 10)))]
+             (if (empty? student-med-notes)
+                 (make-text-box-height "" 200 (+(pict-height green-check) 10))
+                 (apply vl-append (map maybe-pizza-box-height student-med-notes))))]
         [else notes-pict])
   )
 
@@ -574,7 +591,10 @@
              health-notes-pict                                                ;medical notes
              )])
   )
+
+
 ;Builds all students
+
 (define (assemble-all-students meeting-list students-list student-index day)
   (cond
     [(equal? students-list (list )) (blank 0)]
@@ -588,6 +608,7 @@
 (define (assemble-roster-body course-number day)
   (define course-object (course   course-number))
   (define students-list (students course-object))
+  ;(define canceled-list (canceled-students course-object)) ; not used yet
   (define meeting-list  (meetings course-object))
   
   (vl-append (make-label-row        meeting-list)
