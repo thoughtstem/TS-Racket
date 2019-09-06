@@ -105,10 +105,10 @@
   )
 ;Creates a text pict with wrapped text given a string and width
 (define (wrap-pict-text string width)
-  (define text-pict (text string))
+  (define text-pict (text string "Tahoma"))
   (cond
     [(>= (pict-width text-pict) width)                   ;Check for pict width vs allowed
-     (vl-append (text (find-wrap-line string width 0 0))   
+     (vl-append (text (find-wrap-line string width 0 0) "Tahoma")   
                 (wrap-pict-text (substring string
                                            (string-length (find-wrap-line string width 0 0))
                                            (string-length string))
@@ -118,10 +118,10 @@
   ))
 
 (define (wrap-bold-pict-text string width)
-  (define text-pict (text string (cons 'bold null)))
+  (define text-pict (text string (cons 'bold "Tahoma")))
   (cond
     [(>= (pict-width text-pict) width)                   ;Check for pict width vs allowed
-     (vl-append (text (find-wrap-line string width 0 0) (cons 'bold null))   
+     (vl-append (text (find-wrap-line string width 0 0) (cons 'bold "Tahoma"))
                 (wrap-pict-text (substring string
                                            (string-length (find-bold-wrap-line string width 0 0))
                                            (string-length string))
@@ -137,12 +137,12 @@
      (string-append (find-wrap-line (substring string 1) width pointer last) " ")]
     [(eqv? pointer (string-length string))                     ;Check for end of string
      (cond
-       [(<= width (pict-width (text string))) (substring string 0 last)]
+       [(<= width (pict-width (text string "Tahoma"))) (substring string 0 last)]
        [else string]
        )]
     [(equal? (string-ref string pointer) #\ )                  ;Check for word
      (cond
-       [(< (pict-width (text (substring string 0 pointer))) width);Check for pict < width
+       [(< (pict-width (text (substring string 0 pointer) "Tahoma")) width);Check for pict < width
         (find-wrap-line string width (+ pointer 1) pointer)]          ;increment pointer and save last know valid string
        [else (substring string 0 last)]               ;Check for pict >= width
      )]
@@ -155,12 +155,12 @@
      (string-append (find-wrap-line (substring string 1) width pointer last) " ")]
     [(eqv? pointer (string-length string))                     ;Check for end of string
      (cond
-       [(<= width (pict-width (text string (cons 'bold null)))) (substring string 0 last)]
+       [(<= width (pict-width (text string (cons 'bold "Tahoma")))) (substring string 0 last)]
        [else string]
        )]
     [(equal? (string-ref string pointer) #\ )                  ;Check for word
      (cond
-       [(< (pict-width (text (substring string 0 pointer) (cons 'bold null))) width);Check for pict < width
+       [(< (pict-width (text (substring string 0 pointer) (cons 'bold "Tahoma"))) width);Check for pict < width
         (find-wrap-line string width (+ pointer 1) pointer)]          ;increment pointer and save last know valid string
        [else (substring string 0 last)]               ;Check for pict >= width
      )]
@@ -219,13 +219,13 @@
   (->nice-full-date m))
 
 (define (make-roster-header course-number course-day body-width)
-  (define title-pict       (text (string-append "Course Name:  " filler-title)))
-  (define course-num-pict  (text (string-append "Course Number: " filler-course-num)))
-  (define coach-day-pict   (text (string-append "Coaches: " filler-instructors)))
-  (define lr-label-pict    (text (string-append "Location: " filler-location)))
-  (define loc-room-pict    (text (string-append "Room: " filler-room)))
-  (define coach-time-pict  (text (string-append "Time: " filler-time)))
-  (define start-year-pict  (text (string-append "Start Date:" filler-year)))
+  (define title-pict       (text (string-append "Course Name:  " filler-title) "Tahoma"))
+  (define course-num-pict  (text (string-append "Course Number: " filler-course-num) "Tahoma"))
+  (define coach-day-pict   (text (string-append "Coaches: " filler-instructors) "Tahoma"))
+  (define lr-label-pict    (text (string-append "Location: " filler-location) "Tahoma"))
+  (define loc-room-pict    (text (string-append "Room: " filler-room) "Tahoma"))
+  (define coach-time-pict  (text (string-append "Time: " filler-time) "Tahoma"))
+  (define start-year-pict  (text (string-append "Start Date:" filler-year) "Tahoma"))
   (define course-object    "")
   
   (cond
@@ -233,12 +233,12 @@
     [else                    ;Reset to new things
      (set! course-object    (course course-number))
      (set! title-pict       (wrap-bold-pict-text (name course-object) (- (/ body-width 1.5) (pict-width logo-pict))))
-     (set! course-num-pict  (hc-append (blank 1)(colorize (text "Course Number: ") (dark "gray")) (text (number->string course-number) (cons 'bold null))))
-     (set! start-year-pict (hc-append (colorize (text "Start Date: ") (dark "gray")) (text (get-start-date course-object) (cons 'bold null))))
-     (set! coach-day-pict   (vr-append (colorize (text "Coaches:")  (dark "gray"))                       (blank 1)(colorize (text "Time:") (dark "gray"))))
-     (set! lr-label-pict    (vr-append (colorize (text "Location:") (dark "gray"))                       (blank 1)(colorize (text "Room:") (dark "gray"))))
-     (set! loc-room-pict    (vl-append (text (name (location (room course-object)))   (cons 'bold null)) (blank 1) (text (room-number (room course-object))          (cons 'bold null))))
-     (set! coach-time-pict  (vl-append (text (find-reoccuring-teachers course-object) (cons 'bold null)) (blank 1) (text (get-meeting-time course-object course-day) (cons 'bold null))))
+     (set! course-num-pict  (hc-append (blank 1)(colorize (text "Course Number: " "Tahoma") (dark "gray")) (text (number->string course-number) (cons 'bold "Tahoma"))))
+     (set! start-year-pict (hc-append (colorize (text "Start Date: " "Tahoma") (dark "gray")) (text (get-start-date course-object) (cons 'bold "Tahoma"))))
+     (set! coach-day-pict   (vr-append (colorize (text "Coaches:" "Tahoma")  (dark "gray"))                       (blank 1)(colorize (text "Time:" "Tahoma") (dark "gray"))))
+     (set! lr-label-pict    (vr-append (colorize (text "Location:" "Tahoma") (dark "gray"))                       (blank 1)(colorize (text "Room:" "Tahoma") (dark "gray"))))
+     (set! loc-room-pict    (vl-append (text (name (location (room course-object)))   (cons 'bold "Tahoma")) (blank 1) (text (room-number (room course-object))          (cons 'bold "Tahoma"))))
+     (set! coach-time-pict  (vl-append (text (find-reoccuring-teachers course-object) (cons 'bold "Tahoma")) (blank 1) (text (get-meeting-time course-object course-day) (cons 'bold "Tahoma"))))
      ;Assemble the pict
      (blank 50)
      ])
