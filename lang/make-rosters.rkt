@@ -532,15 +532,12 @@
      [else notes])
    )
 ;##################|Assembling Pict Code|##################;
-;THIS FUNCTION DOES NOT WORK
-;Organizes students in alphabetical order
-#;(define (alphabetize-list students-list best-list original-size)
-  (define first-student (get-student-alphabetically students-list 0 0))
-  (cond [(< (length best-list) original-size)
-         (append best-list (list first-student))
-         (alphabetize-list (remove first-student students-list) best-list original-size)]
-        [else best-list])
-  )
+;FIXED
+;Organizes students in alphabetical order, returns list of hashes in alphabetical order
+(define (alphabetize-students students-list)
+  (sort students-list
+        string<?
+        #:key (λ (s) (~a (first-name s) " " (last-name s)))))
 
 ;THIS FUNCTION DOES NOT WORK
 ;Returns the index of the first student alphabetically
@@ -607,7 +604,7 @@
 ;Builds the roster body
 (define (assemble-roster-body course-number day)
   (define course-object (course   course-number))
-  (define students-list (students course-object))
+  (define students-list (alphabetize-students (students course-object) ))
   ;(define canceled-list (canceled-students course-object)) ; not used yet
   (define meeting-list  (meetings course-object))
   
