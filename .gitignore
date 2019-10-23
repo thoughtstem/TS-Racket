@@ -2,6 +2,7 @@
 *.rkt~
 *.scrbl~
 *.DS_Store
+.DS_Store
 *.zo
 *.dep
 docs/*.html
