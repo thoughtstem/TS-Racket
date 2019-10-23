@@ -7,9 +7,11 @@
 (define compile-omit-paths '(
   "tests"
   "scripts"
+  "examples"
 ))
 
 (define deps '("aws" "request" "gregor" "anaphoric"
   "simple-qr"
+  "simple-http"
   ;"https://github.com/thoughtstem/kata-installer.git"
   ))

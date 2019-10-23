@@ -31,6 +31,7 @@
          room?
          location?
          attendance?
+         enrollment?
          student?
          chunks
          take-until
@@ -113,6 +114,8 @@
 (define (attendance? x)
   (hash-with-type? x "attendance"))
 
+(define (enrollment? x)
+  (hash-with-type? x "enrollment"))
 
 (define (student? x)
   (hash-with-type? x "student"))
