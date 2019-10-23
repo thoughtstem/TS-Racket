@@ -10,8 +10,8 @@
   (define middle (bitmap "resources/middle.png"))
   (define bottom (bitmap "resources/bottom.png"))
   (define white-divider (rectangle 2550 10 "solid" "white"))
-  (define sticker (bitmap "resources/sticker-fall-2019-cv.png"))
-  ;(define sticker (circle 10 "outline" "transparent"))
+  ;(define sticker (bitmap "resources/sticker-fall-2019-sdusd.png"))
+  (define sticker (circle 10 "outline" "transparent"))
   
   ;Switch out course images as necessary here:
   (define image-row
@@ -43,5 +43,5 @@
 (module+ test
   (make-flier-bg
    (bitmap "resources/single-panel-k-2nd-3.jpg")
-   (bitmap "resources/single-panel-k-2nd-2.jpg")
+   (bitmap "resources/single-panel-3rd-5th.jpg")
    (bitmap "resources/single-panel-k-2nd.jpg")))

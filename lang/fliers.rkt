@@ -37,8 +37,8 @@
 (define/contract (selling-points c)
   (-> course? list?)
   (if (k-2nd? c)
-      k-2nd-fall-2019-selling-points
-      3rd-5th-fall-2019-selling-points))
+      k-2nd-winter-2020-selling-points
+      3rd-5th-winter-2020-selling-points))
 
 ;functions to assist building flyer
 (define/contract (bold-text s size color)
@@ -398,7 +398,7 @@
                   (registration-link "https://secure.thoughtstem.com")
                   #:bg (bg (make-flier-bg
                             (bitmap "resources/single-panel-k-2nd-3.jpg")
-                            (bitmap "resources/single-panel-k-2nd-2.jpg")
+                            (bitmap "resources/single-panel-3rd-5th.jpg")
                             (bitmap "resources/single-panel-k-2nd.jpg")))
                   #:title (title1 (name c)))
 
