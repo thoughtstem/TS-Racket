@@ -94,7 +94,8 @@
   (define pair-alert
     (lambda (computer)
       (cons computer (create-alert type message))))
-  (make-immutable-hasheq (map pair-alert (zero-pad-if-numbers computer-list)))
+  ;(make-immutable-hasheq (map pair-alert (zero-pad-if-numbers computer-list)))
+  (make-immutable-hasheq (map pair-alert (map string->symbol (map number->string computer-list))))
   )
                 
 (define (update-data hash computer alert)
@@ -161,7 +162,7 @@
              ;'ts000 (crreat-alert "full")
              )
      #:combine/key (lambda (k v1 v2) v2)))
-
+  
   (define (write-data)
     (define out (open-output-file ALERT-PATH #:exists 'replace))
     (write-json all-data out)
@@ -170,6 +171,7 @@
   (define (upload-data)
     (read-keys) ; Default path: "~/.aws-keys"
     (s3-region "us-west-1")
+    (s3-host "s3-us-west-1.amazonaws.com")
     ;(ls "ts-email-assets-and-stuff/")
 
     (put/file "ts-email-assets-and-stuff/alert.json"
