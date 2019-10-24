@@ -12,8 +12,8 @@
   (define purple-section (bitmap "resources/purple-section.png"))
   (define footer (bitmap "resources/thinner-footer.png"))
   ;(define sticker (bitmap "resources/sticker.png"))
-  (define sticker (bitmap "resources/sticker-fall-2019-cv.png"))
-  ;(define sticker (circle 10 "outline" "transparent"))
+  ;(define sticker (bitmap "resources/sticker-fall-2019-sdusd-late.png"))
+  (define sticker (circle 10 "outline" "transparent"))
   ;(define course-image-2 (bitmap "resources/superhero-screenshot.png"))
   ;(define course-image-1 (bitmap "resources/survival-screenshot.png"))
   ;(define student-image-1 (bitmap "resources/student-image-1.jpg"))
@@ -64,7 +64,7 @@
 
 (module+ test
   (make-2-course-flier-bg
-   (bitmap "resources/template_image_2course.jpg")
-   (bitmap "resources/template_image_2course.jpg")
-   (bitmap "resources/template_image_2course.jpg")
-   (bitmap "resources/template_image_2course.jpg")))
+   (bitmap "resources/double-panel-k-2nd-3.jpg")
+   (bitmap "resources/double-panel-3rd-5th.jpg")
+   (bitmap "resources/double-panel-k-2nd-2.jpg")
+   (bitmap "resources/double-panel-k-2nd.jpg")))
