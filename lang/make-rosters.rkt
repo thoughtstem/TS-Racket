@@ -612,13 +612,30 @@
              (assemble-all-students meeting-list students-list 0 day))
   )
 
+(define (badges-reminder m)
+  (define badge-1 (exact-ceiling (/ m 3)))
+  (define badge-2 (* badge-1 2))
+  (vc-append
+   (blank 50)
+   (scale (text (~a "1st Badge @ student's attendance #" badge-1)) 4)
+   (blank 20)
+   (scale (text (~a "2nd Badge @ student's attendance #" badge-2)) 4)
+   (blank 20)
+   (scale (text "3rd Badge @ Game Jam (last meeting)") 4)
+   (blank 20)
+   (scale (text "Make sure you mark attendance every meeting!") 3)
+   (blank 10)
+   (scale (text "This will help you know who gets a badge when.") 2)))
+   
+
 ;Builds the whole roster as pict
 (define/contract (assemble-roster course-number course-day)
   (-> number? number? pict?)
   (define body   (assemble-roster-body course-number course-day))
   (define header (make-roster-header course-number course-day (pict-width body)))
   (define front-roster (vc-append header
-                                  body))
+                                  body
+                                  (badges-reminder (length (meetings (course course-number))))))
   (define full-roster
     (cc-superimpose (filled-rectangle (pict-width  front-roster)
                                       (pict-height front-roster)
