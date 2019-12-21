@@ -13,5 +13,7 @@
 (define deps '("aws" "request" "gregor" "anaphoric"
   "simple-qr"
   "simple-http"
+  "stripe-integration"
+  "metacoders-dot-org-lib"
   ;"https://github.com/thoughtstem/kata-installer.git"
   ))

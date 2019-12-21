@@ -43,7 +43,8 @@
          download-file
 
          is-prod?
-         prod-preferred!)
+         prod-preferred!
+         )
 
 (module+ test
   (require rackunit))
