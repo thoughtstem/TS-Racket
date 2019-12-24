@@ -15,10 +15,16 @@
          show-skus
          delete-sku
          delete-product
+
+         generate-random-sku
+         generate-random-product-id
          )
 
 (require stripe-integration
-         metacoders-dot-org-lib)
+         metacoders-dot-org-lib
+         uuid
+         net/base64
+         binaryio/integer)
 
 (define TEST "/.stripe-test-api-key")
 (define LIVE "/.stripe-api-key")
@@ -125,28 +131,45 @@
 
 (define (show-products)
   (displayln (~a (~a "NAME"           #:width 40 #:limit-marker "...") "| "
-                 (~a "PRODUCT ID"     #:width 20 #:limit-marker "...") "| "
+                 (~a "PRODUCT ID"     #:width 28 #:limit-marker "...") "| "
                  (~a "LAST UPDATED " #:width 20 #:limit-marker "...") "\n"
-                 (~a #:width 84 #:pad-string "-") "\n"
+                 (~a #:width 92 #:pad-string "-") "\n"
                  (apply ~a (map (λ(p) (~a (~a (hash-ref p 'name)    #:width 40 #:limit-marker "...") "| "
-                                          (~a (hash-ref p 'id)      #:width 20 #:limit-marker "...") "| "
+                                          (~a (hash-ref p 'id)      #:width 28 #:limit-marker "...") "| "
                                           (~a (format-date (seconds->date (hash-ref p 'updated))) #:width 20 #:limit-marker "...") "\n"))
                                 (hash-ref (stripe-get-data "/v1/products?limit=100") 'data))))))
 
 (define (show-skus [product-id #f])
   (displayln (~a (~a "NAME"       #:width 40 #:limit-marker "...") "| "
                  (~a "PRICE"      #:width 6 #:limit-marker "...") "| "
-                 (~a "SKU ID"     #:width 20 #:limit-marker "...") "| "
-                 (~a "PRODUCT ID"     #:width 20 #:limit-marker "...") "| "
+                 (~a "SKU ID"     #:width 28 #:limit-marker "...") "| "
+                 (~a "PRODUCT ID"     #:width 28 #:limit-marker "...") "| "
                  (~a "LAST UPDATED " #:width 20 #:limit-marker "...") "\n"
-                 (~a #:width 114 #:pad-string "-") "\n"
+                 (~a #:width 130 #:pad-string "-") "\n"
                  (apply ~a (map (λ(p) (~a (~a (hash-ref (hash-ref p 'attributes) 'name) #:width 40 #:limit-marker "...") "| "
                                            (~a "$" (/ (hash-ref p 'price) 100)  #:width 6 #:limit-marker "...") "| "
-                                           (~a (hash-ref p 'id)      #:width 20 #:limit-marker "...") "| "
-                                           (~a (hash-ref p 'product)      #:width 20 #:limit-marker "...") "| "
+                                           (~a (hash-ref p 'id)      #:width 28 #:limit-marker "...") "| "
+                                           (~a (hash-ref p 'product)      #:width 28 #:limit-marker "...") "| "
                                            (~a (format-date (seconds->date (hash-ref p 'updated))) #:width 20 #:limit-marker "...") "\n"))
                                  (filter (if product-id
                                              (λ(s) (string=? (hash-ref s 'product) product-id))
                                              identity)
                                          (hash-ref (stripe-get-data "/v1/skus?limit=100") 'data)))))))
+
+(define (uuid->base64 str)
+  (bytes->string/utf-8 (base64-encode (integer->bytes (string->number (~a "#x" (string-replace str "-" "")))
+                                                    16 #f) "")))
+
+(define (base64->uuid str)
+  (number->string (bytes->integer (base64-decode (string->bytes/utf-8 str)) #f) 16))
+
+(define (generate-random-sku)
+  (~a "sku_" ((compose (curryr string-replace "=" "")
+                       (curryr string-replace "/" "")
+                       (curryr string-replace "+" "")) (uuid->base64 (uuid-string)))))
+
+(define (generate-random-product-id)
+  (~a "prod_" ((compose (curryr string-replace "=" "")
+                       (curryr string-replace "/" "")
+                       (curryr string-replace "+" "")) (uuid->base64 (uuid-string)))))
 

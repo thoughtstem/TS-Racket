@@ -15,5 +15,7 @@
   "simple-http"
   "stripe-integration"
   "metacoders-dot-org-lib"
+  "uuid"
+  "binaryio-lib"
   ;"https://github.com/thoughtstem/kata-installer.git"
   ))
