@@ -131,7 +131,7 @@
                  (apply ~a (map (λ(p) (~a (~a (hash-ref p 'name)    #:width 40 #:limit-marker "...") "| "
                                           (~a (hash-ref p 'id)      #:width 20 #:limit-marker "...") "| "
                                           (~a (format-date (seconds->date (hash-ref p 'updated))) #:width 20 #:limit-marker "...") "\n"))
-                                (hash-ref (stripe-get-data "/v1/products") 'data))))))
+                                (hash-ref (stripe-get-data "/v1/products?limit=100") 'data))))))
 
 (define (show-skus [product-id #f])
   (displayln (~a (~a "NAME"       #:width 40 #:limit-marker "...") "| "
@@ -148,5 +148,5 @@
                                  (filter (if product-id
                                              (λ(s) (string=? (hash-ref s 'product) product-id))
                                              identity)
-                                         (hash-ref (stripe-get-data "/v1/skus") 'data)))))))
+                                         (hash-ref (stripe-get-data "/v1/skus?limit=100") 'data)))))))
 
