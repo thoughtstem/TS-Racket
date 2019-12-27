@@ -32,20 +32,23 @@
 (define stripe-key TEST)
 
 (define (set-stripe-key! k)
-  (set! stripe-key k))
+  (set! stripe-key k)
+  (set-stripe-secret-key!) 
+  )
 
-(define stripe-key-path (~a
+(define (set-stripe-secret-key!)  
+  (define stripe-key-path (~a
                            (path->string (find-system-path 'home-dir))
                            stripe-key))
 
-(define stripe-key-data (if (file-exists? stripe-key-path)
-                            (string-trim
-                             (file->string stripe-key-path))
-                            ""))
+  (define stripe-key-data (if (file-exists? stripe-key-path)
+                              (string-trim
+                               (file->string stripe-key-path))
+                              ""))
 
-(stripe-secret-key (if (string=? stripe-key "")
-                       (raise "ERROR: NO STRIPE API KEY")
-                       stripe-key-data))
+  (stripe-secret-key (if (string=? stripe-key "")
+                         (raise "ERROR: NO STRIPE API KEY")
+                         stripe-key-data)))
 
 (define (set-product-name prod-id name)
   (stripe-post (~a "/v1/products/" prod-id)
