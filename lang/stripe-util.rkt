@@ -7,6 +7,7 @@
          set-product-name
          city->stripe
          course->stripe
+         camp->stripe
          
          stripe-get-status
          stripe-get-data
@@ -89,6 +90,17 @@
       (stripe-post (~a "/v1/products/" prod-id)
                    (hash 'name name))))
 
+(define (camp->sku-name c)
+  ; === SINGLE-LINE FORMATTING ===
+  (~a (if (> (camp-discount c) 0)
+          (~a "Discounted from $" (camp-price c) "/student! ")
+          "")
+      (camp-location c) " - "
+      (camp-topic c) " (" (camp-grade-range c) ") -  "
+      "Daily from "
+      (camp-camp-time c) " - "
+      "Dates: " (apply (curry ~a #:separator ", ") (camp-meeting-dates c))))
+
 ;if it exists, update it, and if not, create it
 (define (course->stripe prod-id c)
   (define c-sku (course-sku c))
@@ -108,6 +120,29 @@
                          (course->sku-name c)
                          ;'image "https://metacoders.org/img/weekly-classes.jpg"
                          'price (~a (* 100 (- (course-price c) (course-discount c))))
+                         'product prod-id ;this will link the existing sku to a new product
+                         )
+                   )))
+
+;if it exists, update it, and if not, create it
+(define (camp->stripe prod-id c)
+  (define c-sku (camp-sku c))
+  (if (eq? (stripe-get-status (~a "/v1/skus/" c-sku)) 404)
+      (stripe-post (~a "/v1/skus")
+                   (hash (string->symbol "attributes[name]") (camp->sku-name c)
+                         'id c-sku
+                         'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'price (~a (* 100 (- (camp-price c) (camp-discount c))))
+                         'currency "usd"
+                         (string->symbol "inventory[type]") "infinite"
+                         'product prod-id
+                         )
+                   )
+      (stripe-post (~a "/v1/skus/" c-sku)
+                   (hash (string->symbol "attributes[name]")
+                         (camp->sku-name c)
+                         ;'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'price (~a (* 100 (- (camp-price c) (camp-discount c))))
                          'product prod-id ;this will link the existing sku to a new product
                          )
                    )))
