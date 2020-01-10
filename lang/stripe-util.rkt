@@ -160,11 +160,11 @@
 
 (define (show-products)
   (displayln (~a (~a "NAME"           #:width 40 #:limit-marker "...") "| "
-                 (~a "PRODUCT ID"     #:width 28 #:limit-marker "...") "| "
+                 (~a "PRODUCT ID"     #:width 20 #:limit-marker "...") "| "
                  (~a "LAST UPDATED " #:width 20 #:limit-marker "...") "\n"
-                 (~a #:width 92 #:pad-string "-") "\n"
+                 (~a #:width 84 #:pad-string "-") "\n"
                  (apply ~a (map (λ(p) (~a (~a (hash-ref p 'name)    #:width 40 #:limit-marker "...") "| "
-                                          (~a (hash-ref p 'id)      #:width 28 #:limit-marker "...") "| "
+                                          (~a (hash-ref p 'id)      #:width 20 #:limit-marker "...") "| "
                                           (~a (format-date (seconds->date (hash-ref p 'updated))) #:width 20 #:limit-marker "...") "\n"))
                                 (hash-ref (stripe-get-data "/v1/products?limit=100") 'data))))))
 
@@ -172,13 +172,13 @@
   (displayln (~a (~a "NAME"       #:width 40 #:limit-marker "...") "| "
                  (~a "PRICE"      #:width 6 #:limit-marker "...") "| "
                  (~a "SKU ID"     #:width 28 #:limit-marker "...") "| "
-                 (~a "PRODUCT ID"     #:width 28 #:limit-marker "...") "| "
+                 (~a "PRODUCT ID"     #:width 20 #:limit-marker "...") "| "
                  (~a "LAST UPDATED " #:width 20 #:limit-marker "...") "\n"
-                 (~a #:width 130 #:pad-string "-") "\n"
+                 (~a #:width 122 #:pad-string "-") "\n"
                  (apply ~a (map (λ(p) (~a (~a (hash-ref (hash-ref p 'attributes) 'name) #:width 40 #:limit-marker "...") "| "
                                            (~a "$" (/ (hash-ref p 'price) 100)  #:width 6 #:limit-marker "...") "| "
                                            (~a (hash-ref p 'id)      #:width 28 #:limit-marker "...") "| "
-                                           (~a (hash-ref p 'product)      #:width 28 #:limit-marker "...") "| "
+                                           (~a (hash-ref p 'product)      #:width 20 #:limit-marker "...") "| "
                                            (~a (format-date (seconds->date (hash-ref p 'updated))) #:width 20 #:limit-marker "...") "\n"))
                                  (filter (if product-id
                                              (λ(s) (string=? (hash-ref s 'product) product-id))
