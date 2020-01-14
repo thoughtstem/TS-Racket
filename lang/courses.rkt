@@ -286,30 +286,41 @@
 
 
 
-(define/contract (start-time m [adj 7])
-  (->* (meeting?) (number?) moment?)
+(define/contract (start-time m) ;[adj 8])
+  (-> meeting? moment?)
 
   (define s (hash-ref m 'start_time))
 
-  (if (string? s)
+  #|(if (string? s)
       (-hours
        (iso8601->moment
         s)
        adj)
-      s))
+      s)|#
+  
+  ; ==== AUTO DST AND TIME ZONE ADJUSTMENT ===
+  (if (string? s)
+      (adjust-timezone (iso8601->moment s) (current-timezone))
+      s)
+  )
 
-(define/contract (end-time m (adj 7))
-  (->* (meeting?) (number?) moment?)
-
+(define/contract (end-time m) ;(adj 8))
+  (-> meeting? moment?)
 
   (define s (hash-ref m 'end_time))
 
-  (if (string? s)
+  #|(if (string? s)
       (-hours
        (iso8601->moment
         s)
        adj)
-      s))
+      s)|#
+
+  ; ==== AUTO DST AND TIME ZONE ADJUSTMENT ===
+  (if (string? s)
+      (adjust-timezone (iso8601->moment s) (current-timezone))
+      s)
+  )
 
 
 
@@ -452,31 +463,31 @@
 ;option to pass in to change-meeting-times
 (define (add-hours h)
   (lambda (m)
-    (define start (+hours (start-time m 0) h))
-    (define end   (+hours (end-time m 0) h))
+    (define start (+hours (start-time m) h))
+    (define end   (+hours (end-time m) h))
 
     (~> m
-        (hash-set _ 'start_time (moment->iso8601 start))
-        (hash-set _ 'end_time   (moment->iso8601 end)))
+        (hash-set _ 'start_time (moment->iso8601 (adjust-timezone start 0)))
+        (hash-set _ 'end_time   (moment->iso8601 (adjust-timezone end 0))))
     ))
 
 ;option to pass in to change-meeting-times
 (define (add-minutes mins)
   (lambda (m)
-    (define start (+minutes (start-time m 0) mins))
-    (define end   (+minutes (end-time m 0) mins))
+    (define start (+minutes (start-time m) mins))
+    (define end   (+minutes (end-time m) mins))
 
     (~> m
-        (hash-set _ 'start_time (moment->iso8601 start))
-        (hash-set _ 'end_time   (moment->iso8601 end)))
+        (hash-set _ 'start_time (moment->iso8601 (adjust-timezone start 0)))
+        (hash-set _ 'end_time   (moment->iso8601 (adjust-timezone end 0))))
     ))
 
 ;option to pass in to change-meeting-times
 (define (set-minutes minutes)
   (lambda (m)
-    (define end (+minutes (start-time m 0) minutes))
+    (define end (+minutes (start-time m) minutes))
 
     (~> m
-        (hash-set _ 'end_time   (moment->iso8601 end)))
+        (hash-set _ 'end_time   (moment->iso8601 (adjust-timezone end 0))))
     ))
 

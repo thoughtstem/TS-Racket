@@ -14,7 +14,7 @@
  (course 1826))
 
 ;2-panel flyer: K-2nd & 3rd-5th Spring
-;DAYLIGHT SAVINGS TIME FIX!!!
+;DAYLIGHT SAVINGS TIME FIX!!! === NOT NEEDED ANYMORE ===
 
 (courses->flyer
  #:first-title "Point & Click Games"
@@ -27,7 +27,7 @@
   (course 1826)))
 
 ;1-panel flyer: K-2nd Winter
-;DAYLIGHT SAVINGS TIME FIX!
+;DAYLIGHT SAVINGS TIME FIX! === NOT NEEDED ANYMORE ===
 #;
 (course->flyer
  #:title "Coding Club: Exploring 3D Worlds"
