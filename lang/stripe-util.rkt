@@ -91,6 +91,10 @@
                    (hash 'name name))))
 
 (define (camp->sku-name c)
+  (define lunch-time (camp-lunch-time c))
+  (define lunch-or-blank (if (eq? lunch-time "")
+                             ""
+                             " (includes lunch)"))
   ; === SINGLE-LINE FORMATTING ===
   (~a (if (> (camp-discount c) 0)
           (~a "Discounted from $" (camp-price c) "/student! ")
@@ -98,7 +102,7 @@
       (camp-location c) " - "
       (camp-topic c) " (" (camp-grade-range c) ") -  "
       "Daily from "
-      (camp-camp-time c) " - "
+      (camp-camp-time c) lunch-or-blank " - "
       "Dates: " (apply (curry ~a #:separator ", ") (camp-meeting-dates c))))
 
 ;if it exists, update it, and if not, create it
