@@ -112,7 +112,7 @@
       (stripe-post (~a "/v1/skus")
                    (hash (string->symbol "attributes[name]") (course->sku-name c)
                          'id c-sku
-                         'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'image "https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
                          'price (~a (* 100 (- (course-price c) (course-discount c))))
                          'currency "usd"
                          (string->symbol "inventory[type]") "infinite"
@@ -135,7 +135,7 @@
       (stripe-post (~a "/v1/skus")
                    (hash (string->symbol "attributes[name]") (camp->sku-name c)
                          'id c-sku
-                         'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'image "https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
                          'currency "usd"
                          (string->symbol "inventory[type]") "infinite"
