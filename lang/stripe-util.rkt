@@ -55,6 +55,20 @@
   (stripe-post (~a "/v1/products/" prod-id)
                (hash 'name name)))
 
+(define (course->image-url c)
+  (define grade-range (string-replace (course-grade-range c) " " ""))
+  (cond [(eq? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-course-img-path))]
+        [(eq? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-course-img-path))]
+        [(eq? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-course-img-path))]
+        [else                         (~a "https://metacoders.org" (prefix/pathify stripe-3-6-course-img-path))]))
+
+(define (camp->image-url c)
+  (define grade-range (string-replace (camp-grade-range c) " " ""))
+  (cond [(eq? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-camp-img-path))]
+        [(eq? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-camp-img-path))]
+        [(eq? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-camp-img-path))]
+        [else                         (~a "https://metacoders.org" (prefix/pathify stripe-3-6-camp-img-path))]))
+
 (define (course->sku-name c)
   ; === SINGLE-LINE FORMATTING ===
   (~a (if (> (course-discount c) 0)
@@ -112,7 +126,7 @@
       (stripe-post (~a "/v1/skus")
                    (hash (string->symbol "attributes[name]") (course->sku-name c)
                          'id c-sku
-                         'image "https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
+                         'image (course->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
                          'price (~a (* 100 (- (course-price c) (course-discount c))))
                          'currency "usd"
                          (string->symbol "inventory[type]") "infinite"
@@ -122,7 +136,7 @@
       (stripe-post (~a "/v1/skus/" c-sku)
                    (hash (string->symbol "attributes[name]")
                          (course->sku-name c)
-                         ;'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'image (course->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
                          'price (~a (* 100 (- (course-price c) (course-discount c))))
                          'product prod-id ;this will link the existing sku to a new product
                          )
@@ -135,7 +149,7 @@
       (stripe-post (~a "/v1/skus")
                    (hash (string->symbol "attributes[name]") (camp->sku-name c)
                          'id c-sku
-                         'image "https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
+                         'image (camp->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
                          'currency "usd"
                          (string->symbol "inventory[type]") "infinite"
@@ -145,7 +159,7 @@
       (stripe-post (~a "/v1/skus/" c-sku)
                    (hash (string->symbol "attributes[name]")
                          (camp->sku-name c)
-                         ;'image "https://metacoders.org/img/weekly-classes.jpg"
+                         'image (camp->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
                          'product prod-id ;this will link the existing sku to a new product
                          )
