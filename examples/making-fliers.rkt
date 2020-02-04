@@ -5,40 +5,20 @@
 (set-env! PROD)
 
 
-;2-panel flyer: K-2nd & 3rd-5th Winter
-#;
-(courses->flyer
- #:first-title "Coding Club: Awesome Animals"
- #:second-title "Coding Club: Epic Quests"
- (course 1825)
- (course 1826))
-
 ;2-panel flyer: K-2nd & 3rd-5th Spring
-;DAYLIGHT SAVINGS TIME FIX!!! === NOT NEEDED ANYMORE ===
 
 (courses->flyer
- #:first-title "Point & Click Games"
- #:second-title "Exploring 3D Worlds"
- (change-meeting-times
-  (add-hours -1)
-  (course 1825))
- (change-meeting-times
-  (add-hours -1)
-  (course 1826)))
+ #:first-title "Coding Club: Pokemon Clicker Games"
+ #:second-title "Coding Club: Out of This World Coding!"
+ (course 1901)
+ (course 1900))
 
-;1-panel flyer: K-2nd Winter
-;DAYLIGHT SAVINGS TIME FIX! === NOT NEEDED ANYMORE ===
+
+;1-panel flyer: 3rd-5th Spring
 #;
-(course->flyer
- #:title "Coding Club: Exploring 3D Worlds"
- (change-meeting-times
-  (add-hours -1)
-  (course 1815)))
-
-;1-panel flyer: 3rd-5th Winter
-;(course->flyer #:bg (make-flier-bg
-;                                (bitmap "resources/student-image-2.jpg")
-;                                (bitmap "resources/superhero-screenshot-3.png")
-;                                (bitmap "resources/student-image-1.jpg"))
-;                           #:title "Code Your Own Superhero Video Games"
-;                           (course  1284))
+(course->flyer #:bg (make-flier-bg
+                                (bitmap "/Users/lindseyhandley/ts-racket/lang/resources/single-panel-k-2nd-3.jpg")
+                                (bitmap "/Users/lindseyhandley/ts-racket/lang/resources/single-panel-3rd-5th.jpg")
+                                (bitmap "/Users/lindseyhandley/ts-racket/lang/resources/single-panel-k-2nd.jpg"))
+                           #:title "Coding Club: Coding That's Out of This World!"
+                           (course  1782))

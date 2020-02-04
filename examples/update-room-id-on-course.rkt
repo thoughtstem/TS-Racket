@@ -5,4 +5,4 @@
 (set-env! PROD)
 
 (save-meetings!
- (set-room-id (course 1815) 587))
+ (set-room-id (course 1900) 386))

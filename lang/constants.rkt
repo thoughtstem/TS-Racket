@@ -139,6 +139,16 @@
         "Level up fluency in programming languages through cutting-edge language-learning curriculum."
         "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
 
+(define k-2nd-spring-2020-selling-points
+  (list "Learn to code by making fun, Pokemon-themed games!"
+        "Gain critical skills with a mouse & keyboard; vital in today's technological world."
+        "Coding knowledge is critical for the future in any field! Start your student on the road to future success today."))
+
+(define 3rd-5th-spring-2020-selling-points
+  (list "Learn to code by building 3D solar systems and galaxies."
+        "Gain fluency in coding and build skills to learn any programming language with cutting-edge curriculum."
+        "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
+
 
 (define k-2nd-fall-2019-selling-points
   (list "Learn to code by making games involving fun, animal characters!"
