@@ -8,9 +8,14 @@
          city->stripe
          course->stripe
          camp->stripe
+         courses->stripe
+         camps->stripe
          
          stripe-get-status
          stripe-get-data
+
+         ;get-response-status
+         ;get-response-data
          
          show-products
          show-skus
@@ -57,16 +62,16 @@
 
 (define (course->image-url c)
   (define grade-range (string-replace (course-grade-range c) " " ""))
-  (cond [(eq? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-course-img-path))]
-        [(eq? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-course-img-path))]
-        [(eq? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-course-img-path))]
+  (cond [(string=? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-course-img-path))]
+        [(string=? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-course-img-path))]
+        [(string=? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-course-img-path))]
         [else                         (~a "https://metacoders.org" (prefix/pathify stripe-3-6-course-img-path))]))
 
 (define (camp->image-url c)
-  (define grade-range (string-replace (camp-grade-range c) " " ""))
-  (cond [(eq? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-camp-img-path))]
-        [(eq? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-camp-img-path))]
-        [(eq? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-camp-img-path))]
+  (define grade-range (string-trim (string-replace (camp-grade-range c) " " "") "Entering"))
+  (cond [(string=? grade-range "K-2nd")    (~a "https://metacoders.org" (prefix/pathify stripe-k-2-camp-img-path))]
+        [(string=? grade-range "3rd-6th")  (~a "https://metacoders.org" (prefix/pathify stripe-3-6-camp-img-path))]
+        [(string=? grade-range "7th-10th") (~a "https://metacoders.org" (prefix/pathify stripe-7-10-camp-img-path))]
         [else                         (~a "https://metacoders.org" (prefix/pathify stripe-3-6-camp-img-path))]))
 
 (define (course->sku-name c)
@@ -96,17 +101,19 @@
 (define (city->stripe prod-id city-name)
   (define name (~a "Coding Classes in " city-name))
   (if (eq? (stripe-get-status (~a "/v1/products/" prod-id)) 404)
-      (stripe-post (~a "/v1/products")
-                   (hash 'id prod-id
-                         'name name
-                         (string->symbol "attributes[]") "name"
-                         'type "good"))
-      (stripe-post (~a "/v1/products/" prod-id)
-                   (hash 'name name))))
+      (get-response-data
+       (stripe-post (~a "/v1/products")
+                    (hash 'id prod-id
+                          'name name
+                          (string->symbol "attributes[]") "name"
+                          'type "good")))
+      (get-response-data
+       (stripe-post (~a "/v1/products/" prod-id)
+                    (hash 'name name)))))
 
 (define (camp->sku-name c)
   (define lunch-time (camp-lunch-time c))
-  (define lunch-or-blank (if (eq? lunch-time "")
+  (define lunch-or-blank (if (string=? lunch-time "")
                              ""
                              " (includes lunch)"))
   ; === SINGLE-LINE FORMATTING ===
@@ -123,47 +130,57 @@
 (define (course->stripe prod-id c)
   (define c-sku (course-sku c))
   (if (eq? (stripe-get-status (~a "/v1/skus/" c-sku)) 404)
-      (stripe-post (~a "/v1/skus")
-                   (hash (string->symbol "attributes[name]") (course->sku-name c)
-                         'id c-sku
-                         'image (course->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
-                         'price (~a (* 100 (- (course-price c) (course-discount c))))
-                         'currency "usd"
-                         (string->symbol "inventory[type]") "infinite"
-                         'product prod-id
-                         )
-                   )
-      (stripe-post (~a "/v1/skus/" c-sku)
-                   (hash (string->symbol "attributes[name]")
-                         (course->sku-name c)
-                         'image (course->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
-                         'price (~a (* 100 (- (course-price c) (course-discount c))))
-                         'product prod-id ;this will link the existing sku to a new product
-                         )
-                   )))
+      (get-response-data
+       (stripe-post (~a "/v1/skus")
+                    (hash (string->symbol "attributes[name]") (course->sku-name c)
+                          'id c-sku
+                          'image (course->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
+                          'price (~a (* 100 (- (course-price c) (course-discount c))))
+                          'currency "usd"
+                          (string->symbol "inventory[type]") "infinite"
+                          'product prod-id
+                          )
+                    ))
+      (get-response-data
+       (stripe-post (~a "/v1/skus/" c-sku)
+                    (hash (string->symbol "attributes[name]")
+                          (course->sku-name c)
+                          'image (course->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
+                          'price (~a (* 100 (- (course-price c) (course-discount c))))
+                          'product prod-id ;this will link the existing sku to a new product
+                          )
+                    ))))
 
 ;if it exists, update it, and if not, create it
 (define (camp->stripe prod-id c)
   (define c-sku (camp-sku c))
   (if (eq? (stripe-get-status (~a "/v1/skus/" c-sku)) 404)
-      (stripe-post (~a "/v1/skus")
-                   (hash (string->symbol "attributes[name]") (camp->sku-name c)
-                         'id c-sku
-                         'image (camp->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
-                         'price (~a (* 100 (- (camp-price c) (camp-discount c))))
-                         'currency "usd"
-                         (string->symbol "inventory[type]") "infinite"
-                         'product prod-id
-                         )
-                   )
-      (stripe-post (~a "/v1/skus/" c-sku)
-                   (hash (string->symbol "attributes[name]")
-                         (camp->sku-name c)
-                         'image (camp->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
-                         'price (~a (* 100 (- (camp-price c) (camp-discount c))))
-                         'product prod-id ;this will link the existing sku to a new product
-                         )
-                   )))
+      (get-response-data
+       (stripe-post (~a "/v1/skus")
+                    (hash (string->symbol "attributes[name]") (camp->sku-name c)
+                          'id c-sku
+                          'image (camp->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
+                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
+                          'currency "usd"
+                          (string->symbol "inventory[type]") "infinite"
+                          'product prod-id
+                          )
+                    ))
+      (get-response-data
+       (stripe-post (~a "/v1/skus/" c-sku)
+                    (hash (string->symbol "attributes[name]")
+                          (camp->sku-name c)
+                          'image (camp->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
+                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
+                          'product prod-id ;this will link the existing sku to a new product
+                          )
+                    ))))
+
+(define (courses->stripe prod-id . courses)
+  (map (curry course->stripe prod-id) courses))
+
+(define (camps->stripe prod-id . camps)
+  (map (curry camp->stripe prod-id) camps))
 
 ; this only works if all linked skus are deleted first
 (define (delete-product prod-id)
