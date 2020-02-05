@@ -135,7 +135,7 @@
                     (hash (string->symbol "attributes[name]") (course->sku-name c)
                           'id c-sku
                           'image (course->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
-                          'price (~a (* 100 (- (course-price c) (course-discount c))))
+                          'price (~a (exact-round (* 100 (- (course-price c) (course-discount c)))))
                           'currency "usd"
                           (string->symbol "inventory[type]") "infinite"
                           'product prod-id
@@ -146,7 +146,7 @@
                     (hash (string->symbol "attributes[name]")
                           (course->sku-name c)
                           'image (course->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
-                          'price (~a (* 100 (- (course-price c) (course-discount c))))
+                          'price (~a (exact-round (* 100 (- (course-price c) (course-discount c)))))
                           'product prod-id ;this will link the existing sku to a new product
                           )
                     ))))
@@ -160,7 +160,7 @@
                     (hash (string->symbol "attributes[name]") (camp->sku-name c)
                           'id c-sku
                           'image (camp->image-url c) ;"https://metacoders.org/img/home/child-coding-in-weekly-class-camp.jpg"
-                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
+                          'price (~a (exact-round (* 100 (- (camp-price c) (camp-discount c)))))
                           'currency "usd"
                           (string->symbol "inventory[type]") "infinite"
                           'product prod-id
@@ -171,7 +171,7 @@
                     (hash (string->symbol "attributes[name]")
                           (camp->sku-name c)
                           'image (camp->image-url c) ;"https://metacoders.org/img/weekly-classes.jpg"
-                          'price (~a (* 100 (- (camp-price c) (camp-discount c))))
+                          'price (~a (exact-round (* 100 (- (camp-price c) (camp-discount c)))))
                           'product prod-id ;this will link the existing sku to a new product
                           )
                     ))))
