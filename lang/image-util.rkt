@@ -3,6 +3,7 @@
 (provide buffer
          logo
          scale-to-fit
+         squarify
          safe-above
          safe-beside
          pad-list
@@ -187,6 +188,24 @@
 (define/contract (scale-to-fit i w)
   (-> image? number? image?)
   (scale (/ w (image-width i)) i))
+
+;crops image into a square, defaults to cropping to center,
+;though optional params allow for customization
+(define/contract (squarify i (x-place "center") (y-place "center"))
+  (->* ((or/c image? string?)) (string? string?) image?)
+  
+  (define image
+    (cond [(image? i)  i]
+          [(string? i) (bitmap/file (string->path i))]))
+  
+  (define square-size
+    (first
+     (sort
+      (list (image-width image) (image-height image))
+      <)
+     ))
+  
+  (crop/align x-place y-place square-size square-size image))
 
 ;creates above and beside that won't break if it's given 0 or 1 image
 (define (safe f imgs)

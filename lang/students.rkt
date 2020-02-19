@@ -288,11 +288,26 @@
   (define (f y) (hash-set y 'the-type "enrollment"))
   (map f x))
 
+(define (enrollment-canceled? e)
+  ;(-> enrollment? boolean?)
+  (true? (hash-ref e 'canceled)))
+
 ;gets list of students from course
-(define/contract (students course)
+(define/contract (students course #:include-canceled? [include-canceled? #f])
+  (->* (course?) (#:include-canceled? boolean?) (listof student?))
+  (define (f x) (hash-ref x 'student))
+  (define l (if include-canceled?
+                (map f (enrollments course))
+                (map f (filter-not enrollment-canceled? (enrollments course)))))
+  (define (x y) (hash-set (hash-set y 'the-type "student")
+                          'env env))
+  (map x l))
+
+;get list of cancelled students from course
+(define/contract (canceled-students course)
   (-> course? (listof student?))
   (define (f x) (hash-ref x 'student))
-  (define l (map f (enrollments course)))
+  (define l (map f (filter enrollment-canceled? (enrollments course))))
   (define (x y) (hash-set (hash-set y 'the-type "student")
                           'env env))
   (map x l))

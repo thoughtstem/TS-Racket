@@ -41,6 +41,7 @@
 ;Will need to change path of camera.png if this file is moved
 (define camera-pict (scale (bitmap "resources/camera.png") .5))
 (define logo-pict   (scale (bitmap "resources/ts-logo-name.png").25))
+(define pizza-pict  (inset (bitmap "resources/pizza-sprite.png") 2))
 
 (define filler-title       "Marvel Course")
 (define filler-course-num  "03000")
@@ -104,10 +105,10 @@
   )
 ;Creates a text pict with wrapped text given a string and width
 (define (wrap-pict-text string width)
-  (define text-pict (text string))
+  (define text-pict (text string "Tahoma"))
   (cond
     [(>= (pict-width text-pict) width)                   ;Check for pict width vs allowed
-     (vl-append (text (find-wrap-line string width 0 0))   
+     (vl-append (text (find-wrap-line string width 0 0) "Tahoma")   
                 (wrap-pict-text (substring string
                                            (string-length (find-wrap-line string width 0 0))
                                            (string-length string))
@@ -117,10 +118,10 @@
   ))
 
 (define (wrap-bold-pict-text string width)
-  (define text-pict (text string (cons 'bold null)))
+  (define text-pict (text string (cons 'bold "Tahoma")))
   (cond
     [(>= (pict-width text-pict) width)                   ;Check for pict width vs allowed
-     (vl-append (text (find-wrap-line string width 0 0) (cons 'bold null))   
+     (vl-append (text (find-wrap-line string width 0 0) (cons 'bold "Tahoma"))
                 (wrap-pict-text (substring string
                                            (string-length (find-bold-wrap-line string width 0 0))
                                            (string-length string))
@@ -136,12 +137,12 @@
      (string-append (find-wrap-line (substring string 1) width pointer last) " ")]
     [(eqv? pointer (string-length string))                     ;Check for end of string
      (cond
-       [(<= width (pict-width (text string))) (substring string 0 last)]
+       [(<= width (pict-width (text string "Tahoma"))) (substring string 0 last)]
        [else string]
        )]
     [(equal? (string-ref string pointer) #\ )                  ;Check for word
      (cond
-       [(< (pict-width (text (substring string 0 pointer))) width);Check for pict < width
+       [(< (pict-width (text (substring string 0 pointer) "Tahoma")) width);Check for pict < width
         (find-wrap-line string width (+ pointer 1) pointer)]          ;increment pointer and save last know valid string
        [else (substring string 0 last)]               ;Check for pict >= width
      )]
@@ -154,12 +155,12 @@
      (string-append (find-wrap-line (substring string 1) width pointer last) " ")]
     [(eqv? pointer (string-length string))                     ;Check for end of string
      (cond
-       [(<= width (pict-width (text string (cons 'bold null)))) (substring string 0 last)]
+       [(<= width (pict-width (text string (cons 'bold "Tahoma")))) (substring string 0 last)]
        [else string]
        )]
     [(equal? (string-ref string pointer) #\ )                  ;Check for word
      (cond
-       [(< (pict-width (text (substring string 0 pointer) (cons 'bold null))) width);Check for pict < width
+       [(< (pict-width (text (substring string 0 pointer) (cons 'bold "Tahoma"))) width);Check for pict < width
         (find-wrap-line string width (+ pointer 1) pointer)]          ;increment pointer and save last know valid string
        [else (substring string 0 last)]               ;Check for pict >= width
      )]
@@ -218,13 +219,13 @@
   (->nice-full-date m))
 
 (define (make-roster-header course-number course-day body-width)
-  (define title-pict       (text (string-append "Course Name:  " filler-title)))
-  (define course-num-pict  (text (string-append "Course Number: " filler-course-num)))
-  (define coach-day-pict   (text (string-append "Coaches: " filler-instructors)))
-  (define lr-label-pict    (text (string-append "Location: " filler-location)))
-  (define loc-room-pict    (text (string-append "Room: " filler-room)))
-  (define coach-time-pict  (text (string-append "Time: " filler-time)))
-  (define start-year-pict  (text (string-append "Start Date:" filler-year)))
+  (define title-pict       (text (string-append "Course Name:  " filler-title) "Tahoma"))
+  (define course-num-pict  (text (string-append "Course Number: " filler-course-num) "Tahoma"))
+  (define coach-day-pict   (text (string-append "Coaches: " filler-instructors) "Tahoma"))
+  (define lr-label-pict    (text (string-append "Location: " filler-location) "Tahoma"))
+  (define loc-room-pict    (text (string-append "Room: " filler-room) "Tahoma"))
+  (define coach-time-pict  (text (string-append "Time: " filler-time) "Tahoma"))
+  (define start-year-pict  (text (string-append "Start Date:" filler-year) "Tahoma"))
   (define course-object    "")
   
   (cond
@@ -232,12 +233,12 @@
     [else                    ;Reset to new things
      (set! course-object    (course course-number))
      (set! title-pict       (wrap-bold-pict-text (name course-object) (- (/ body-width 1.5) (pict-width logo-pict))))
-     (set! course-num-pict  (hc-append (blank 1)(colorize (text "Course Number: ") (dark "gray")) (text (number->string course-number) (cons 'bold null))))
-     (set! start-year-pict (hc-append (colorize (text "Start Date: ") (dark "gray")) (text (get-start-date course-object) (cons 'bold null))))
-     (set! coach-day-pict   (vr-append (colorize (text "Coaches:")  (dark "gray"))                       (blank 1)(colorize (text "Time:") (dark "gray"))))
-     (set! lr-label-pict    (vr-append (colorize (text "Location:") (dark "gray"))                       (blank 1)(colorize (text "Room:") (dark "gray"))))
-     (set! loc-room-pict    (vl-append (text (name (location (room course-object)))   (cons 'bold null)) (blank 1) (text (room-number (room course-object))          (cons 'bold null))))
-     (set! coach-time-pict  (vl-append (text (find-reoccuring-teachers course-object) (cons 'bold null)) (blank 1) (text (get-meeting-time course-object course-day) (cons 'bold null))))
+     (set! course-num-pict  (hc-append (blank 1)(colorize (text "Course Number: " "Tahoma") (dark "gray")) (text (number->string course-number) (cons 'bold "Tahoma"))))
+     (set! start-year-pict (hc-append (colorize (text "Start Date: " "Tahoma") (dark "gray")) (text (get-start-date course-object) (cons 'bold "Tahoma"))))
+     (set! coach-day-pict   (vr-append (colorize (text "Coaches:" "Tahoma")  (dark "gray"))                       (blank 1)(colorize (text "Time:" "Tahoma") (dark "gray"))))
+     (set! lr-label-pict    (vr-append (colorize (text "Location:" "Tahoma") (dark "gray"))                       (blank 1)(colorize (text "Room:" "Tahoma") (dark "gray"))))
+     (set! loc-room-pict    (vl-append (text (name (location (room course-object)))   (cons 'bold "Tahoma")) (blank 1) (text (room-number (room course-object))          (cons 'bold "Tahoma"))))
+     (set! coach-time-pict  (vl-append (text (find-reoccuring-teachers course-object) (cons 'bold "Tahoma")) (blank 1) (text (get-meeting-time course-object course-day) (cons 'bold "Tahoma"))))
      ;Assemble the pict
      (blank 50)
      ])
@@ -481,6 +482,18 @@
   phone-number)
   )
 
+(define (maybe-pizza-box str)
+  (if (string-contains? (string-downcase str) "pizza: yes")
+      (rb-superimpose (make-text-box (string-replace str "Permission to get pizza: Yes." "") 200)
+                      pizza-pict)
+      (make-text-box (string-replace str "Permission to get pizza: No." "") 200)))
+
+(define (maybe-pizza-box-height str)
+  (if (string-contains? (string-downcase str) "pizza: yes")
+      (rb-superimpose (make-text-box-height (string-replace str "Permission to get pizza: Yes." "") 200 (+ (pict-height green-check) 10))
+                      pizza-pict)
+      (make-text-box-height (string-replace str "Permission to get pizza: No." "") 200 (+ (pict-height green-check) 10))))
+
 ;Health notes stuff
 ;Creates a health notes text box
 (define (make-health-notes students-list student-index width)
@@ -491,14 +504,18 @@
                                  (student-notes
                                   (list-ref students-list
                                             student-index))))
-  (define pict-list (map (curryr make-text-box 200) student-med-notes))
-  (define notes-pict (apply vl-append pict-list))
+  (define pict-list (map maybe-pizza-box student-med-notes))
+  (define notes-pict (if (empty? pict-list)
+                         (make-text-box "" 200)
+                         (apply vl-append pict-list)))
 
   (cond [(> (+ (pict-height green-check) 10) (pict-height notes-pict))
          (if (and (= (length student-med-notes) 1)
                   (equal? (first student-med-notes) "N/A"))
              (colorize (make-text-box-height (first student-med-notes) 200 (+(pict-height green-check) 10)) (dark "gray"))
-             (make-text-box-height (apply ~a student-med-notes) 200 (+ (pict-height green-check) 10)))]
+             (if (empty? student-med-notes)
+                 (make-text-box-height "" 200 (+(pict-height green-check) 10))
+                 (apply vl-append (map maybe-pizza-box-height student-med-notes))))]
         [else notes-pict])
   )
 
@@ -515,15 +532,12 @@
      [else notes])
    )
 ;##################|Assembling Pict Code|##################;
-;THIS FUNCTION DOES NOT WORK
-;Organizes students in alphabetical order
-#;(define (alphabetize-list students-list best-list original-size)
-  (define first-student (get-student-alphabetically students-list 0 0))
-  (cond [(< (length best-list) original-size)
-         (append best-list (list first-student))
-         (alphabetize-list (remove first-student students-list) best-list original-size)]
-        [else best-list])
-  )
+;FIXED
+;Organizes students in alphabetical order, returns list of hashes in alphabetical order
+(define (alphabetize-students students-list)
+  (sort students-list
+        string<?
+        #:key (λ (s) (~a (first-name s) " " (last-name s)))))
 
 ;THIS FUNCTION DOES NOT WORK
 ;Returns the index of the first student alphabetically
@@ -574,7 +588,10 @@
              health-notes-pict                                                ;medical notes
              )])
   )
+
+
 ;Builds all students
+
 (define (assemble-all-students meeting-list students-list student-index day)
   (cond
     [(equal? students-list (list )) (blank 0)]
@@ -587,12 +604,29 @@
 ;Builds the roster body
 (define (assemble-roster-body course-number day)
   (define course-object (course   course-number))
-  (define students-list (students course-object))
+  (define students-list (alphabetize-students (students course-object) ))
+  ;(define canceled-list (canceled-students course-object)) ; not used yet
   (define meeting-list  (meetings course-object))
   
   (vl-append (make-label-row        meeting-list)
              (assemble-all-students meeting-list students-list 0 day))
   )
+
+(define (badges-reminder m)
+  (define badge-1 (exact-ceiling (/ m 3)))
+  (define badge-2 (* badge-1 2))
+  (vc-append
+   (blank 50)
+   (scale (text (~a "1st Badge @ student's attendance #" badge-1)) 4)
+   (blank 20)
+   (scale (text (~a "2nd Badge @ student's attendance #" badge-2)) 4)
+   (blank 20)
+   (scale (text "3rd Badge @ Game Jam (last meeting)") 4)
+   (blank 20)
+   (scale (text "Make sure you mark attendance every meeting!") 3)
+   (blank 10)
+   (scale (text "This will help you know who gets a badge when.") 2)))
+   
 
 ;Builds the whole roster as pict
 (define/contract (assemble-roster course-number course-day)
@@ -600,7 +634,8 @@
   (define body   (assemble-roster-body course-number course-day))
   (define header (make-roster-header course-number course-day (pict-width body)))
   (define front-roster (vc-append header
-                                  body))
+                                  body
+                                  (badges-reminder (length (meetings (course course-number))))))
   (define full-roster
     (cc-superimpose (filled-rectangle (pict-width  front-roster)
                                       (pict-height front-roster)

@@ -85,9 +85,6 @@
   (~a "<p>This Fall, " name " students will design & code their very own 2D story-based, adventure games. Students will be able to choose their favorite characters from <i>Minecraft</i>, <i>Harry Potter</i>, <i>Fortnite</i>, and <i>Pokemon</i> to create an open world for players to explore. ThoughtSTEM's expert instructors will teach students how to program common adventure game elements like quests and NPCs into their games using a powerful, typed language. At the end of this course, students will be able to share their game with friends and family.</p>
 <p><i>Did you know? Computer science college graduates earn 40% more income over their lifetime compared to other college graduates?</i></p>"))
 
-(define code-your-game-screenshot
-  "https://www.thoughtstem.com/system/images/W1siZiIsIjIwMTgvMDgvMjAvMjAvMzYvNDIvNDMwLzN0bzVjdXJyaWN1bHVtZ2lmLmdpZiJdXQ/3to5curriculumgif.gif")
-
 (define (code-your-game-winter-description name)
   (~a "<p>This Winter, " name " 3rd-5th students will design & code their very own 2D survival games. Students will learn how to build critical features that make survival games like <i>Minecraft</i> and <i>Fortnite</i> fun! Students will use a powerful, typed language to code features like health bars, day-night cycles, and crafting/recipe mechanics. At the end of this course, students will be able to share their survival games with friends and family. <i>Note: Students are welcome to join us in the Winter without having taken the Fall program.</i></p>
 <p><i><b>Did you know?</b> That coding is becoming an integral aspect of other important sciences, including Biology, Chemistry, and the Physical Sciences.</i></p>"))
@@ -136,6 +133,26 @@
 (define coding-and-engineering-screenshot
   "http://www.thoughtstem.com/system/images/W1siZiIsIjIwMTcvMDgvMDgvMTYvNTMvNTUvOTM5L2V6Z2lmLmNvbV9vcHRpbWl6ZS5naWYiXV0/ezgif.com-optimize.gif")
 
+(define k-2nd-winter-2020-selling-points
+  (list "Learn to code by making fun point & click games!"
+        "Gain critical skills with a mouse and keyboard, which every student needs to truly succeed with technology."
+        "Coding knowledge is critical for the future! We believe kids should start becoming fluent in technology now!"))
+
+(define 3rd-5th-winter-2020-selling-points
+  (list "Learn to code by building immersive 3D worlds."
+        "Level up fluency in programming languages through cutting-edge language-learning curriculum."
+        "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
+
+(define k-2nd-spring-2020-selling-points
+  (list "Learn to code by making fun, Pokemon-themed games!"
+        "Gain critical skills with a mouse & keyboard; vital in today's technological world."
+        "Coding knowledge is critical for the future in any field! Start your student on the road to future success today."))
+
+(define 3rd-5th-spring-2020-selling-points
+  (list "Learn to code by building 3D solar systems and galaxies."
+        "Gain fluency in coding and build skills to learn any programming language with cutting-edge curriculum."
+        "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
+
 
 (define k-2nd-fall-2019-selling-points
   (list "Learn to code by making games involving fun, animal characters!"
@@ -143,7 +160,7 @@
         "Coding knowledge is critical for the future! We believe kids should start becoming fluent in technology now!"))
 
 (define 3rd-5th-fall-2019-selling-points
-  (list "Learn to code by making games with quests, crafting, and student designed cut-scenes."
+  (list "Learn to code by making games with quests, crafting, and cut-scenes."
         "Level up fluency in programming languages through cutting-edge language-learning curriculum."
         "Earn badges & prizes in a fun, engaging learning environment with awesome educators."))
 
@@ -475,6 +492,10 @@
   (~a "<p>Our popular Coding Club is a fun & effective way for kids to learn how to code through video game design! ThoughtSTEM’s novel approach to computer science education is backed by the latest scientific research that shows learning how to code is more like learning a foreign language than learning math. Therefore, we leverage the entire field of language acquisition so that our students are ready for a future where they’ll need to speak the languages of computers fluently. We also keep the emphasis on FUN, so throughout the course students
 will earn badges and prizes as they expand their knowledge of computer science. During this session of Coding Club, students will be designing video games that involve quests, crafting, and building their own in-game cut-scenes!</p>"))
 
+(define (todo-description name)
+  (~a "<p>Description coming soon...</p>"))
+
+
 (define k2-awesome-animals-screenshot
   "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/k-2.gif")
 
@@ -494,6 +515,11 @@ will earn badges and prizes as they expand their knowledge of computer science. 
         3-5-epic-quest-screenshot
         (list "3rd-5th")))
 
+(define (3-5-2019-2020-winter-bundle school)
+  (list "Coding Club: 3rd-5th (Winter)"
+        (todo-description school)
+        3-5-epic-quest-screenshot
+        (list "3rd-5th")))
 
 ; Asp Winter 2019-20 Bundles
 
@@ -758,33 +784,24 @@ advanced students will take their knowledge to infinite and beyond! In this sess
         marvel-7-10-screenshot
         (list "7th-10th")))
 
+; ==== LINDSEY'S COURSE BUNDLES =====
+(define (3-5-2020-spring-bundle-lindsey school)
+  (list "Coding Club: 3rd-5th (Spring)"
+        (todo-description school)
+        3-5-epic-quest-screenshot
+        (list "3rd-5th")))
 
+(define (k2-2019-2020-winter-bundle-lindsey  school)
+  (list "Coding Club: K-2nd (Winter)"
+        (todo-description school)
+        k2-awesome-animals-screenshot
+        (list "K-2nd")))
 
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+(define (k2-2020-spring-bundle-lindsey  school)
+  (list "Coding Club: K-2nd (Spring)"
+        (todo-description school)
+        k2-awesome-animals-screenshot
+        (list "K-2nd")))
 
 
 
