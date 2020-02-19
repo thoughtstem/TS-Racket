@@ -6,5 +6,7 @@
 
 (save-meetings!
  (change-meeting-times
-  (set-minutes 60)
-  (course 1247)))
+  (set-minutes 50)
+  (course 1885)))
+
+

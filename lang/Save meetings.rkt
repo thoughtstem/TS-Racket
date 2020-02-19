@@ -7,9 +7,14 @@
 
 (set-env! PROD)
 
-; (save-meetings!
+ (save-meetings!
 
- (set-room-id (course 1718) 525)
+ (set-room-id (course 1778) 594))
+
+
+
+
+
 
 
 

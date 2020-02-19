@@ -8,6 +8,7 @@
 (define bird-rock 10617)
 (define csu-san-marcos 10528)
 (define carmel-del-mar 7184)
+(define castle-park-elementary 10658)
 (define chabad 10544)
 (define country-montessori 10486)
 (define deer-canyon 7379)
@@ -23,6 +24,7 @@
 (define hearst 7517)
 (define hickman 7582)
 (define high-tech-high 10641)
+(define hill-top 10526)
 (define jerabek 7593)
 (define jcc 10507)
 (define JCS 10597)
@@ -41,6 +43,7 @@
 (define sage-canyon 7186)
 (define sage-canyon-summer 10520)
 (define san-diego-christian-college 10638)
+(define san-diego-high 10651)
 (define san-marino 10647)
 (define serra-mesa-library 10635)
 (define sdsu 10572)
@@ -238,6 +241,12 @@
         (generic-course-description)
         ""
         (list "3rd-5th")))
+
+(define (torrey-pines-in-school school)
+  (list "Torrey Pines In-School: "
+        (generic-course-description)
+        ""
+        (list "K-2nd")))
 
 
 ;DMUSD Spring 2019 bundles
@@ -484,6 +493,292 @@ will earn badges and prizes as they expand their knowledge of computer science. 
         (3-5-epic-quest-description school)
         3-5-epic-quest-screenshot
         (list "3rd-5th")))
+
+
+; Asp Winter 2019-20 Bundles
+
+(define (k2-winter-2020-description name)
+  (~a "<p>Class description coming soon...</p>"))
+
+(define (3-5-3D-worlds-description name)
+  (~a "<p>The magic of turning code into an immersive 3D world is something that only coders will ever experience. In our Winter program, students at" name "Elementary will learn a powerful programming language for designing and customizing beautiful interactive worlds that they can walk (or fly!) through.
+Beginners will be surprised to find that with just a few lines of code, they are able to create places that have never existed before. Advanced students will be pleasantly surprised at how deep and subtle the art of world-building really is. In this session, students will earn badges as they become more and more fluent in coding.<p>"))
+
+(define k2-winter-2020-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/DSC_0603_370_200.jpg")
+
+(define 3-5-3D-worlds-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/vr-engine.gif")
+
+(define (k2-winter-2020-bundle school)
+  (list "Coding Club: K-2nd (Winter)"
+        (k2-winter-2020-description school)
+        k2-winter-2020-screenshot
+        (list "K-2nd")))
+
+(define (3-5-3D-worlds-bundle school)
+  (list "Coding Club: Exploring 3D Worlds: 3rd-5th (Winter)"
+        (3-5-3D-worlds-description school)
+        3-5-3D-worlds-screenshot
+        (list "3rd-5th")))
+
+
+; Asp Spring 2020 Bundles
+
+(define (k2-spring-2020-description name)
+  (~a "In our Spring program, students at" name "will code their own Pokemon-themed whack-a-mole games! K-2nd students will learn how to customize their games however they want: Are they a Pokemon trainer collecting all the Pikachus? Are they a Bulbasaur collecting Pokemon friends, but avoiding the poison Pokemon? Students don't need to be Pokemon fans to enjoy this course. This course will not only strengthen students’ coding skills, but also their keyboard and mouse skills.
+Throughout the course, students will earn physical badges that demonstrate their mastery and inspire them to keep coding!<p>"))
+(define (3-5-spring-2020-description name)
+  (~a "Space... the final frontier. We're preparing 3rd-5th grade students at" name "for space exploration by teaching them how to code their own solar systems and galaxies! In our Spring program, students will learn how to build 3D galaxies that include orbiting planets and stars, which they can customize and texture. Students will build our actual solar system, and imagine other solar systems not yet discovered. Beginner coders will enjoy learning how a few lines of code can create a whole digital world at their fingertips;
+advanced students will take their knowledge to infinite and beyond! In this session, students will continue to earn badges as they become more and more fluent in coding.<p>"))
+
+(define k2-spring-2020-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/DSC_0922_370_200.jpg")
+(define 3-5-spring-2020-screenshot
+  "https://s3-us-west-1.amazonaws.com/ts-email-assets-and-stuff/DSC_0495_370_200.jpg")
+
+(define (k2-spring-2020-bundle school)
+  (list "Coding Club: Pokemon Clicker Games: K-2nd (Spring)"
+        (k2-spring-2020-description school)
+        k2-spring-2020-screenshot
+        (list "K-2nd")))
+
+(define (3-5-spring-2020-bundle school)
+  (list "Coding Club: Coding That's Out of This World!: 3rd-5th (Spring)"
+        (3-5-spring-2020-description school)
+        3-5-spring-2020-screenshot
+        (list "3rd-5th")))
+
+
+
+; Summer Camp 2020 Bundles (ThoughtSTEM)
+
+;K-2
+
+(define (zoo-animals-k2-description name)
+  (~a "<p>It’s never too early for children to start learning the language of computers! This course is designed with our youngest future coders and engineers in mind.</p>
+<p>In this camp, we'll explore coding & critical thinking skills through a newly developed programming language that combines the ease of visual programming with the benefits of typed programming.  Students will enjoy learning how to code their own zoo adventure with animals like elephants, giraffes, and lions! This particular camp will focus on developing critical thinking skills, one of the many benefits of learning computer science.</p>
+<p>ThoughtSTEM has been funded by the National Science Foundation to build cutting-edge programming languages that prepare students of all ages for the future. That means, no one else in San Diego teaches K-2 students like we do! Throughout our camps, students will also earn embroidered badges that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or their ThoughtSTEM hoodie!
+<p>Your children are going to love learning coding with us this summer!</p>"))
+
+(define (cartoons-k2-description name)
+  (~a "<p>It’s never too early for children to start learning the language of computers! This course is designed with our youngest future coders and engineers in mind.</p>
+<p>In this camp, we'll explore coding & creativity through a newly developed programming language that combines the ease of visual programming with the benefits of typed programming. Students will enjoy learning how to code video games that they can share with friends & family after camp. Students will be able to choose from a unique array of cartoon characters, items, and scenes so that they can exercise their creativity while designing their games!</p>
+<p>ThoughtSTEM has been funded by the National Science Foundation to build cutting-edge programming languages that prepare students of all ages for the future. That means, no one else in San Diego teaches K-2 students like we do! Throughout our camps, students will also earn embroidered badges that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Your children are going to love learning coding with us this summer!</p>"))
+
+(define (farm-animals-k2-description name)
+  (~a "<p>It’s never too early for children to start learning the language of computers! This course is designed with our youngest future coders and engineers in mind.</p>
+<p>In this camp, we'll explore coding & abstract reasoning skills through a newly developed programming language that combines the ease of visual programming with the benefits of typed programming. Students will enjoy learning how to code their own farm adventure with animals like horses, cows, and sheep!  This particular camp will focus on developing abstract reasoning skills, one of the many benefits of learning computer science. </p>
+<p>ThoughtSTEM has been funded by the National Science Foundation to build cutting-edge programming languages that prepare students of all ages for the future. That means, no one else in San Diego teaches K-2 students like we do! Throughout our camps, students will also earn embroidered badges that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Your children are going to love learning coding with us this summer!</p>"))
+
+(define (pokemon-k2-description name)
+  (~a "<p>It’s never too early for children to start learning the language of computers! This course is designed with our youngest future coders and engineers in mind.</p>
+<p>In this camp, we'll explore coding & communication skills through a newly developed programming language that combines the ease of visual programming with the benefits of typed programming. Students will enjoy learning how to code games using popular Pokemon characters.  This particular camp will focus on developing communication skills, with students learning how to translate from English instructions to code, but also explain their code to instructors. </p>
+<p>ThoughtSTEM has been funded by the National Science Foundation to build cutting-edge programming languages that prepare students of all ages for the future. That means, no one else in San Diego teaches K-2 students like we do! Throughout our camps, students will also earn embroidered badges that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Your children are going to love learning coding with us this summer!</p>"))
+
+(define zoo-animals-k2-screenshot
+  "https://www.thoughtstem.com/img/summer/zoo-animal.gif")
+(define cartoons-k2-screenshot
+  "https://www.thoughtstem.com/img/summer/clicker-cartoon.gif")
+(define farm-animals-k2-screenshot
+  "https://www.thoughtstem.com/img/summer/farm-animal.gif")
+(define pokemon-k2-screenshot
+  "https://www.thoughtstem.com/img/summer/clicker-pokemon.gif")
+
+(define (zoo-animals-k2-bundle school)
+  (list "Adventures in Coding and Zoo Animals (K-2nd)"
+        (zoo-animals-k2-description school)
+        zoo-animals-k2-screenshot
+        (list "K-2nd")))
+
+(define (cartoons-k2-bundle school)
+  (list "Adventures in Coding and Cartoons (K-2nd)"
+        (cartoons-k2-description school)
+        cartoons-k2-screenshot
+        (list "K-2nd")))
+
+(define (farm-animals-k2-bundle school)
+  (list "Adventures in Coding and Farm Animals (K-2nd)"
+        (farm-animals-k2-description school)
+        farm-animals-k2-screenshot
+        (list "K-2nd")))
+
+(define (pokemon-k2-bundle school)
+  (list "Adventures in Coding and Pokemon (K-2nd)"
+        (pokemon-k2-description school)
+         pokemon-k2-screenshot
+         (list "K-2nd")))
+;3rd-6th
+
+(define (harry-potter-3-6-definition name)
+  (~a "<p>This summer, students will learn the fundamentals of computer science by developing their own wizard-themed video games. Using <i>Harry Potter</i> as a point of inspiration, we will teach students how to craft their own adventure game inside a unique wizarding world. Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Students are going to love coding their own wizarding world full of mystery & magic! </p>"))
+
+(define (star-wars-3-6-definition name)
+  (~a "<p>This summer, students will learn how to <i>use the force</i> of coding to create their own epic space-themed video games. Drawing our inspiration from the <i>Star Wars</i> universe, students will explore their favorite characters, powers, and dramatic moments, and from there, begin to incorporate their own characters and game dynamics into a battle arena video game of their own creation! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language.All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Students are going to love creating their own <i>Star Wars</i>-themed games! </p>"))
+
+(define (marvel-3-6-definition name)
+  (~a "<p>This summer, students will learn how to code their own video games that explore a Marvel-like universe! Using the popular movie series, <i>The Avengers</i>, for inspiration, students will create a battle arena video game that pits their favorite superheroes and villains against each other in an endless battle between good and evil! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Young Marvel fans will love building their own battle arena games and coding their own unique superheroes!</p>"))
+
+(define (minecraft-3-6-definition name)
+  (~a "<p>This summer, students will learn how to code a 2D version of their favorite video game - <i>Minecraft</i>! Drawing on the video game mechanics of the hit 3D game, students will code their own 2D blocky survival game with day night cycles, health bars, and enemies like Creepers to hide from at night! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Minecraft has always inspired new coders; this summer's Minecraft camp will take students' coding skills to the next level!</p>"))
+
+(define (fortnite-3-6-defintions name)
+  (~a "<p>This summer, students will learn how to build a 2D video game with all the exciting elements of the popular 3D video game, <i>Fortnite</i>! In this camp, students will learn how to code different features of <i>Fortnite</i>, like enemies, armor, weapons, and potions, into their own unique 2D games! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Note: We understand <i>Fortnite</i> is a video game that has violent elements that might be inappropriate for young students. We at ThoughtSTEM are 100% committed to making sure students are not exposed to violent content in our camps. This is why we often modify video game content to meet students' educational needs, while still engaging them in a game they love. We believe video games like <i>Fortnite</i> provide an exceptional gateway into computer science for students, and ThoughtSTEM curriculum developers are paving the way to create new coding educational content for students inspired by the video games they love. </p>"))
+
+(define (pokemon-3-6-definition name)
+  (~a "<p>This summer, students will learn how to code a novel <i>Pokemon</i>-themed survival video game! Students will code video games in which their Pokemon is trying to survive in a world in which mean Pokemon trainers are throwing pokeballs at them trying to capture them! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>After this camp, students will go home thinking ""Gotta code 'em all!"" </p>"))
+
+(define (mario-3-6-definition name)
+  (~a "<p>This summer, students will learn how to create their own Mario-themed adventure games! Since its release in 1985, <i>Mario</i> titles have been a huge hit with gamers of all ages. In this camp, students will learn how to code an adventure video game that draws on elements of the <i>Mario</i> franchise, like mushrooms and power-ups, for inspiration! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 3rd-6th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>We're excited to work with students to create unique <i>Mario</i>-inspired games that they can share with friends and family! </p>"))
+
+(define harry-potter-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/harrypotter.gif")
+(define star-wars-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/starwars.gif")
+(define marvel-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/avengers.gif")
+(define minecraft-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/minecraft.gif")
+(define fortnite-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/fortnite.gif")
+(define pokemon-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/pokemon.gif")
+(define mario-3-6-screenshot
+  "https://www.thoughtstem.com/img/summer/mario.gif")
+
+(define (harry-potter-3-6-bundle school)
+  (list "Coding for Harry Potter Fans (3rd-6th)"
+        (harry-potter-3-6-definition school)
+         harry-potter-3-6-screenshot
+         (list "3rd-6th")))
+
+(define (star-wars-3-6-bundle school)
+  (list "Coding for Star Wars Fans (3rd-6th)"
+        (star-wars-3-6-definition school)
+        star-wars-3-6-screenshot
+        (list "3rd-6th")))
+
+(define (marvel-3-6-bundle school)
+  (list "Coding for Marvel Fans (3rd-6th)"
+        (marvel-3-6-definition school)
+        marvel-3-6-screenshot
+        (list "3rd-6th")))
+
+(define (minecraft-3-6-bundle school)
+  (list "Coding for Minecraft Fans (3rd-6th)"
+        (minecraft-3-6-definition school)
+        minecraft-3-6-screenshot
+        (list "3rd-6th")))
+
+(define (fortnite-3-6-bundle school)
+  (list "Coding for Fortnite Fans (3rd-6th)"
+        (fortnite-3-6-defintions school)
+        fortnite-3-6-screenshot
+        (list "3rd-6th")))
+
+(define (pokemon-3-6-bundle school)
+  (list "Coding for Pokemon Fans (3rd-6th)"
+        (pokemon-3-6-definition school)
+         pokemon-3-6-screenshot
+         (list "3rd-6th")))
+
+(define (mario-3-6-bundle school)
+  (list "Coding for Mario Fans (3rd-6th)"
+        (mario-3-6-definition school)
+         mario-3-6-screenshot
+         (list "3rd-6th")))
+;7th-10th
+
+(define (harry-potter-7-10-definition name)
+  (~a "<p>This summer, students will learn the fundamentals of computer science by developing their own wizard-themed video games. Using <i>Harry Potter</i> as a point of inspiration, we will teach students how to craft their own adventure game inside a unique wizarding world. Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 7th-10th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Students are going to love learning college-level fundamentals of computer science while creating their own wizarding world full of mystery & magic! </p>"))
+
+(define (star-wars-7-10-definition name)
+  (~a "<p>This summer, students will learn how to ""use the force"" of coding to create their own epic space-themed video games. Drawing our inspiration from the <i>Star Wars</i> universe, students will explore their favorite characters, powers, and dramatic moments, and from there, begin to incorporate their own characters and game dynamics into a battle arena video game of their own creation! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 7th-10th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>We're looking forward to working with students to build their own <i>Star Wars</i>-themed games! </p>"))
+
+(define (fortnite-7-10-definition name)
+  (~a "This summer, students will learn how to build a 2D video game with all the exciting elements of the popular 3D video game <i>Fortnite</i>! In this camp, students will learn how to code different features of <i>Fortnite</i>, like enemies, armor, weapons, and potions, into their own unique 2D games! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 7th-10th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>Although <i>Fortnite</i> itself isn't code-able, students who take this course will learn computer science skills that will enable them to develop their own <i>Fortnite</i>-like games in the future.</p>"))
+
+(define (mario-7-10-defintion name)
+  (~a "<p>This summer, students will learn how to create their own Mario-themed adventure games! Since its release in 1985, <i>Mario</i> titles have been a huge hit with gamers of all ages. In this camp, students will learn how to code an adventure video game that draws on elements of the <i>Mario</i> franchise, like mushrooms and power-ups, for inspiration! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 7th-10th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>We're excited to work with students to create unique Mario-inspired games that will help them build out their portfolios for college! </p>
+"))
+
+(define (marvel-7-10-definition name)
+  (~a "<p>This summer, students will learn how to code their own video games that explore a Marvel-like universe! Using the popular movie series, <i>The Avengers</i>, for inspiration, students will create a battle arena video game that pens their favorite superheroes against their least favorite villians in an endless battle between good and evil! Our camps also go beyond the computer screen, utilizing ""unplugged"" games and social activities to round out the summer camp experience. In addition to leveling up their coding skills, students practice communication, teamwork, problem-solving, and abstract reasoning: indispensable skills for coders -- and humans -- everywhere!</p>
+<p>In each of our 7th-10th grade camps, students will learn a different programming language. All languages are created by our development team to engage young students and grow with their skills, using programming techniques not usually seen until undergraduate courses! Returning students will reinforce their skills and go beyond the beginner-level material. New students will be amazed by how much they can create with code by the end of camp. All students will earn embroidered badges throughout camp that represent their ongoing development as a coder! These can be pinned to their ThoughtSTEM lanyard or ThoughtSTEM hoodie!</p> <p>By learning college-level computer science fundamentals now, our students truly will be the superheroes of technology in the future.</p>"))
+
+(define harry-potter-7-10-screenshot
+  "https://www.thoughtstem.com/img/summer/harrypotter.gif")
+(define star-wars-7-10-screenshot
+  "https://www.thoughtstem.com/img/summer/starwars.gif")
+(define fortnite-7-10-screenshot
+  "https://www.thoughtstem.com/img/summer/fortnite.gif")
+(define mario-7-10-screenshot
+  "https://www.thoughtstem.com/img/summer/mario.gif")
+(define marvel-7-10-screenshot
+  "https://www.thoughtstem.com/img/summer/avengers.gif")
+
+(define (harry-potter-7-10-bundle school)
+  (list "Coding for Harry Potter Fans (7th-10th)"
+        (harry-potter-7-10-definition school)
+        harry-potter-7-10-screenshot
+        (list "7th-10th")))
+
+(define (star-wars-7-10-bundle school)
+  (list "Coding for Star Wars Fans (7th-10th)"
+        (star-wars-7-10-definition school)
+        star-wars-7-10-screenshot
+        (list "7th-10th")))
+
+(define (fortnite-7-10-bundle school)
+  (list "Coding for Fortnite Fans (7th-10th)"
+        (fortnite-7-10-definition school)
+        fortnite-7-10-screenshot
+        (list "7th-10th")))
+
+(define (mario-7-10-bundle school)
+  (list "Coding for Mario Fans (7th-10th)"
+        (mario-7-10-defintion school)
+        mario-7-10-screenshot
+        (list "7th-10th")))
+
+(define (marvel-7-10-bundle school)
+  (list "Coding for Marvel Fans (7th-10th)"
+        (marvel-7-10-definition school)
+        marvel-7-10-screenshot
+        (list "7th-10th")))
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
