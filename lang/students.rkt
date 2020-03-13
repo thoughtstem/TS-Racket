@@ -387,6 +387,20 @@
      ])
   )
 
+;gets parent's email of a student
+(define/contract (parent-email student)
+  (-> student? string?)
+  (cond
+    [(equal? (hash-ref student 'customers) (list )) "No Customer"]
+    [else
+     (define parent (list-ref (hash-ref student 'customers) 0))
+     (if (not (string? (hash-ref parent 'email)))
+         "No Phone"
+         (hash-ref parent 'email))
+     ])
+  )
+
+
 (define (swap i)
   (if (or (eq? i 'null) (not i))
   #t

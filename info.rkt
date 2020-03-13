@@ -10,7 +10,7 @@
   "examples"
 ))
 
-(define deps '("aws" "request" "gregor" "anaphoric"
+(define deps '("aws" "request" "gregor" "anaphoric" "csv-writing"
   "simple-qr"
   "simple-http"
   "stripe-integration"

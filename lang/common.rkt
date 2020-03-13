@@ -17,7 +17,8 @@
          "./image-util.rkt"
          "./make-rosters.rkt"
          "./office-util.rkt"
-         "./stripe-util.rkt")
+         "./stripe-util.rkt"
+         "./course-enrollments-to-csv.rkt")
 
 (provide ;(all-from-out gregor)
          (all-from-out "./util.rkt")
@@ -31,7 +32,8 @@
          (all-from-out "./image-util.rkt")
          (all-from-out "./make-rosters.rkt")
          (all-from-out "./office-util.rkt")
-         (all-from-out "./stripe-util.rkt"))
+         (all-from-out "./stripe-util.rkt")
+         (all-from-out "./course-enrollments-to-csv.rkt"))
 
 
 
